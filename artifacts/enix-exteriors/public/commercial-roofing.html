@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commercial Roofing | Enix Exteriors | Tennessee</title>
+<meta name="description" content="Tennessee's top commercial roofing contractor. TPO, modified bitumen, coatings, and complete roof systems for businesses statewide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:#0B0C0E;color:#F4F6F8;overflow-x:hidden;line-height:1.6}
+img{max-width:100%;display:block}
+a{color:inherit}
+.font-display{font-family:'Sora',sans-serif}
+.font-mono{font-family:'IBM Plex Mono',monospace}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:transparent}
+.nav.scrolled{background:rgba(11,12,14,.95);backdrop-filter:blur(12px);padding:10px 30px}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo svg{flex-shrink:0}
+.nav-logo .lg-text{display:flex;flex-direction:column;line-height:1.1}
+.nav-logo span{font-family:'Sora';font-weight:700;color:#fff;font-size:20px;letter-spacing:-.5px}
+.nav-logo small{color:#FF6A00;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a,.nav-links .dropdown-toggle{color:#A9B1BC;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;cursor:pointer;background:none;border:none;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+.nav-links a:hover,.nav-links .dropdown-toggle:hover,.nav-links a.active{color:#fff}
+.nav-links a.active{color:#FF6A00}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#FF6A00;color:#fff!important;text-decoration:none;font-weight:600;font-size:14px;border-radius:10px;transition:all .3s}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,106,0,.35)}
+.dropdown{position:relative}
+.dropdown-menu{position:absolute;top:100%;left:0;margin-top:10px;background:rgba(20,23,27,.96);backdrop-filter:blur(12px);border:1px solid rgba(244,246,248,.1);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:all .25s;box-shadow:0 24px 70px rgba(0,0,0,.5)}
+.dropdown:hover .dropdown-menu,.dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown-menu a{display:block;padding:10px 14px;color:#A9B1BC;text-decoration:none;font-size:14px;border-radius:8px;transition:all .2s}
+.dropdown-menu a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.mobile-toggle{display:none;background:none;border:none;color:#fff;cursor:pointer;font-size:26px;line-height:1;padding:6px}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(11,12,14,.98);z-index:1100;padding:90px 30px 40px;text-align:center;overflow-y:auto}
+.mobile-menu.active{display:block}
+.mobile-menu a{display:block;color:#fff;text-decoration:none;font-family:'Sora';font-size:22px;font-weight:600;margin:18px 0}
+.mobile-menu a:hover,.mobile-menu a.active{color:#FF6A00}
+.close-menu{position:absolute;top:18px;right:18px;background:none;border:none;color:#fff;font-size:36px;cursor:pointer;line-height:1}
+
+/* HERO + BG */
+.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#1a1c20 0%,#0B0C0E 50%,#1a1c20 100%)}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(255,106,0,.10) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(255,106,0,.06) 0%,transparent 50%)}
+.section-bg-dark{background:#0B0C0E}
+.section-bg-charcoal{background:#14171B}
+.bg-image{position:absolute;inset:0;z-index:0}
+.bg-image img{width:100%;height:100%;object-fit:cover}
+.bg-image::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,12,14,.95) 0%,rgba(11,12,14,.75) 50%,rgba(11,12,14,.4) 100%)}
+.bg-image.center::after{background:rgba(11,12,14,.78)}
+.bg-image.heavy::after{background:rgba(11,12,14,.88)}
+
+/* TYPE */
+.headline-xl{font-family:'Sora';font-weight:800;line-height:.95;letter-spacing:-.02em;text-transform:uppercase;color:#fff}
+.label-mono{font-family:'IBM Plex Mono';font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;display:inline-block}
+.lead{font-size:18px;color:#A9B1BC;max-width:600px}
+.muted{color:#A9B1BC}
+
+/* CARDS */
+.glass-card{background:rgba(20,23,27,.82);backdrop-filter:blur(12px);border:1px solid rgba(244,246,248,.1);box-shadow:0 24px 70px rgba(0,0,0,.4);border-radius:18px;padding:24px}
+.glass-card.tight{padding:16px}
+.card-icon{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(255,106,0,.12);color:#FF6A00;margin-bottom:14px}
+
+/* BUTTONS */
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;text-decoration:none;font-weight:600;font-size:15px;border-radius:12px;transition:all .3s;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn-primary{background:#FF6A00;color:#fff}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,106,0,.4)}
+.btn-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.25)}
+.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5);transform:translateY(-3px)}
+
+/* FORM */
+.form-input,.form-select,.form-textarea{width:100%;padding:14px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:15px;font-family:inherit;transition:all .2s}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.4)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:rgba(255,106,0,.5);box-shadow:0 0 0 3px rgba(255,106,0,.15)}
+.form-select option{background:#14171B;color:#fff}
+.form-textarea{resize:vertical;min-height:120px}
+.form-progress{display:flex;gap:8px;margin-bottom:20px}
+.form-progress div{height:6px;flex:1;border-radius:3px;background:rgba(255,255,255,.15);transition:background .3s}
+.form-progress div.active{background:#FF6A00}
+.service-radio{cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);transition:all .2s}
+.service-radio input{display:none}
+.service-radio:hover{background:rgba(255,255,255,.07)}
+.service-radio.selected{background:rgba(255,106,0,.15);border-color:#FF6A00}
+.service-radio .lbl{color:#fff;font-size:13px;font-weight:500}
+
+/* LAYOUT */
+.section{position:relative;width:100%;overflow:hidden}
+.section-content{position:relative;z-index:10;padding:140px 30px 90px;max-width:1200px;margin:0 auto}
+.section-content.tight{padding:90px 30px 70px}
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-5{grid-template-columns:repeat(5,1fr)}
+.flex{display:flex}
+.flex-wrap{flex-wrap:wrap}
+.items-center{align-items:center}
+.items-start{align-items:flex-start}
+.justify-between{justify-content:space-between}
+.justify-center{justify-content:center}
+.text-center{text-align:center}
+.gap-2{gap:8px}.gap-3{gap:12px}.gap-4{gap:16px}.gap-6{gap:24px}.gap-8{gap:32px}
+.mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}.mb-8{margin-bottom:32px}.mb-10{margin-bottom:40px}.mb-12{margin-bottom:48px}
+.mt-4{margin-top:16px}.mt-6{margin-top:24px}.mt-8{margin-top:32px}
+.w-full{width:100%}
+.max-w-md{max-width:520px}
+.max-w-lg{max-width:640px}
+.max-w-xl{max-width:760px}
+.max-w-2xl{max-width:880px}
+
+/* UTILITY */
+.check-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.check-list .item{display:flex;align-items:flex-start;gap:10px;color:#fff;font-size:14px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+.check-list .item svg{flex-shrink:0;margin-top:2px}
+.step{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.step-num{width:38px;height:38px;border-radius:50%;background:#FF6A00;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-family:'Sora'}
+.step h4{font-family:'Sora';font-size:17px;color:#fff;margin-bottom:4px}
+.step p{color:#A9B1BC;font-size:14px}
+.tag{display:inline-flex;align-items:center;padding:4px 10px;background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;color:#A9B1BC}
+.tag.orange{background:rgba(255,106,0,.15);color:#FF6A00}
+.divider{height:1px;background:rgba(255,255,255,.1);margin:32px 0}
+
+/* FOOTER */
+.footer{background:#0B0C0E;border-top:1px solid rgba(255,255,255,.1);padding:60px 30px 30px}
+.footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1200px;margin:0 auto 40px}
+.footer a{color:#A9B1BC;text-decoration:none;font-size:14px;display:block;margin:8px 0;transition:color .2s}
+.footer a:hover{color:#fff}
+.footer h4{font-family:'Sora';font-weight:600;color:#fff;margin-bottom:16px;font-size:16px}
+.footer p{color:#A9B1BC;font-size:14px;line-height:1.8}
+.footer-bottom{max-width:1200px;margin:0 auto;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .nav-links{display:none}
+  .mobile-toggle{display:block}
+}
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr}
+  .check-list{grid-template-columns:1fr}
+  .section-content{padding:120px 20px 60px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+  .headline-xl{font-size:clamp(28px,8vw,46px)}
+  .nav{padding:12px 18px}
+  .nav-logo span{font-size:17px}
+}
+@media(max-width:480px){
+  .nav-logo .lg-text{display:none}
+  .footer-grid{grid-template-columns:1fr}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#0B0C0E}
+::-webkit-scrollbar-thumb{background:#2a2d33;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#3a3d43}</style>
+</head>
+<body>
+<nav class="nav" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg>
+    <div class="lg-text">
+      <span>ENIX EXTERIORS</span>
+      <small>YOUR LOCAL ROOFING EXPERT</small>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <div class="dropdown">
+      <button class="dropdown-toggle" class="active">Services &#9662;</button>
+      <div class="dropdown-menu">
+        <a href="commercial-roofing.html">Commercial Roofing</a>
+        <a href="residential-roofing.html">Residential Roofing</a>
+        <a href="exterior-services.html">Exterior Services</a>
+        <a href="storm-damage-commercial.html">Storm Damage Commercial</a>
+        <a href="storm-damage-residential.html">Storm Damage Residential</a>
+      </div>
+    </div>
+    <a href="education-hub.html">Education Hub</a>
+    <a href="tennessee-locations.html">Locations</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="tel:8656853649" class="nav-cta"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Get a Quote</a>
+  </div>
+  <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" onclick="toggleMenu()" aria-label="Close menu">&times;</button>
+  <a href="index.html">Home</a>
+  <a href="commercial-roofing.html" class="active">Commercial Roofing</a>
+  <a href="residential-roofing.html">Residential Roofing</a>
+  <a href="exterior-services.html">Exterior Services</a>
+  <a href="storm-damage-commercial.html">Storm Damage Commercial</a>
+  <a href="storm-damage-residential.html">Storm Damage Residential</a>
+  <a href="education-hub.html">Education Hub</a>
+  <a href="tennessee-locations.html">Locations</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="tel:8656853649" style="color:#FF6A00">(865) 685-ENIX</a>
+</div>
+<section class="section" style="min-height:100vh;display:flex;align-items:center;position:relative">
+  <div class="bg-image"><img src="images/commercial-roofing.jpg" alt=""></div>
+  <div class="section-content" style="width:100%">
+    <span class="label-mono mb-4">COMMERCIAL EXPERTISE</span>
+    <h1 class="headline-xl mb-6" style="font-size:clamp(40px,6vw,72px)">COMMERCIAL<br>ROOFING</h1>
+    <p class="lead mb-8">Tennessee's top commercial roofing contractor. TPO, modified bitumen, coatings, and complete roof systems for businesses statewide. Licensed and insured for your protection.</p>
+    <div class="flex flex-wrap gap-4"><a href="contact.html" class="btn-primary">Get Commercial Quote <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a href="tel:8656853649" class="btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call (865) 685-ENIX</a></div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content">
+    <span class="label-mono mb-4">SYSTEMS WE INSTALL</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">PROVEN ROOF SYSTEMS</h2>
+    <div class="grid grid-2">
+      <div class="glass-card">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg></div>
+  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:20px;margin-bottom:8px">TPO Roofing</h3>
+  <p class="muted" style="font-size:14px">Thermoplastic polyolefin systems offer excellent durability and energy efficiency for flat commercial roofs. Ideal for large warehouses and retail centers.</p>
+</div>
+      <div class="glass-card">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:20px;margin-bottom:8px">Modified Bitumen</h3>
+  <p class="muted" style="font-size:14px">Multi-layer asphalt based systems providing superior waterproofing and weather resistance. Perfect for Tennessee's variable climate.</p>
+</div>
+      <div class="glass-card">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:20px;margin-bottom:8px">Roof Coatings</h3>
+  <p class="muted" style="font-size:14px">Extend the life of your existing roof with protective coatings that seal and reflect UV rays. Cost-effective maintenance solution.</p>
+</div>
+      <div class="glass-card">
+  <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:20px;margin-bottom:8px">Complete Replacement</h3>
+  <p class="muted" style="font-size:14px">Tear-off and full replacement of aging roof systems. Modern materials and engineered designs for decades of performance.</p>
+</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="bg-image"><img src="images/flat-roof-crew.jpg" alt=""></div>
+  <div class="section-content">
+    <span class="label-mono mb-4">WHO WE SERVE</span>
+    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">BUILDINGS WE PROTECT</h2>
+    <div class="check-list" style="max-width:900px">
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Warehouses & distribution centers</span></div>
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Retail centers & shopping plazas</span></div>
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Office buildings & corporate parks</span></div>
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Manufacturing facilities</span></div>
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Schools & municipal buildings</span></div>
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Restaurants & hospitality</span></div>
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Multi-family & apartment complexes</span></div>
+      <div class="item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> <span>Healthcare & medical campuses</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content">
+    <span class="label-mono mb-4">OUR PROCESS</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">HOW WE DELIVER</h2>
+    <div class="grid grid-2" style="gap:32px">
+      <div>
+        <div class="step"><div class="step-num">1</div><div><h4>Free Inspection</h4><p>On-site assessment of your existing roof, drainage, and substrate conditions.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div><h4>Custom Proposal</h4><p>Detailed scope, materials, and pricing with no surprises.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div><h4>Scheduled Install</h4><p>Phased installation that minimizes disruption to your business operations.</p></div></div>
+      </div>
+      <div>
+        <div class="step"><div class="step-num">4</div><div><h4>Quality Inspection</h4><p>Multi-point quality check before sign-off.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div><h4>Warranty Activation</h4><p>Manufacturer and workmanship warranties documented for your records.</p></div></div>
+        <div class="step"><div class="step-num">6</div><div><h4>Ongoing Support</h4><p>Maintenance plans and 24/7 emergency response keep your roof in shape.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="min-height:70vh;display:flex;align-items:center;position:relative">
+  <div class="bg-image heavy"><img src="images/commercial-roofing.jpg" alt=""></div>
+  <div class="section-content text-center" style="width:100%">
+    <h2 class="headline-xl mb-4" style="font-size:clamp(32px,5vw,56px)">PROTECT YOUR<br>BUILDING TODAY</h2>
+    <p class="lead mb-8" style="margin-left:auto;margin-right:auto">Talk to Tennessee's commercial roofing experts. We'll inspect your roof and give you a straight answer.</p>
+    <div class="flex flex-wrap gap-4 justify-center"><a href="contact.html" class="btn-primary">Schedule Inspection <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a href="tel:8656853649" class="btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call (865) 685-ENIX</a></div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg>
+      <p style="color:#A9B1BC;font-size:14px;margin:14px 0 8px">Your Local Roofing Expert</p>
+      <p style="color:#FF6A00;font-size:13px;font-weight:600">TOP COMMERCIAL ROOFING<br>CONTRACTOR IN TENNESSEE</p>
+      <p style="color:#A9B1BC;font-size:13px;margin-top:12px">5992 Bearden View Ln<br>Knoxville TN 37909</p>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <a href="commercial-roofing.html">Commercial Roofing</a>
+      <a href="residential-roofing.html">Residential Roofing</a>
+      <a href="exterior-services.html">Exterior Services</a>
+      <a href="storm-damage-commercial.html">Storm Damage Commercial</a>
+      <a href="storm-damage-residential.html">Storm Damage Residential</a>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="about.html">About Us</a>
+      <a href="education-hub.html">Education Hub</a>
+      <a href="tennessee-locations.html">Tennessee Locations</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="tel:8656853649">(865) 685-ENIX</a>
+      <a href="mailto:INFO@ENIXEXTERIORS.COM">INFO@ENIXEXTERIORS.COM</a>
+      <p style="color:#A9B1BC;font-size:14px;margin-top:8px">Mon-Fri: 7am-6pm<br><span style="color:#FF6A00">Emergency: 24/7</span></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p style="color:#A9B1BC;font-size:13px">&copy; 2025 Enix Exteriors. All rights reserved.</p>
+    <p style="color:#A9B1BC;font-size:13px">Licensed &amp; Insured Roofing Contractor | Knoxville, TN</p>
+  </div>
+</footer>
+<script>
+(function(){
+  var navbar = document.getElementById('navbar');
+  if(navbar){
+    window.addEventListener('scroll', function(){
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  }
+  window.toggleMenu = function(){
+    var m = document.getElementById('mobileMenu');
+    if(m) m.classList.toggle('active');
+  };
+  var currentStep = 1;
+  window.nextStep = function(){
+    if(currentStep < 3){
+      var cur = document.getElementById('step'+currentStep);
+      var nxt = document.getElementById('step'+(currentStep+1));
+      if(cur) cur.style.display = 'none';
+      if(nxt) nxt.style.display = 'block';
+      var pn = document.getElementById('p'+(currentStep+1));
+      if(pn) pn.classList.add('active');
+      currentStep++;
+    }
+  };
+  window.prevStep = function(){
+    if(currentStep > 1){
+      var cur = document.getElementById('step'+currentStep);
+      var prv = document.getElementById('step'+(currentStep-1));
+      if(cur) cur.style.display = 'none';
+      if(prv) prv.style.display = 'block';
+      var pn = document.getElementById('p'+currentStep);
+      if(pn) pn.classList.remove('active');
+      currentStep--;
+    }
+  };
+  window.handleFormSubmit = function(e){
+    e.preventDefault();
+    var s3 = document.getElementById('step3');
+    var sx = document.getElementById('success');
+    if(s3) s3.style.display='none';
+    if(sx) sx.style.display='block';
+    setTimeout(function(){
+      if(sx) sx.style.display='none';
+      var s1 = document.getElementById('step1');
+      if(s1) s1.style.display='block';
+      var p2 = document.getElementById('p2'); if(p2) p2.classList.remove('active');
+      var p3 = document.getElementById('p3'); if(p3) p3.classList.remove('active');
+      currentStep=1;
+      e.target.reset();
+      document.querySelectorAll('.service-radio').forEach(function(r){r.classList.remove('selected');});
+    },3500);
+    return false;
+  };
+  document.querySelectorAll('.service-radio input[type=radio]').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      document.querySelectorAll('.service-radio').forEach(function(r){r.classList.remove('selected');});
+      if(inp.checked) inp.closest('.service-radio').classList.add('selected');
+    });
+  });
+})();
+</script>
+</body>
+</html>
