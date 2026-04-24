@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "G-pQOTjdKOd-8v-wt9qkI"
+uri = "file://artifacts/enix-exteriors/public/downloads/enix-exteriors-ghl-pages.zip"
+type = "unspecified"
+title = "Enix Exteriors – All 10 GHL Pages (ZIP)"
