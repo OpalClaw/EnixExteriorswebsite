@@ -751,7 +751,7 @@ const videoCard = (img, tag, title, href=URL.contact) =>
   </a>`;
 
 const videoExpandCard = (player, label) => `<div class="edu-player-wrap">
-  <div class="edu-player-wrap-title">${label}</div>
+  <div class="edu-player-wrap-title">${label}<span onclick="vidFullscreen(this.closest('.edu-player-wrap').querySelector('.edu-player').id)">expand</span></div>
   ${player}
 </div>`;
 
@@ -768,9 +768,7 @@ const makeEduVideo = (id, slides) => {
       ${s.cta?`<a href="${URL.contact}" class="edu-slide-cta-btn">${s.cta} →</a>`:''}
     </div>
   </div>`).join('');
-  return `<div class="edu-player-wrap">
-  <div class="edu-player-wrap-title">${id==='vid-residential'?"When It's Time for a New Roof":id==='vid-commercial'?'Commercial Roofing Systems Explained':'After Storm Damage: Your Action Plan'}<span onclick="vidFullscreen('${id}')">expand</span></div>
-  <div class="edu-player" id="${id}">
+  return `<div class="edu-player" id="${id}">
     <div class="edu-player-screen">${slideHtml}</div>
     <div class="edu-player-controls">
       <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
@@ -780,7 +778,6 @@ const makeEduVideo = (id, slides) => {
       <span class="edu-counter">1/${slides.length}</span>
       <button class="edu-fs-btn" title="Full screen" onclick="vidFullscreen('${id}')">⛶</button>
     </div>
-  </div>
 </div>`;
 };
 
