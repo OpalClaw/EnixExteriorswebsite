@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { ARTICLE_DATA } from "./articles.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = __dirname;
@@ -256,6 +257,35 @@ a{color:inherit}
 .video-label{font-family:'Sora';font-weight:600;color:#fff;font-size:15px;margin-top:12px;text-align:center}
 .video-label small{display:block;color:#A9B1BC;font-size:12px;font-weight:400;margin-top:3px;font-family:'Inter'}
 
+/* ===== ANIMATED EDU VIDEO PLAYER ===== */
+.edu-player{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:16/9;box-shadow:0 8px 40px rgba(0,0,0,.6)}
+.edu-player-screen{position:absolute;inset:0}
+.edu-slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease}
+.edu-slide.active{opacity:1}
+.edu-slide-bg{position:absolute;inset:0}
+.edu-slide-bg img{width:100%;height:100%;object-fit:cover}
+.edu-slide-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(11,12,14,.93) 0%,rgba(11,12,14,.78) 60%,rgba(11,12,14,.55) 100%)}
+.edu-slide-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,5%,52px) clamp(20px,6%,60px)}
+.edu-slide-tag{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;margin-bottom:14px}
+.edu-slide-headline{font-family:'Sora';font-weight:800;color:#fff;font-size:clamp(18px,3.5vw,38px);line-height:1.2;margin-bottom:18px}
+.edu-slide-points{display:flex;flex-direction:column;gap:10px}
+.edu-slide-point{display:flex;align-items:flex-start;gap:10px;font-family:'Inter';font-size:clamp(13px,1.8vw,16px);color:rgba(255,255,255,.9);line-height:1.5}
+.edu-slide-point::before{content:'›';color:#FF6A00;font-size:20px;line-height:1.25;flex-shrink:0}
+.edu-slide-cta-btn{display:inline-block;margin-top:22px;background:#FF6A00;color:#fff;font-family:'Sora';font-weight:700;font-size:14px;padding:13px 26px;border-radius:8px;text-decoration:none;letter-spacing:.03em;transition:opacity .2s}
+.edu-slide-cta-btn:hover{opacity:.88}
+.edu-player-controls{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:14px 18px;background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,transparent 100%);z-index:10}
+.edu-play-btn{width:38px;height:38px;border-radius:50%;background:#FF6A00;border:none;cursor:pointer;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s;line-height:1}
+.edu-play-btn:hover{transform:scale(1.1)}
+.edu-nav-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);border:none;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;line-height:1}
+.edu-nav-btn:hover{background:rgba(255,106,0,.55)}
+.edu-progress-track{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden}
+.edu-progress-fill{height:100%;background:#FF6A00;width:0%;transition:width .1s linear;border-radius:4px}
+.edu-counter{font-family:'IBM Plex Mono';font-size:11px;color:rgba(255,255,255,.65);flex-shrink:0;min-width:32px;text-align:right}
+/* ===== ARTICLE CATEGORY FILTER ===== */
+.edu-filter{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 40px}
+.edu-filter-btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#A9B1BC;padding:9px 16px;border-radius:100px;cursor:pointer;transition:all .25s}
+.edu-filter-btn:hover{background:rgba(255,106,0,.15);border-color:rgba(255,106,0,.35);color:#fff}
+.edu-filter-btn.active{background:#FF6A00;border-color:#FF6A00;color:#fff}
 /* ===== STATS BAR ===== */
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(18,21,26,.85);border:1px solid rgba(255,255,255,.09);border-radius:20px;overflow:hidden;backdrop-filter:blur(14px)}
 .stat-cell{padding:32px 20px;text-align:center;position:relative}
@@ -516,6 +546,72 @@ const SCRIPT = `<script>
     });
   });
 
+  /* ARTICLE CATEGORY FILTER */
+  document.querySelectorAll('.edu-filter-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.edu-filter-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var cat=btn.dataset.cat;
+      document.querySelectorAll('.article-card').forEach(function(card){
+        if(cat==='ALL'||card.dataset.category===cat){card.style.display='';}
+        else{card.style.display='none';}
+      });
+    });
+  });
+
+  /* ANIMATED EDU VIDEO PLAYER */
+  (function(){
+    var vids={};
+    function initVid(id){
+      var el=document.getElementById(id);
+      if(!el)return;
+      var slides=el.querySelectorAll('.edu-slide');
+      var fill=el.querySelector('.edu-progress-fill');
+      var counter=el.querySelector('.edu-counter');
+      var playBtn=el.querySelector('.edu-play-btn');
+      vids[id]={el:el,slides:slides,fill:fill,counter:counter,playBtn:playBtn,
+        total:slides.length,current:0,playing:false,elapsed:0,
+        slideDur:11000,mainTimer:null,progTimer:null};
+    }
+    function showSlide(id,idx){
+      var v=vids[id];if(!v)return;
+      v.slides.forEach(function(s){s.classList.remove('active');});
+      v.slides[idx].classList.add('active');
+      v.current=idx;v.elapsed=0;
+      if(v.counter)v.counter.textContent=(idx+1)+'/'+v.total;
+      if(v.fill)v.fill.style.width=((idx/v.total)*100)+'%';
+    }
+    function updateProg(id){
+      var v=vids[id];if(!v)return;
+      v.elapsed+=100;
+      var pct=((v.current+v.elapsed/v.slideDur)/v.total)*100;
+      if(v.fill)v.fill.style.width=Math.min(pct,100)+'%';
+    }
+    function play(id){
+      var v=vids[id];if(!v||v.playing)return;
+      v.playing=true;
+      if(v.playBtn)v.playBtn.textContent='⏸';
+      v.mainTimer=setInterval(function(){showSlide(id,(v.current+1)%v.total);},v.slideDur);
+      v.progTimer=setInterval(function(){updateProg(id);},100);
+    }
+    function pause(id){
+      var v=vids[id];if(!v||!v.playing)return;
+      v.playing=false;
+      if(v.playBtn)v.playBtn.textContent='▶';
+      clearInterval(v.mainTimer);clearInterval(v.progTimer);
+    }
+    window.vidPlayPause=function(id){var v=vids[id];if(!v)return;if(v.playing)pause(id);else play(id);};
+    window.vidNext=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current+1)%v.total);if(wp)play(id);};
+    window.vidPrev=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current-1+v.total)%v.total);if(wp)play(id);};
+    document.querySelectorAll('.edu-player').forEach(function(el){
+      initVid(el.id);
+      var obs=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting&&vids[el.id]&&!vids[el.id].playing)play(el.id);});
+      },{threshold:0.5});
+      obs.observe(el);
+    });
+  })();
+
   /* GALLERY LIGHTBOX */
   var galleryImgs=[];
   var lightboxIdx=0;
@@ -622,6 +718,88 @@ const videoCard = (img, tag, title, href=URL.contact) =>
     <div class="video-card-play"><div class="video-card-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
     <div class="video-card-info"><span class="video-card-tag">${tag}</span><div class="video-card-title">${title}</div></div>
   </a>`;
+
+// Animated educational video slide-show player
+const makeEduVideo = (id, slides) => {
+  const slideHtml = slides.map((s, i) => `
+  <div class="edu-slide${i===0?' active':''}" data-slide="${i}">
+    <div class="edu-slide-bg"><img src="images/${s.bg}" alt="${s.headline.replace(/<br>/g,' ')}" loading="lazy"></div>
+    <div class="edu-slide-overlay"></div>
+    <div class="edu-slide-content">
+      <div class="edu-slide-tag">${s.tag}</div>
+      <div class="edu-slide-headline">${s.headline}</div>
+      ${s.points?`<div class="edu-slide-points">${s.points.map(p=>`<div class="edu-slide-point">${p}</div>`).join('')}</div>`:''}
+      ${s.cta?`<a href="${URL.contact}" class="edu-slide-cta-btn">${s.cta} →</a>`:''}
+    </div>
+  </div>`).join('');
+  return `<div class="edu-player" id="${id}">
+  <div class="edu-player-screen">${slideHtml}</div>
+  <div class="edu-player-controls">
+    <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
+    <button class="edu-nav-btn" onclick="vidPrev('${id}')">‹</button>
+    <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
+    <button class="edu-nav-btn" onclick="vidNext('${id}')">›</button>
+    <span class="edu-counter">1/${slides.length}</span>
+  </div>
+</div>`;
+};
+
+// ── Video 1: When It's Time for a New Roof ───────────────────────────────────
+const VIDEO_RESIDENTIAL = makeEduVideo('vid-residential',[
+  {bg:'gallery-roof-sky.jpg',tag:'ENIX EXTERIORS — RESIDENTIAL ROOFING',headline:'When It\'s Time<br>for a New Roof',
+   points:['A complete guide for Tennessee homeowners','Know the warning signs before small damage becomes catastrophic']},
+  {bg:'gallery-pexels-1.jpg',tag:'ROOF AGE — THE FIRST INDICATOR',headline:'Your Roof\'s Age Tells the Story',
+   points:['20–25 years: inspect carefully every season','25–30 years: start budgeting for replacement now','30+ years: replacement is overdue — act before the next storm']},
+  {bg:'gallery-craftsman.jpg',tag:'VISIBLE WARNING SIGNS',headline:'What to See from the Ground',
+   points:['Curling, cupping, or cracking shingle tabs','Granule buildup in gutters after any rain event','Missing shingles, dark patches, or bare roof deck visible']},
+  {bg:'gallery-project-1.jpg',tag:'HIDDEN DAMAGE — CHECK YOUR ATTIC',headline:'The Damage You Can\'t See from Outside',
+   points:['Water stains or mold on rafters and sheathing','Daylight visible through cracks in the roof deck','Musty smell or frost on underside of deck in winter']},
+  {bg:'gallery-pexels-2.jpg',tag:'THE COST OF WAITING',headline:'Small Problems Become Expensive Fast',
+   points:['A $300 flashing repair → $5,000 rot and framing repair','Water damage spreads with every single rain event','Mold develops within 24–48 hours of sustained saturation']},
+  {bg:'gallery-metal-1.jpg',tag:'REPAIR OR REPLACE? — THE 50% RULE',headline:'Making the Smart Financial Decision',
+   points:['Less than 25% damaged and roof under 15 years old → Repair','More than 25% damaged or roof is 20+ years → Replace','If repair cost exceeds 50% of replacement → Always replace']},
+  {bg:'gallery-roofing-desktop.jpg',tag:'YOUR NEXT STEP',headline:'Enix Exteriors Free Roof Inspection',
+   points:['Licensed & insured Tennessee roofing contractor','Free professional on-roof inspection — no obligation','Same-day response across Knox County and East Tennessee'],
+   cta:'Schedule Your Free Inspection'}
+]);
+
+// ── Video 2: Commercial Roofing Systems Explained ────────────────────────────
+const VIDEO_COMMERCIAL = makeEduVideo('vid-commercial',[
+  {bg:'gallery-commercial-1.jpg',tag:'ENIX EXTERIORS — COMMERCIAL ROOFING',headline:'Commercial Roofing<br>Systems Explained',
+   points:['A guide for Tennessee business and property owners','Understand your options before committing to any system']},
+  {bg:'gallery-panel-roofline.jpg',tag:'WHAT MAKES COMMERCIAL ROOFING DIFFERENT',headline:'Flat & Low-Slope Roofs Require a Different Approach',
+   points:['Pitch below 2:12 — water cannot shed by gravity alone','Requires sealed, fully waterproof membranes throughout','Materials, installation, and warranty are entirely different from shingles']},
+  {bg:'gallery-commercial-1.jpg',tag:'TPO MEMBRANE ROOFING',headline:'TPO: America\'s Most Installed Commercial Membrane',
+   points:['White surface reflects up to 90% of UV — cuts HVAC costs 15–25%','Heat-welded seams stronger than the membrane itself','15–25 year lifespan with quality 60-mil installation','Best for energy-conscious buildings and simple flat roofs']},
+  {bg:'gallery-project-9.jpg',tag:'MODIFIED BITUMEN ROOFING',headline:'Modified Bitumen: 40+ Years of Proven Performance',
+   points:['Multi-layer asphalt system with redundant waterproofing','Outstanding resistance to hail, foot traffic, and puncture','Applied by torch, cold adhesive, or self-adhering membrane','Ideal for buildings with frequent HVAC crew roof access']},
+  {bg:'gallery-craftsman.jpg',tag:'EPDM RUBBER ROOFING',headline:'EPDM: The Longest Commercial Track Record',
+   points:['Rubber membrane with documented 40–60 year field performance','Outstanding UV and ozone resistance — no chalking or yellowing','Fewer seams than other systems = fewer potential leak points','Lowest material cost among all major commercial systems']},
+  {bg:'gallery-project-6.jpg',tag:'WHICH SYSTEM IS RIGHT FOR YOUR BUILDING?',headline:'Match Your System to Your Building\'s Needs',
+   points:['Energy efficiency priority → TPO is the clear choice','High foot traffic + maximum durability → Modified Bitumen','Best proven longevity + lowest material cost → EPDM','Existing sound roof? → Silicone coating can add 10–20 years']},
+  {bg:'gallery-commercial-1.jpg',tag:'FREE COMMERCIAL INSPECTION',headline:'Enix Exteriors Commercial Division',
+   points:['Factory-trained TPO, modified bitumen, and EPDM installation crews','Free commercial roof assessment with written report and photos','No-obligation — serving East Tennessee commercial properties'],
+   cta:'Schedule Commercial Inspection'}
+]);
+
+// ── Video 3: Storm Damage Action Plan ────────────────────────────────────────
+const VIDEO_STORM = makeEduVideo('vid-storm',[
+  {bg:'gallery-project-9.jpg',tag:'ENIX EXTERIORS — STORM DAMAGE GUIDE',headline:'After Storm Damage:<br>Your Action Plan',
+   points:['What to do in the critical hours after a severe storm','The right steps protect both your home and your insurance claim']},
+  {bg:'gallery-pexels-2.jpg',tag:'STEP 1 — SAFETY FIRST',headline:'Stay Safe: Don\'t Go on the Roof',
+   points:['Check for downed power lines before stepping outside','Assess structural damage from the ground — stay off the roof','If walls or ceilings are sagging or buckling — evacuate immediately']},
+  {bg:'gallery-craftsman.jpg',tag:'STEP 2 — DOCUMENT EVERYTHING FIRST',headline:'Photos Before Any Cleanup or Tarping',
+   points:['Photograph and video all damage from every angle — ground level','Document interior water stains, wet ceilings, and damaged belongings','Screenshot NWS storm alerts and reports confirming the event']},
+  {bg:'gallery-roofing-desktop.jpg',tag:'STEP 3 — CALL A ROOFER BEFORE YOUR INSURER',headline:'Professional Documentation Strengthens Your Claim',
+   points:['A contractor provides professional written damage assessment','On-roof inspection finds damage invisible from the ground','Your contractor meets the adjuster at inspection — ensuring nothing is missed']},
+  {bg:'gallery-project-1.jpg',tag:'STEP 4 — EMERGENCY TARPING IF NEEDED',headline:'Stop Further Damage Within 24–48 Hours',
+   points:['Active leaks need tarping immediately — water damage compounds fast','Professional tarping is covered by your insurance claim','Never sign an Assignment of Benefits (AOB) for tarping or repairs']},
+  {bg:'gallery-pexels-1.jpg',tag:'STEP 5 — FILE YOUR CLAIM WITH FULL DOCUMENTATION',headline:'File Promptly — Don\'t Wait',
+   points:['Most Tennessee policies allow 1 year from the storm date — act now','Include your contractor assessment, all photos, and storm records','Request your contractor be present at the adjuster\'s on-site inspection']},
+  {bg:'gallery-roof-sky.jpg',tag:'24/7 STORM RESPONSE — ENIX EXTERIORS',headline:'We\'re Standing By for Tennessee Storm Emergencies',
+   points:['Free emergency roof inspections across Knox County and East Tennessee','Licensed, insured, and locally owned — not a storm chaser','Claims assistance at no extra charge — call anytime after a storm'],
+   cta:'Call for Emergency Inspection'}
+]);
 
 const svcBlock = (ic, title, desc) => `<div class="glass-card">
   <div class="card-icon">${icon(ic,24)}</div>
@@ -803,12 +981,21 @@ const homeBody = () => `${hero(
       <p class="muted" style="max-width:520px;margin:16px auto 0;font-size:15px">Tap any topic to speak with a roofing expert, or visit our Education Hub for in-depth written guides.</p>
     </div>
     <div class="video-grid">
-      ${videoCard("gallery-roof-sky.jpg","Residential Roofing","When It's Time for a New Roof")}
-      ${videoCard("gallery-commercial-1.jpg","Commercial Roofing","TPO & Flat Roof Systems Explained")}
-      ${videoCard("gallery-project-9.jpg","Storm Damage","What To Do After Hail or Wind Damage")}
+      <div>
+        ${VIDEO_RESIDENTIAL}
+        <div class="video-label">When It's Time for a New Roof<small>Residential roofing guide · auto-plays on scroll</small></div>
+      </div>
+      <div>
+        ${VIDEO_COMMERCIAL}
+        <div class="video-label">Commercial Roofing Systems<small>Commercial guide · auto-plays on scroll</small></div>
+      </div>
+      <div>
+        ${VIDEO_STORM}
+        <div class="video-label">After Storm Damage: Action Plan<small>Storm &amp; insurance guide · auto-plays on scroll</small></div>
+      </div>
     </div>
-    <div style="text-align:center;margin-top:28px">
-      ${primaryBtn("Read Our Full Guides",URL["education-hub"])}
+    <div style="text-align:center;margin-top:36px">
+      ${primaryBtn("Read Our 50 Expert Guides",URL["education-hub"])}
     </div>
   </div>
 </section>
@@ -1116,7 +1303,7 @@ ${ctaSection("STORM DAMAGE?<br>CALL ENIX EXTERIORS NOW.","We're standing by 24/7
 // EDUCATION HUB – Full articles
 // =============================================================================
 const article = (id, category, title, readTime, content) => `
-<div class="article-card" id="article-${id}">
+<div class="article-card" id="article-${id}" data-category="${category}">
   <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-${id}">
     <div class="article-header-left">
       <div class="card-icon" style="margin-bottom:0">${icon("book",20)}</div>
@@ -1134,7 +1321,10 @@ const article = (id, category, title, readTime, content) => `
   </div>
 </div>`;
 
-const ARTICLES = [
+const ARTICLES = ARTICLE_DATA.map(a => article(a.id, a.category, a.title, a.readTime, a.content));
+
+// — legacy stub kept for reference only (no longer used) ——————————————————————
+const _ARTICLES_LEGACY_STUB = [
   article("1","CONTRACTOR GUIDE","How to Choose a Roofing Contractor in Tennessee",8,`
 <p>Choosing the right roofing contractor is one of the most important decisions you'll make as a Tennessee property owner. The wrong choice can cost you thousands in subpar work, voided warranties, and repeated repairs. Here's what you need to know before signing any contract.</p>
 <h3>1. Verify Licensing and Insurance</h3>
@@ -1421,12 +1611,48 @@ const educationBody = () => `${hero(
   primaryBtn("Ask Our Experts",URL.contact),
   callBtn(false),"gallery-roofing-desktop.jpg")}
 
-<section class="section section-bg-charcoal">
+<section class="section section-bg-dark">
   <div class="section-content tight">
     <div style="text-align:center;margin-bottom:48px">
-      <span class="label-mono mb-3">8 IN-DEPTH ARTICLES</span>
+      <span class="label-mono mb-3">3 EDUCATIONAL PRESENTATIONS</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,50px)">WATCH &amp; LEARN<br>FROM OUR EXPERTS</h2>
+      <p class="muted" style="max-width:540px;margin:16px auto 0;font-size:15px">Auto-playing slide presentations — click ▶ to start or use arrows to navigate slides.</p>
+    </div>
+    <div class="video-grid">
+      <div>
+        ${VIDEO_RESIDENTIAL}
+        <div class="video-label">When It's Time for a New Roof<small>7-slide residential guide · auto-plays on scroll</small></div>
+      </div>
+      <div>
+        ${VIDEO_COMMERCIAL}
+        <div class="video-label">Commercial Roofing Systems Explained<small>7-slide commercial guide · auto-plays on scroll</small></div>
+      </div>
+      <div>
+        ${VIDEO_STORM}
+        <div class="video-label">After Storm Damage: Your Action Plan<small>7-slide storm &amp; insurance guide · auto-plays on scroll</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:40px">
+      <span class="label-mono mb-3">50 IN-DEPTH ARTICLES</span>
       <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">CLICK ANY ARTICLE<br>TO READ IN FULL</h2>
-      <p class="muted" style="max-width:540px;margin:16px auto 0;font-size:15px">Each article is written by our team of experienced Tennessee roofing professionals.</p>
+      <p class="muted" style="max-width:580px;margin:16px auto 0;font-size:15px">Written by the Enix Exteriors team of licensed Tennessee roofing professionals. Filter by topic below.</p>
+    </div>
+    <div class="edu-filter">
+      <button class="edu-filter-btn active" data-cat="ALL">All 50 Articles</button>
+      <button class="edu-filter-btn" data-cat="CONTRACTOR GUIDE">Contractor Guide</button>
+      <button class="edu-filter-btn" data-cat="RESIDENTIAL ROOFING">Residential</button>
+      <button class="edu-filter-btn" data-cat="COMMERCIAL ROOFING">Commercial</button>
+      <button class="edu-filter-btn" data-cat="STORM DAMAGE">Storm Damage</button>
+      <button class="edu-filter-btn" data-cat="INSURANCE">Insurance</button>
+      <button class="edu-filter-btn" data-cat="MAINTENANCE">Maintenance</button>
+      <button class="edu-filter-btn" data-cat="ROOF COMPONENTS">Roof Components</button>
+      <button class="edu-filter-btn" data-cat="EXTERIOR SERVICES">Exterior Services</button>
+      <button class="edu-filter-btn" data-cat="LOCAL TENNESSEE">Local TN</button>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px;max-width:860px;margin:0 auto">
       ${ARTICLES.join("\n")}

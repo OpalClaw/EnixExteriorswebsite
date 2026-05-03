@@ -1,657 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Education Hub | Enix Exteriors | Tennessee Roofing Resources</title>
-<meta name="description" content="Free expert roofing guides from Enix Exteriors — Tennessee's trusted roofing contractor. Articles on shingles, TPO, storm damage, gutters, and more.">
-<meta property="og:title" content="Education Hub | Enix Exteriors | Tennessee Roofing Resources">
-<meta property="og:description" content="Free expert roofing guides from Enix Exteriors — Tennessee's trusted roofing contractor. Articles on shingles, TPO, storm damage, gutters, and more.">
-<meta property="og:image" content="images/enix-logo-main.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;overflow-x:hidden}
-body{font-family:'Inter',sans-serif;background:#0B0C0E;color:#F4F6F8;overflow-x:hidden;line-height:1.6}
-img{max-width:100%;display:block}
-a{color:inherit}
-.font-display{font-family:'Sora',sans-serif}
-.font-mono{font-family:'IBM Plex Mono',monospace}
+// articles.mjs — All 50 Education Hub articles for Enix Exteriors
+// SEO + E-E-A-T optimized content for Tennessee roofing contractor
+// Categories: Contractor Guide | Residential | Commercial | Storm Damage
+//             Insurance | Maintenance | Roof Components | Exterior | Local TN
 
-/* ===== NAV ===== */
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(11,12,14,.0);backdrop-filter:blur(0px);transition:all .35s;border-bottom:1px solid transparent}
-.nav.scrolled{background:rgba(11,12,14,.97);backdrop-filter:blur(16px);border-bottom-color:rgba(255,106,0,.18)}
-.nav-inner{max-width:1280px;margin:0 auto;padding:0 30px;height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
-.nav-logo img.logo-img{height:54px;width:auto;object-fit:contain;display:block}
-.nav-logo-fallback{display:none;align-items:center;gap:10px}
-.nav-brand{display:flex;flex-direction:column;line-height:1.1}
-.nav-brand-name{font-family:'Sora';font-weight:800;color:#fff;font-size:22px;letter-spacing:-.5px;white-space:nowrap}
-.nav-brand-name span{color:#FF6A00}
-.nav-brand-tagline{color:#FF6A00;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;white-space:nowrap}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-links a,.nav-links .dropdown-toggle{color:#C5CDD6;text-decoration:none;font-size:13.5px;font-weight:500;transition:color .2s;cursor:pointer;background:none;border:none;font-family:inherit;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;white-space:nowrap}
-.nav-links a:hover,.nav-links .dropdown-toggle:hover{color:#fff;background:rgba(255,255,255,.06)}
-.nav-links a.active{color:#FF6A00}
-.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:#FF6A00;color:#fff!important;text-decoration:none;font-weight:700;font-size:14px;border-radius:10px;transition:all .3s;white-space:nowrap;margin-left:8px}
-.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,106,0,.45);background:#ff7a1a}
-.dropdown{position:relative}
-.dropdown-menu{position:absolute;top:calc(100% + 8px);left:0;background:rgba(14,17,21,.98);backdrop-filter:blur(20px);border:1px solid rgba(255,106,0,.2);border-radius:16px;padding:10px;min-width:260px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .22s;box-shadow:0 32px 80px rgba(0,0,0,.6)}
-.dropdown:hover .dropdown-menu,.dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0)}
-.dropdown-menu a{display:flex;align-items:center;gap:10px;padding:11px 14px;color:#C5CDD6;text-decoration:none;font-size:13.5px;border-radius:10px;transition:all .18s;background:none}
-.dropdown-menu a:hover{color:#fff;background:rgba(255,106,0,.12)}
-.mobile-toggle{display:none;background:none;border:none;color:#fff;cursor:pointer;padding:8px;border-radius:8px;transition:background .2s}
-.mobile-toggle:hover{background:rgba(255,255,255,.08)}
-.mobile-menu{display:none;position:fixed;inset:0;background:#0B0C0E;z-index:1100;overflow-y:auto;flex-direction:column}
-.mobile-menu.open{display:flex}
-.mobile-menu-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.1)}
-.mobile-menu-header .logo-img{height:46px;width:auto}
-.mobile-menu-close{background:none;border:none;color:#fff;cursor:pointer;padding:8px;border-radius:8px}
-.mobile-menu-body{padding:20px 24px;flex:1}
-.mobile-menu-body a{display:block;color:#fff;text-decoration:none;font-family:'Sora';font-size:20px;font-weight:700;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);transition:color .2s}
-.mobile-menu-body a:hover{color:#FF6A00}
-.mobile-menu-body .section-label{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;margin:20px 0 8px;display:block}
-.mobile-menu-footer{padding:20px 24px;border-top:1px solid rgba(255,255,255,.1)}
-.mobile-menu-footer a{display:flex;align-items:center;gap:10px;padding:14px 20px;background:#FF6A00;color:#fff;text-decoration:none;font-weight:700;font-size:16px;border-radius:12px;justify-content:center;margin-bottom:12px}
+export const ARTICLE_DATA = [
 
-/* ===== HERO ===== */
-.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#0f1115 0%,#0B0C0E 50%,#131619 100%)}
-.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(255,106,0,.12) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(255,106,0,.07) 0%,transparent 55%)}
-.section-bg-dark{background:#0B0C0E}
-.section-bg-charcoal{background:#111418}
-.bg-image{position:absolute;inset:0;z-index:0}
-.bg-image img{width:100%;height:100%;object-fit:cover}
-.bg-image::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,12,14,.96) 0%,rgba(11,12,14,.8) 55%,rgba(11,12,14,.5) 100%)}
-.bg-image.center::after{background:rgba(11,12,14,.82)}
-.bg-image.heavy::after{background:rgba(11,12,14,.9)}
-
-/* ===== TYPE ===== */
-.headline-xl{font-family:'Sora';font-weight:800;line-height:.93;letter-spacing:-.025em;text-transform:uppercase;color:#fff}
-.label-mono{font-family:'IBM Plex Mono';font-weight:500;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#FF6A00;display:inline-block}
-.lead{font-size:17.5px;color:#A9B1BC;max-width:580px;line-height:1.7}
-.muted{color:#A9B1BC}
-
-/* ===== CARDS ===== */
-.glass-card{background:rgba(18,21,26,.85);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.09);box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:18px;padding:26px}
-.glass-card.tight{padding:16px}
-.card-icon{width:46px;height:46px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(255,106,0,.13);color:#FF6A00;margin-bottom:14px;flex-shrink:0}
-
-/* ===== BUTTONS ===== */
-.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;text-decoration:none;font-weight:700;font-size:15px;border-radius:12px;transition:all .28s;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
-.btn-primary{background:#FF6A00;color:#fff}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(255,106,0,.45);background:#ff7a1a}
-.btn-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.28)}
-.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.55);transform:translateY(-3px)}
-
-/* ===== FORM ===== */
-.form-input,.form-select,.form-textarea{width:100%;padding:14px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-size:15px;font-family:inherit;transition:all .2s;-webkit-appearance:none}
-.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.35)}
-.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:rgba(255,106,0,.55);box-shadow:0 0 0 3px rgba(255,106,0,.14)}
-.form-select option{background:#14171B;color:#fff}
-.form-textarea{resize:vertical;min-height:130px}
-.service-radio{cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);transition:all .2s}
-.service-radio input{display:none}
-.service-radio:hover{background:rgba(255,255,255,.07);border-color:rgba(255,106,0,.3)}
-.service-radio.selected{background:rgba(255,106,0,.15);border-color:#FF6A00}
-.service-radio .lbl{color:#fff;font-size:13px;font-weight:600}
-
-/* ===== LAYOUT ===== */
-.section{position:relative;width:100%;overflow:hidden}
-.section-content{position:relative;z-index:10;padding:140px 30px 90px;max-width:1200px;margin:0 auto}
-.section-content.tight{padding:90px 30px 70px}
-.section-content.slim{padding:70px 30px 60px}
-.grid{display:grid;gap:18px}
-.grid-2{grid-template-columns:repeat(2,1fr)}
-.grid-3{grid-template-columns:repeat(3,1fr)}
-.grid-4{grid-template-columns:repeat(4,1fr)}
-.grid-5{grid-template-columns:repeat(5,1fr)}
-.flex{display:flex}
-.flex-wrap{flex-wrap:wrap}
-.items-center{align-items:center}
-.items-start{align-items:flex-start}
-.justify-between{justify-content:space-between}
-.justify-center{justify-content:center}
-.text-center{text-align:center}
-.gap-2{gap:8px}.gap-3{gap:12px}.gap-4{gap:16px}.gap-6{gap:24px}.gap-8{gap:32px}
-.mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}.mb-8{margin-bottom:32px}.mb-10{margin-bottom:40px}.mb-12{margin-bottom:48px}
-.mt-4{margin-top:16px}.mt-6{margin-top:24px}.mt-8{margin-top:32px}
-.w-full{width:100%}
-.max-w-md{max-width:520px}.max-w-lg{max-width:640px}.max-w-xl{max-width:760px}.max-w-2xl{max-width:880px}
-
-/* ===== UTILITY ===== */
-.check-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.check-list .item{display:flex;align-items:flex-start;gap:10px;color:#fff;font-size:14px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.07)}
-.check-list .item svg{flex-shrink:0;margin-top:2px}
-.step{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
-.step-num{width:40px;height:40px;border-radius:50%;background:#FF6A00;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-family:'Sora'}
-.step h4{font-family:'Sora';font-size:17px;color:#fff;margin-bottom:5px}
-.step p{color:#A9B1BC;font-size:14px}
-.tag{display:inline-flex;align-items:center;padding:4px 12px;background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;color:#A9B1BC}
-.tag.orange{background:rgba(255,106,0,.15);color:#FF6A00}
-.divider{height:1px;background:rgba(255,255,255,.1);margin:32px 0}
-.ic-line{display:flex;align-items:center;gap:10px;color:#A9B1BC;font-size:14px;padding:6px 0}
-.ic-line strong{color:#fff}
-
-/* ===== ARTICLE ACCORDION ===== */
-.article-card{background:rgba(18,21,26,.85);border:1px solid rgba(255,255,255,.09);border-radius:18px;overflow:hidden;transition:border-color .25s}
-.article-card.open{border-color:rgba(255,106,0,.4)}
-.article-header{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;cursor:pointer;gap:14px;transition:background .2s}
-.article-header:hover{background:rgba(255,106,0,.06)}
-.article-header-left{display:flex;align-items:flex-start;gap:14px;flex:1;min-width:0}
-.article-meta{flex:1;min-width:0}
-.article-category{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;margin-bottom:5px;display:block}
-.article-title{font-family:'Sora';font-weight:700;color:#fff;font-size:17px;line-height:1.3}
-.article-read{color:#A9B1BC;font-size:12px;margin-top:4px}
-.article-chevron{transition:transform .25s;color:#FF6A00;flex-shrink:0}
-.article-card.open .article-chevron{transform:rotate(180deg)}
-.article-body{display:none;padding:0 26px 26px;color:#A9B1BC;font-size:15px;line-height:1.8;border-top:1px solid rgba(255,255,255,.07)}
-.article-card.open .article-body{display:block}
-.article-body h3{font-family:'Sora';font-weight:700;color:#fff;font-size:18px;margin:22px 0 10px}
-.article-body h4{font-family:'Sora';font-weight:600;color:#fff;font-size:16px;margin:18px 0 8px}
-.article-body p{margin-bottom:14px}
-.article-body ul,.article-body ol{margin:12px 0 16px 22px;display:flex;flex-direction:column;gap:6px}
-.article-body li{color:#A9B1BC}
-.article-body strong{color:#fff}
-.article-body .article-cta{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 22px;background:#FF6A00;color:#fff;text-decoration:none;font-weight:700;font-size:14px;border-radius:10px;transition:all .28s}
-.article-body .article-cta:hover{background:#ff7a1a;transform:translateY(-2px)}
-
-/* ===== GALLERY ===== */
-.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.gallery-item{border-radius:14px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:4/3;background:#111418}
-.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.gallery-item:hover img{transform:scale(1.06)}
-.gallery-item-overlay{position:absolute;inset:0;background:rgba(11,12,14,0);transition:background .3s;display:flex;align-items:center;justify-content:center}
-.gallery-item:hover .gallery-item-overlay{background:rgba(11,12,14,.45)}
-.gallery-item-overlay svg{opacity:0;transform:scale(.8);transition:all .3s}
-.gallery-item:hover .gallery-item-overlay svg{opacity:1;transform:scale(1)}
-.lightbox{display:none;position:fixed;inset:0;background:rgba(5,6,8,.97);z-index:2000;align-items:center;justify-content:center;padding:20px}
-.lightbox.open{display:flex}
-.lightbox-img{max-width:90vw;max-height:88vh;border-radius:14px;object-fit:contain}
-.lightbox-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:28px;cursor:pointer;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.lightbox-close:hover{background:rgba(255,106,0,.5)}
-.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;cursor:pointer;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.lightbox-nav:hover{background:rgba(255,106,0,.5)}
-.lightbox-prev{left:18px}.lightbox-next{right:18px}
-
-/* ===== VIDEOS ===== */
-.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.video-wrapper{border-radius:16px;overflow:hidden;background:#0d1014;border:1px solid rgba(255,255,255,.08);aspect-ratio:16/9}
-.video-wrapper iframe{width:100%;height:100%;border:none;display:block}
-.video-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/9;cursor:pointer;display:block;text-decoration:none}
-.video-card-bg{position:absolute;inset:0;z-index:0}
-.video-card-bg img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.video-card:hover .video-card-bg img{transform:scale(1.06)}
-.video-card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,12,14,.88) 0%,rgba(11,12,14,.45) 50%,rgba(11,12,14,.2) 100%);z-index:1}
-.video-card-play{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center}
-.video-card-play-btn{width:68px;height:68px;border-radius:50%;background:#FF6A00;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 0 0 0 rgba(255,106,0,.4)}
-.video-card:hover .video-card-play-btn{transform:scale(1.1);box-shadow:0 0 0 14px rgba(255,106,0,.18)}
-.video-card-info{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:20px 22px}
-.video-card-tag{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;display:block;margin-bottom:6px}
-.video-card-title{font-family:'Sora';font-weight:700;color:#fff;font-size:16px;line-height:1.35}
-.video-label{font-family:'Sora';font-weight:600;color:#fff;font-size:15px;margin-top:12px;text-align:center}
-.video-label small{display:block;color:#A9B1BC;font-size:12px;font-weight:400;margin-top:3px;font-family:'Inter'}
-
-/* ===== ANIMATED EDU VIDEO PLAYER ===== */
-.edu-player{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:16/9;box-shadow:0 8px 40px rgba(0,0,0,.6)}
-.edu-player-screen{position:absolute;inset:0}
-.edu-slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease}
-.edu-slide.active{opacity:1}
-.edu-slide-bg{position:absolute;inset:0}
-.edu-slide-bg img{width:100%;height:100%;object-fit:cover}
-.edu-slide-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(11,12,14,.93) 0%,rgba(11,12,14,.78) 60%,rgba(11,12,14,.55) 100%)}
-.edu-slide-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,5%,52px) clamp(20px,6%,60px)}
-.edu-slide-tag{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;margin-bottom:14px}
-.edu-slide-headline{font-family:'Sora';font-weight:800;color:#fff;font-size:clamp(18px,3.5vw,38px);line-height:1.2;margin-bottom:18px}
-.edu-slide-points{display:flex;flex-direction:column;gap:10px}
-.edu-slide-point{display:flex;align-items:flex-start;gap:10px;font-family:'Inter';font-size:clamp(13px,1.8vw,16px);color:rgba(255,255,255,.9);line-height:1.5}
-.edu-slide-point::before{content:'›';color:#FF6A00;font-size:20px;line-height:1.25;flex-shrink:0}
-.edu-slide-cta-btn{display:inline-block;margin-top:22px;background:#FF6A00;color:#fff;font-family:'Sora';font-weight:700;font-size:14px;padding:13px 26px;border-radius:8px;text-decoration:none;letter-spacing:.03em;transition:opacity .2s}
-.edu-slide-cta-btn:hover{opacity:.88}
-.edu-player-controls{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:14px 18px;background:linear-gradient(0deg,rgba(0,0,0,.88) 0%,transparent 100%);z-index:10}
-.edu-play-btn{width:38px;height:38px;border-radius:50%;background:#FF6A00;border:none;cursor:pointer;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s;line-height:1}
-.edu-play-btn:hover{transform:scale(1.1)}
-.edu-nav-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);border:none;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;line-height:1}
-.edu-nav-btn:hover{background:rgba(255,106,0,.55)}
-.edu-progress-track{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden}
-.edu-progress-fill{height:100%;background:#FF6A00;width:0%;transition:width .1s linear;border-radius:4px}
-.edu-counter{font-family:'IBM Plex Mono';font-size:11px;color:rgba(255,255,255,.65);flex-shrink:0;min-width:32px;text-align:right}
-/* ===== ARTICLE CATEGORY FILTER ===== */
-.edu-filter{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 40px}
-.edu-filter-btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#A9B1BC;padding:9px 16px;border-radius:100px;cursor:pointer;transition:all .25s}
-.edu-filter-btn:hover{background:rgba(255,106,0,.15);border-color:rgba(255,106,0,.35);color:#fff}
-.edu-filter-btn.active{background:#FF6A00;border-color:#FF6A00;color:#fff}
-/* ===== STATS BAR ===== */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(18,21,26,.85);border:1px solid rgba(255,255,255,.09);border-radius:20px;overflow:hidden;backdrop-filter:blur(14px)}
-.stat-cell{padding:32px 20px;text-align:center;position:relative}
-.stat-cell:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,.1)}
-.stat-big{font-family:'Sora';font-size:clamp(32px,4.5vw,46px);font-weight:800;color:#FF6A00;line-height:1}
-.stat-label{color:#A9B1BC;font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
-
-/* ===== FOOTER ===== */
-.footer{background:#080A0C;border-top:1px solid rgba(255,106,0,.15);padding:60px 30px 30px}
-.footer-inner{max-width:1200px;margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.footer-logo{height:54px;width:auto;object-fit:contain;margin-bottom:14px}
-.footer-brand-name{font-family:'Sora';font-weight:800;color:#fff;font-size:20px;letter-spacing:-.4px;margin-bottom:6px}
-.footer-brand-name span{color:#FF6A00}
-.footer a{color:#A9B1BC;text-decoration:none;font-size:14px;display:block;margin:9px 0;transition:color .2s;line-height:1.4}
-.footer a:hover{color:#FF6A00}
-.footer h4{font-family:'Sora';font-weight:700;color:#fff;margin-bottom:18px;font-size:15px;letter-spacing:-.2px}
-.footer p{color:#A9B1BC;font-size:14px;line-height:1.8}
-.footer-bottom{padding-top:28px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.footer-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,106,0,.12);border:1px solid rgba(255,106,0,.25);border-radius:999px;color:#FF6A00;font-size:12px;font-weight:600}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1100px){
-  .nav-links{gap:2px}
-  .nav-links a,.nav-links .dropdown-toggle{padding:6px 7px;font-size:12.5px}
-}
-@media(max-width:960px){
-  .nav-links{display:none}
-  .mobile-toggle{display:flex}
-  .video-grid{grid-template-columns:1fr}
-  .gallery-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:768px){
-  .grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr}
-  .check-list{grid-template-columns:1fr}
-  .section-content{padding:110px 20px 60px}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
-  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
-  .headline-xl{font-size:clamp(28px,9vw,50px)!important}
-  .nav-inner{padding:0 18px;height:64px}
-  .stats-bar{grid-template-columns:repeat(2,1fr)}
-  .stats-bar .stat-cell:nth-child(2)::after{display:none}
-  .stats-bar .stat-cell:nth-child(3){border-top:1px solid rgba(255,255,255,.1)}
-  .stats-bar .stat-cell:nth-child(4){border-top:1px solid rgba(255,255,255,.1)}
-}
-@media(max-width:480px){
-  .gallery-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr}
-  .nav-brand-name{font-size:18px}
-  .lightbox-nav{display:none}
-}
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar{width:7px}
-::-webkit-scrollbar-track{background:#0B0C0E}
-::-webkit-scrollbar-thumb{background:#252930;border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:#363b44}</style>
-</head>
-<body>
-<nav class="nav" id="navbar">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <img src="images/enix-logo-main.jpg" alt="Enix Exteriors Logo" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <span class="nav-logo-fallback" style="display:none">
-      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg>
-    </span>
-      <div class="nav-brand">
-        <span class="nav-brand-name">ENIX <span>EXTERIORS</span></span>
-        <span class="nav-brand-tagline">Your Local Roofing Expert</span>
-      </div>
-    </a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <div class="dropdown">
-        <button class="dropdown-toggle">Services <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-        <div class="dropdown-menu">
-          <a href="commercial-roofing.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg> Commercial Roofing</a>
-          <a href="residential-roofing.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Residential Roofing</a>
-          <a href="exterior-services.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Exterior Services</a>
-          <a href="storm-damage-commercial.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Storm Damage – Commercial</a>
-          <a href="storm-damage-residential.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Storm Damage – Residential</a>
-        </div>
-      </div>
-      <a href="education-hub.html" class="active">Education Hub</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="tennessee-locations.html">Locations</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="tel:8656853649" class="nav-cta"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Get a Quote</a>
-    </div>
-    <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu" aria-expanded="false">
-      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-  </div>
-</nav>
-
-<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
-  <div class="mobile-menu-header">
-    <a href="index.html">
-      <img src="images/enix-logo-main.jpg" alt="Enix Exteriors" class="logo-img" style="height:46px;object-fit:contain" onerror="this.style.display='none'">
-    </a>
-    <button class="mobile-menu-close" id="mobileClose" aria-label="Close menu">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-  <div class="mobile-menu-body">
-    <a href="index.html">Home</a>
-    <span class="section-label">Services</span>
-    <a href="commercial-roofing.html" style="font-size:17px;padding:10px 0">Commercial Roofing</a>
-    <a href="residential-roofing.html" style="font-size:17px;padding:10px 0">Residential Roofing</a>
-    <a href="exterior-services.html" style="font-size:17px;padding:10px 0">Exterior Services</a>
-    <a href="storm-damage-commercial.html" style="font-size:17px;padding:10px 0">Storm Damage – Commercial</a>
-    <a href="storm-damage-residential.html" style="font-size:17px;padding:10px 0">Storm Damage – Residential</a>
-    <span class="section-label">Company</span>
-    <a href="education-hub.html">Education Hub</a>
-    <a href="gallery.html">Project Gallery</a>
-    <a href="tennessee-locations.html">Locations</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </div>
-  <div class="mobile-menu-footer">
-    <a href="tel:8656853649"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> (865) 685-ENIX</a>
-    <a href="mailto:info@enixexteriors.com" style="background:rgba(255,255,255,.08);color:#fff"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@enixexteriors.com</a>
-  </div>
-</div>
-<section class="section" style="min-height:100vh;display:flex;align-items:center;position:relative">
-  <div class="bg-image"><img src="images/gallery-roofing-desktop.jpg" alt="" loading="lazy"></div>
-  <div class="section-content" style="width:100%;padding-top:140px">
-    <span class="label-mono mb-4">ENIX EXTERIORS EDUCATION HUB</span>
-    <h1 class="headline-xl mb-6" style="font-size:clamp(38px,6.5vw,76px)">ROOFING KNOWLEDGE<br>FROM TENNESSEE'S<br>TRUSTED EXPERTS</h1>
-    <p class="lead mb-8">Free expert guides from Enix Exteriors — helping Tennessee homeowners and business owners make informed decisions about their roofs, siding, gutters, and exterior.</p>
-    <div class="flex flex-wrap gap-4"><a href="contact.html" class="btn-primary">Ask Our Experts <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a href="tel:8656853649" class="btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call (865) 685-ENIX</a></div>
-  </div>
-</section>
-
-<section class="section section-bg-dark">
-  <div class="section-content tight">
-    <div style="text-align:center;margin-bottom:48px">
-      <span class="label-mono mb-3">3 EDUCATIONAL PRESENTATIONS</span>
-      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,50px)">WATCH &amp; LEARN<br>FROM OUR EXPERTS</h2>
-      <p class="muted" style="max-width:540px;margin:16px auto 0;font-size:15px">Auto-playing slide presentations — click ▶ to start or use arrows to navigate slides.</p>
-    </div>
-    <div class="video-grid">
-      <div>
-        <div class="edu-player" id="vid-residential">
-  <div class="edu-player-screen">
-  <div class="edu-slide active" data-slide="0">
-    <div class="edu-slide-bg"><img src="images/gallery-roof-sky.jpg" alt="When It's Time for a New Roof" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">ENIX EXTERIORS — RESIDENTIAL ROOFING</div>
-      <div class="edu-slide-headline">When It's Time<br>for a New Roof</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">A complete guide for Tennessee homeowners</div><div class="edu-slide-point">Know the warning signs before small damage becomes catastrophic</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="1">
-    <div class="edu-slide-bg"><img src="images/gallery-pexels-1.jpg" alt="Your Roof's Age Tells the Story" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">ROOF AGE — THE FIRST INDICATOR</div>
-      <div class="edu-slide-headline">Your Roof's Age Tells the Story</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">20–25 years: inspect carefully every season</div><div class="edu-slide-point">25–30 years: start budgeting for replacement now</div><div class="edu-slide-point">30+ years: replacement is overdue — act before the next storm</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="2">
-    <div class="edu-slide-bg"><img src="images/gallery-craftsman.jpg" alt="What to See from the Ground" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">VISIBLE WARNING SIGNS</div>
-      <div class="edu-slide-headline">What to See from the Ground</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Curling, cupping, or cracking shingle tabs</div><div class="edu-slide-point">Granule buildup in gutters after any rain event</div><div class="edu-slide-point">Missing shingles, dark patches, or bare roof deck visible</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="3">
-    <div class="edu-slide-bg"><img src="images/gallery-project-1.jpg" alt="The Damage You Can't See from Outside" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">HIDDEN DAMAGE — CHECK YOUR ATTIC</div>
-      <div class="edu-slide-headline">The Damage You Can't See from Outside</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Water stains or mold on rafters and sheathing</div><div class="edu-slide-point">Daylight visible through cracks in the roof deck</div><div class="edu-slide-point">Musty smell or frost on underside of deck in winter</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="4">
-    <div class="edu-slide-bg"><img src="images/gallery-pexels-2.jpg" alt="Small Problems Become Expensive Fast" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">THE COST OF WAITING</div>
-      <div class="edu-slide-headline">Small Problems Become Expensive Fast</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">A $300 flashing repair → $5,000 rot and framing repair</div><div class="edu-slide-point">Water damage spreads with every single rain event</div><div class="edu-slide-point">Mold develops within 24–48 hours of sustained saturation</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="5">
-    <div class="edu-slide-bg"><img src="images/gallery-metal-1.jpg" alt="Making the Smart Financial Decision" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">REPAIR OR REPLACE? — THE 50% RULE</div>
-      <div class="edu-slide-headline">Making the Smart Financial Decision</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Less than 25% damaged and roof under 15 years old → Repair</div><div class="edu-slide-point">More than 25% damaged or roof is 20+ years → Replace</div><div class="edu-slide-point">If repair cost exceeds 50% of replacement → Always replace</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="6">
-    <div class="edu-slide-bg"><img src="images/gallery-roofing-desktop.jpg" alt="Enix Exteriors Free Roof Inspection" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">YOUR NEXT STEP</div>
-      <div class="edu-slide-headline">Enix Exteriors Free Roof Inspection</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Licensed & insured Tennessee roofing contractor</div><div class="edu-slide-point">Free professional on-roof inspection — no obligation</div><div class="edu-slide-point">Same-day response across Knox County and East Tennessee</div></div>
-      <a href="contact.html" class="edu-slide-cta-btn">Schedule Your Free Inspection →</a>
-    </div>
-  </div></div>
-  <div class="edu-player-controls">
-    <button class="edu-play-btn" onclick="vidPlayPause('vid-residential')">▶</button>
-    <button class="edu-nav-btn" onclick="vidPrev('vid-residential')">‹</button>
-    <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
-    <button class="edu-nav-btn" onclick="vidNext('vid-residential')">›</button>
-    <span class="edu-counter">1/7</span>
-  </div>
-</div>
-        <div class="video-label">When It's Time for a New Roof<small>7-slide residential guide · auto-plays on scroll</small></div>
-      </div>
-      <div>
-        <div class="edu-player" id="vid-commercial">
-  <div class="edu-player-screen">
-  <div class="edu-slide active" data-slide="0">
-    <div class="edu-slide-bg"><img src="images/gallery-commercial-1.jpg" alt="Commercial Roofing Systems Explained" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">ENIX EXTERIORS — COMMERCIAL ROOFING</div>
-      <div class="edu-slide-headline">Commercial Roofing<br>Systems Explained</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">A guide for Tennessee business and property owners</div><div class="edu-slide-point">Understand your options before committing to any system</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="1">
-    <div class="edu-slide-bg"><img src="images/gallery-panel-roofline.jpg" alt="Flat & Low-Slope Roofs Require a Different Approach" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">WHAT MAKES COMMERCIAL ROOFING DIFFERENT</div>
-      <div class="edu-slide-headline">Flat & Low-Slope Roofs Require a Different Approach</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Pitch below 2:12 — water cannot shed by gravity alone</div><div class="edu-slide-point">Requires sealed, fully waterproof membranes throughout</div><div class="edu-slide-point">Materials, installation, and warranty are entirely different from shingles</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="2">
-    <div class="edu-slide-bg"><img src="images/gallery-commercial-1.jpg" alt="TPO: America's Most Installed Commercial Membrane" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">TPO MEMBRANE ROOFING</div>
-      <div class="edu-slide-headline">TPO: America's Most Installed Commercial Membrane</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">White surface reflects up to 90% of UV — cuts HVAC costs 15–25%</div><div class="edu-slide-point">Heat-welded seams stronger than the membrane itself</div><div class="edu-slide-point">15–25 year lifespan with quality 60-mil installation</div><div class="edu-slide-point">Best for energy-conscious buildings and simple flat roofs</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="3">
-    <div class="edu-slide-bg"><img src="images/gallery-project-9.jpg" alt="Modified Bitumen: 40+ Years of Proven Performance" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">MODIFIED BITUMEN ROOFING</div>
-      <div class="edu-slide-headline">Modified Bitumen: 40+ Years of Proven Performance</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Multi-layer asphalt system with redundant waterproofing</div><div class="edu-slide-point">Outstanding resistance to hail, foot traffic, and puncture</div><div class="edu-slide-point">Applied by torch, cold adhesive, or self-adhering membrane</div><div class="edu-slide-point">Ideal for buildings with frequent HVAC crew roof access</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="4">
-    <div class="edu-slide-bg"><img src="images/gallery-craftsman.jpg" alt="EPDM: The Longest Commercial Track Record" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">EPDM RUBBER ROOFING</div>
-      <div class="edu-slide-headline">EPDM: The Longest Commercial Track Record</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Rubber membrane with documented 40–60 year field performance</div><div class="edu-slide-point">Outstanding UV and ozone resistance — no chalking or yellowing</div><div class="edu-slide-point">Fewer seams than other systems = fewer potential leak points</div><div class="edu-slide-point">Lowest material cost among all major commercial systems</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="5">
-    <div class="edu-slide-bg"><img src="images/gallery-project-6.jpg" alt="Match Your System to Your Building's Needs" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">WHICH SYSTEM IS RIGHT FOR YOUR BUILDING?</div>
-      <div class="edu-slide-headline">Match Your System to Your Building's Needs</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Energy efficiency priority → TPO is the clear choice</div><div class="edu-slide-point">High foot traffic + maximum durability → Modified Bitumen</div><div class="edu-slide-point">Best proven longevity + lowest material cost → EPDM</div><div class="edu-slide-point">Existing sound roof? → Silicone coating can add 10–20 years</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="6">
-    <div class="edu-slide-bg"><img src="images/gallery-commercial-1.jpg" alt="Enix Exteriors Commercial Division" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">FREE COMMERCIAL INSPECTION</div>
-      <div class="edu-slide-headline">Enix Exteriors Commercial Division</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Factory-trained TPO, modified bitumen, and EPDM installation crews</div><div class="edu-slide-point">Free commercial roof assessment with written report and photos</div><div class="edu-slide-point">No-obligation — serving East Tennessee commercial properties</div></div>
-      <a href="contact.html" class="edu-slide-cta-btn">Schedule Commercial Inspection →</a>
-    </div>
-  </div></div>
-  <div class="edu-player-controls">
-    <button class="edu-play-btn" onclick="vidPlayPause('vid-commercial')">▶</button>
-    <button class="edu-nav-btn" onclick="vidPrev('vid-commercial')">‹</button>
-    <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
-    <button class="edu-nav-btn" onclick="vidNext('vid-commercial')">›</button>
-    <span class="edu-counter">1/7</span>
-  </div>
-</div>
-        <div class="video-label">Commercial Roofing Systems Explained<small>7-slide commercial guide · auto-plays on scroll</small></div>
-      </div>
-      <div>
-        <div class="edu-player" id="vid-storm">
-  <div class="edu-player-screen">
-  <div class="edu-slide active" data-slide="0">
-    <div class="edu-slide-bg"><img src="images/gallery-project-9.jpg" alt="After Storm Damage: Your Action Plan" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">ENIX EXTERIORS — STORM DAMAGE GUIDE</div>
-      <div class="edu-slide-headline">After Storm Damage:<br>Your Action Plan</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">What to do in the critical hours after a severe storm</div><div class="edu-slide-point">The right steps protect both your home and your insurance claim</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="1">
-    <div class="edu-slide-bg"><img src="images/gallery-pexels-2.jpg" alt="Stay Safe: Don't Go on the Roof" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">STEP 1 — SAFETY FIRST</div>
-      <div class="edu-slide-headline">Stay Safe: Don't Go on the Roof</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Check for downed power lines before stepping outside</div><div class="edu-slide-point">Assess structural damage from the ground — stay off the roof</div><div class="edu-slide-point">If walls or ceilings are sagging or buckling — evacuate immediately</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="2">
-    <div class="edu-slide-bg"><img src="images/gallery-craftsman.jpg" alt="Photos Before Any Cleanup or Tarping" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">STEP 2 — DOCUMENT EVERYTHING FIRST</div>
-      <div class="edu-slide-headline">Photos Before Any Cleanup or Tarping</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Photograph and video all damage from every angle — ground level</div><div class="edu-slide-point">Document interior water stains, wet ceilings, and damaged belongings</div><div class="edu-slide-point">Screenshot NWS storm alerts and reports confirming the event</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="3">
-    <div class="edu-slide-bg"><img src="images/gallery-roofing-desktop.jpg" alt="Professional Documentation Strengthens Your Claim" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">STEP 3 — CALL A ROOFER BEFORE YOUR INSURER</div>
-      <div class="edu-slide-headline">Professional Documentation Strengthens Your Claim</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">A contractor provides professional written damage assessment</div><div class="edu-slide-point">On-roof inspection finds damage invisible from the ground</div><div class="edu-slide-point">Your contractor meets the adjuster at inspection — ensuring nothing is missed</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="4">
-    <div class="edu-slide-bg"><img src="images/gallery-project-1.jpg" alt="Stop Further Damage Within 24–48 Hours" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">STEP 4 — EMERGENCY TARPING IF NEEDED</div>
-      <div class="edu-slide-headline">Stop Further Damage Within 24–48 Hours</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Active leaks need tarping immediately — water damage compounds fast</div><div class="edu-slide-point">Professional tarping is covered by your insurance claim</div><div class="edu-slide-point">Never sign an Assignment of Benefits (AOB) for tarping or repairs</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="5">
-    <div class="edu-slide-bg"><img src="images/gallery-pexels-1.jpg" alt="File Promptly — Don't Wait" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">STEP 5 — FILE YOUR CLAIM WITH FULL DOCUMENTATION</div>
-      <div class="edu-slide-headline">File Promptly — Don't Wait</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Most Tennessee policies allow 1 year from the storm date — act now</div><div class="edu-slide-point">Include your contractor assessment, all photos, and storm records</div><div class="edu-slide-point">Request your contractor be present at the adjuster's on-site inspection</div></div>
-      
-    </div>
-  </div>
-  <div class="edu-slide" data-slide="6">
-    <div class="edu-slide-bg"><img src="images/gallery-roof-sky.jpg" alt="We're Standing By for Tennessee Storm Emergencies" loading="lazy"></div>
-    <div class="edu-slide-overlay"></div>
-    <div class="edu-slide-content">
-      <div class="edu-slide-tag">24/7 STORM RESPONSE — ENIX EXTERIORS</div>
-      <div class="edu-slide-headline">We're Standing By for Tennessee Storm Emergencies</div>
-      <div class="edu-slide-points"><div class="edu-slide-point">Free emergency roof inspections across Knox County and East Tennessee</div><div class="edu-slide-point">Licensed, insured, and locally owned — not a storm chaser</div><div class="edu-slide-point">Claims assistance at no extra charge — call anytime after a storm</div></div>
-      <a href="contact.html" class="edu-slide-cta-btn">Call for Emergency Inspection →</a>
-    </div>
-  </div></div>
-  <div class="edu-player-controls">
-    <button class="edu-play-btn" onclick="vidPlayPause('vid-storm')">▶</button>
-    <button class="edu-nav-btn" onclick="vidPrev('vid-storm')">‹</button>
-    <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
-    <button class="edu-nav-btn" onclick="vidNext('vid-storm')">›</button>
-    <span class="edu-counter">1/7</span>
-  </div>
-</div>
-        <div class="video-label">After Storm Damage: Your Action Plan<small>7-slide storm &amp; insurance guide · auto-plays on scroll</small></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content tight">
-    <div style="text-align:center;margin-bottom:40px">
-      <span class="label-mono mb-3">50 IN-DEPTH ARTICLES</span>
-      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">CLICK ANY ARTICLE<br>TO READ IN FULL</h2>
-      <p class="muted" style="max-width:580px;margin:16px auto 0;font-size:15px">Written by the Enix Exteriors team of licensed Tennessee roofing professionals. Filter by topic below.</p>
-    </div>
-    <div class="edu-filter">
-      <button class="edu-filter-btn active" data-cat="ALL">All 50 Articles</button>
-      <button class="edu-filter-btn" data-cat="CONTRACTOR GUIDE">Contractor Guide</button>
-      <button class="edu-filter-btn" data-cat="RESIDENTIAL ROOFING">Residential</button>
-      <button class="edu-filter-btn" data-cat="COMMERCIAL ROOFING">Commercial</button>
-      <button class="edu-filter-btn" data-cat="STORM DAMAGE">Storm Damage</button>
-      <button class="edu-filter-btn" data-cat="INSURANCE">Insurance</button>
-      <button class="edu-filter-btn" data-cat="MAINTENANCE">Maintenance</button>
-      <button class="edu-filter-btn" data-cat="ROOF COMPONENTS">Roof Components</button>
-      <button class="edu-filter-btn" data-cat="EXTERIOR SERVICES">Exterior Services</button>
-      <button class="edu-filter-btn" data-cat="LOCAL TENNESSEE">Local TN</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;max-width:860px;margin:0 auto">
-      
-<div class="article-card" id="article-1" data-category="CONTRACTOR GUIDE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-1">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">CONTRACTOR GUIDE</span>
-        <div class="article-title">How to Choose a Roofing Contractor in Tennessee</div>
-        <div class="article-read">8 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-1" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// CONTRACTOR GUIDE (1–3)
+// ════════════════════════════════════════════════════
+{
+  id:"1", category:"CONTRACTOR GUIDE",
+  title:"How to Choose a Roofing Contractor in Tennessee",
+  readTime:8,
+  content:`
 <p>Choosing a roofing contractor in Tennessee is one of the most important decisions you'll make as a property owner. A qualified, reputable roofer protects your home for decades. A bad one can cost you thousands in repeated repairs, voided warranties, and legal headaches. The Enix Exteriors team has put together this field-tested guide to help you make the right call the first time.</p>
 <h3>1. Confirm Tennessee Licensing and Insurance</h3>
 <p>Tennessee law requires a contractor's license for home improvement projects exceeding $25,000. Verify any contractor's license directly at the Tennessee Department of Commerce and Insurance (TDCI) website — tn.gov/commerce. Beyond the license, every contractor you consider should carry two forms of coverage:</p>
@@ -698,25 +59,13 @@ a{color:inherit}
 <h4>What is an Assignment of Benefits (AOB) and why is it risky?</h4>
 <p>An AOB transfers your insurance rights to the contractor, allowing them to negotiate your claim and collect payment directly from your insurer. This removes you from the process and can expose you to disputes, delays, and even policy cancellation. Never sign one.</p>
 <p>Enix Exteriors is fully licensed, bonded, and insured in Tennessee. We provide detailed written estimates, transparent pricing, and references from completed local projects — no pressure, ever.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-2" data-category="CONTRACTOR GUIDE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-2">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">CONTRACTOR GUIDE</span>
-        <div class="article-title">Red Flags When Hiring a Roofer: How to Spot Storm Chasers and Scams</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-2" style="padding-top:22px">
-    
+{
+  id:"2", category:"CONTRACTOR GUIDE",
+  title:"Red Flags When Hiring a Roofer: How to Spot Storm Chasers and Scams",
+  readTime:6,
+  content:`
 <p>Every major storm that rolls through Tennessee brings a wave of opportunistic contractors alongside the legitimate ones. Storm chasers, unlicensed crews, and outright scammers cost Tennessee homeowners millions of dollars every year. Knowing how to spot them before you sign can save you your entire insurance settlement.</p>
 <h3>The Storm Chaser Problem in Tennessee</h3>
 <p>Storm chasers are roofing contractors — often from out of state — who follow severe weather events, set up temporary operations, sign contracts quickly, and then deliver subpar work or disappear entirely. Tennessee's position in the mid-South "hail belt" makes it a frequent target. After significant storms in the Knoxville and East Tennessee area, you should be especially cautious about unsolicited door-to-door approaches.</p>
@@ -749,25 +98,13 @@ a{color:inherit}
 <h4>Is it legal for contractors to go door to door after a storm in Tennessee?</h4>
 <p>Yes, it's legal. But be cautious of any contractor who appears at your door unsolicited. Take your time, get multiple bids, and verify credentials before signing anything.</p>
 <p>Enix Exteriors is a locally owned Tennessee roofing company with a verifiable physical address, years of community presence, and hundreds of completed projects in the greater Knoxville area. We never engage in high-pressure tactics and always provide detailed written contracts before work begins.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-3" data-category="CONTRACTOR GUIDE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-3">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">CONTRACTOR GUIDE</span>
-        <div class="article-title">How to Read and Compare Roofing Estimates: A Line-by-Line Guide</div>
-        <div class="article-read">7 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-3" style="padding-top:22px">
-    
+{
+  id:"3", category:"CONTRACTOR GUIDE",
+  title:"How to Read and Compare Roofing Estimates: A Line-by-Line Guide",
+  readTime:7,
+  content:`
 <p>A roofing estimate is more than just a total price — it's a legal document that defines exactly what work will be done, with what materials, on what timeline. Yet most homeowners compare only the bottom line. Understanding how to read a roofing estimate in detail protects you from surprises, ensures you're comparing apples to apples, and helps you identify contractors who cut corners before any work starts.</p>
 <h3>What Every Professional Roofing Estimate Must Include</h3>
 <ul>
@@ -807,25 +144,16 @@ a{color:inherit}
 <h4>Can I negotiate a roofing estimate?</h4>
 <p>Yes — particularly on material upgrades, payment terms, or scheduling. Don't negotiate by asking for cheaper materials, as this undermines the installation quality. Instead, ask about any current promotions or flexible payment terms.</p>
 <p>Every Enix Exteriors estimate is fully itemized with specific product names, complete scope of work, and written warranty terms. We'll walk you through every line and answer every question before you sign anything.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-4" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-4">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">Asphalt Shingles vs. Metal Roofing: A Complete Tennessee Homeowner's Guide</div>
-        <div class="article-read">9 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-4" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// RESIDENTIAL ROOFING (4–11)
+// ════════════════════════════════════════════════════
+{
+  id:"4", category:"RESIDENTIAL ROOFING",
+  title:"Asphalt Shingles vs. Metal Roofing: A Complete Tennessee Homeowner's Guide",
+  readTime:9,
+  content:`
 <p>If you're replacing your Tennessee home's roof, you'll likely be choosing between two dominant materials: <strong>asphalt shingles</strong> and <strong>metal roofing</strong>. Both are excellent choices — but they serve different homeowners, budgets, and goals. This guide walks you through everything you need to know to make the right choice for your specific home and situation.</p>
 <h3>Asphalt Shingles: Tennessee's Most Popular Roofing Material</h3>
 <p>Asphalt shingles — specifically architectural (laminated) shingles — account for roughly 80% of residential roofing installations across the United States. Modern architectural shingles are dramatically better than older 3-tab styles, offering superior wind resistance (up to 130 mph), better aesthetics, and 25–40 year lifespans.</p>
@@ -878,25 +206,13 @@ a{color:inherit}
 <h4>Is metal roofing louder than shingles during rain?</h4>
 <p>With proper solid decking and quality underlayment (which all reputable metal roofing installations include), noise difference is minimal. Many homeowners report no noticeable difference.</p>
 <p>Enix Exteriors installs both premium asphalt shingle systems and standing seam metal roofing across Tennessee. We'll assess your home, budget, and plans to recommend the right material — and we stand behind our installations with comprehensive written warranties.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-5" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-5">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">How Long Does a Roof Replacement Take in Tennessee?</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-5" style="padding-top:22px">
-    
+{
+  id:"5", category:"RESIDENTIAL ROOFING",
+  title:"How Long Does a Roof Replacement Take in Tennessee?",
+  readTime:5,
+  content:`
 <p>One of the most common questions Tennessee homeowners ask before a roof replacement is: "How long will this take?" The answer depends on your roof's size and complexity, the materials chosen, and the time of year — but most residential replacements in Tennessee are completed in one to three days. Here's what to expect and what can affect the timeline.</p>
 <h3>Typical Timelines by Roof Type</h3>
 <ul>
@@ -931,25 +247,13 @@ a{color:inherit}
 <h4>What if it rains during my roof replacement?</h4>
 <p>Professional crews monitor weather closely. If rain is expected mid-project, your contractor will ensure all exposed areas are properly tarped before the end of the workday. Responsible contractors do not install shingles in wet conditions.</p>
 <p>Enix Exteriors crews arrive on time, work efficiently, and clean up completely before leaving each day. We provide a realistic timeline in your written estimate and keep you informed of any changes due to weather or discoveries.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-6" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-6">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">Roof Replacement Cost in Tennessee: 2024 Complete Price Guide</div>
-        <div class="article-read">7 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-6" style="padding-top:22px">
-    
+{
+  id:"6", category:"RESIDENTIAL ROOFING",
+  title:"Roof Replacement Cost in Tennessee: 2024 Complete Price Guide",
+  readTime:7,
+  content:`
 <p>Understanding the true cost of a roof replacement in Tennessee helps you budget accurately, compare estimates fairly, and avoid being overcharged or underserved. This guide breaks down the cost drivers for residential roofing across the Knoxville area and East Tennessee — with real price ranges based on current market rates.</p>
 <h3>Average Roof Replacement Cost in Tennessee</h3>
 <p>For a typical Tennessee home, roof replacement costs range:</p>
@@ -985,25 +289,13 @@ a{color:inherit}
 <h4>How long should I expect my new roof to last in Tennessee's climate?</h4>
 <p>Quality architectural shingles last 25–35 years. Premium Class 4 shingles may last 30–40 years. Standing seam metal can last 50–70+ years. Regular maintenance (gutter cleaning, flashing inspection) extends any roof's lifespan.</p>
 <p>Enix Exteriors provides fully itemized written estimates with no hidden costs. We work with all major insurance carriers and help Tennessee homeowners maximize their claims. Contact us for a free inspection and detailed quote.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-7" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-7">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">Best Roofing Shingles for Tennessee: GAF vs. Owens Corning vs. CertainTeed</div>
-        <div class="article-read">7 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-7" style="padding-top:22px">
-    
+{
+  id:"7", category:"RESIDENTIAL ROOFING",
+  title:"Best Roofing Shingles for Tennessee: GAF vs. Owens Corning vs. CertainTeed",
+  readTime:7,
+  content:`
 <p>Not all asphalt shingles are created equal. The difference between budget-grade and premium shingles can mean an extra decade of roof life, better storm protection, and significantly stronger warranty coverage. For Tennessee homeowners choosing among the major brands — GAF, Owens Corning, and CertainTeed — this guide breaks down what matters most for our specific climate.</p>
 <h3>What Makes a Good Shingle for Tennessee's Climate</h3>
 <p>Tennessee's weather presents specific challenges: hot, humid summers that accelerate granule loss and algae growth; severe thunderstorms and hail in spring and fall; occasional ice and snow in East Tennessee winters; and persistent moisture that can compromise improperly installed shingles. The best shingles for Tennessee should offer:</p>
@@ -1046,25 +338,13 @@ a{color:inherit}
 <h4>Does shingle color affect heat in Tennessee homes?</h4>
 <p>Yes. Lighter colors reflect more solar heat, which can reduce attic temperatures and cooling costs. All three manufacturers offer "cool roof" options with reflective granules, which are worth considering for south-facing slopes in Tennessee.</p>
 <p>Enix Exteriors works with all three major shingle manufacturers and can offer certified installation that unlocks enhanced warranty coverage. We'll help you choose the right product for your home's profile, your budget, and Tennessee's demanding climate.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-8" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-8">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">Impact-Resistant Shingles in Tennessee: Are They Worth the Extra Cost?</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-8" style="padding-top:22px">
-    
+{
+  id:"8", category:"RESIDENTIAL ROOFING",
+  title:"Impact-Resistant Shingles in Tennessee: Are They Worth the Extra Cost?",
+  readTime:6,
+  content:`
 <p>Tennessee homeowners know firsthand how damaging hailstorms can be. East Tennessee experiences dozens of significant hail events every year, and a single storm can total a roof in under an hour. Class 4 impact-resistant (IR) shingles were specifically engineered to withstand hail and severe weather — but they cost more. This guide helps you decide whether the upgrade is worth it for your home.</p>
 <h3>What Is a Class 4 Impact-Resistant Shingle?</h3>
 <p>Impact resistance is rated by the UL 2218 standard. Shingles are shot with steel balls of different sizes from a specific height and inspected for cracking and splitting. Class 4 is the highest rating, achieved by withstanding a 2-inch steel ball dropped from 20 feet. Very few shingles achieve this — only those specifically engineered with reinforced substrates, rubber-modified asphalt, or SBS (styrene-butadiene-styrene) modification qualify.</p>
@@ -1093,25 +373,13 @@ a{color:inherit}
 <h4>Will Class 4 shingles completely prevent hail damage?</h4>
 <p>They significantly reduce the risk of penetration and functional damage, but extreme hail events (2.5"+ diameter) can still cause cosmetic damage. The key benefit is avoiding the cracking and granule loss that leads to leaks and shortened lifespan.</p>
 <p>Enix Exteriors installs Class 4 impact-resistant shingles from all major manufacturers. We'll verify your specific insurance discount before your installation so you can make a fully informed decision. Call us for a free consultation.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-9" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-9">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">Standing Seam Metal Roofing: Everything Tennessee Homeowners Need to Know</div>
-        <div class="article-read">8 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-9" style="padding-top:22px">
-    
+{
+  id:"9", category:"RESIDENTIAL ROOFING",
+  title:"Standing Seam Metal Roofing: Everything Tennessee Homeowners Need to Know",
+  readTime:8,
+  content:`
 <p>Standing seam metal roofing has become one of the fastest-growing segments of residential roofing across Tennessee. Homeowners in Knoxville, Oak Ridge, Maryville, and throughout East Tennessee are increasingly choosing metal for its unmatched longevity, superior weather resistance, and modern aesthetic. This guide covers everything you need to know before making the investment.</p>
 <h3>What Is Standing Seam Metal Roofing?</h3>
 <p>Standing seam metal roofing consists of long vertical panels that run from the ridge to the eave. The panels connect at raised seams that stand 1–2 inches above the panel flat — creating a waterproof interlock that eliminates exposed fasteners. The panels are typically made of steel (Galvalume® or Galvanized) or aluminum and coated with PVDF or SMP paint systems designed to resist UV fading and chalking for decades.</p>
@@ -1148,25 +416,13 @@ a{color:inherit}
 <h4>Can I install metal roofing over existing shingles?</h4>
 <p>In some cases, yes — but a full tear-off to inspect the decking is strongly recommended. Hidden decking damage is common in Tennessee, and installing over compromised sheathing voids most metal panel warranties.</p>
 <p>Enix Exteriors specializes in standing seam metal roofing installation across East Tennessee. Our crews are factory-trained and fully equipped for both snap-lock and mechanical seam systems. Call for a free estimate and material consultation.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-10" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-10">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">Roof Repair vs. Replacement: Making the Right Decision for Your Tennessee Home</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-10" style="padding-top:22px">
-    
+{
+  id:"10", category:"RESIDENTIAL ROOFING",
+  title:"Roof Repair vs. Replacement: Making the Right Decision for Your Tennessee Home",
+  readTime:6,
+  content:`
 <p>When a Tennessee homeowner discovers roof damage, the first question is almost always: "Do I need to replace the whole thing, or can I repair it?" The answer isn't always obvious — but it matters enormously for your budget, your home's protection, and your insurance situation. At Enix Exteriors, we inspect hundreds of Tennessee roofs every year and give homeowners honest assessments rather than defaulting to the most profitable option.</p>
 <h3>When Repair Is the Right Answer</h3>
 <ul>
@@ -1198,25 +454,13 @@ a{color:inherit}
 <h4>Will a repair affect my roofing warranty?</h4>
 <p>If the original contractor performs the repair, typically no. If a different contractor performs work on a manufacturer-warranty-covered roof, review the warranty terms carefully — some require that all work be performed by certified installers to maintain coverage.</p>
 <p>Enix Exteriors provides free honest roof assessments across Tennessee. We'll tell you exactly what we find, give you a written repair vs. replacement recommendation, and explain the reasoning. We don't upsell replacements when repairs are the right answer.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-11" data-category="RESIDENTIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-11">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">RESIDENTIAL ROOFING</span>
-        <div class="article-title">Annual Roof Inspection Checklist for Tennessee Homeowners</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-11" style="padding-top:22px">
-    
+{
+  id:"11", category:"RESIDENTIAL ROOFING",
+  title:"Annual Roof Inspection Checklist for Tennessee Homeowners",
+  readTime:5,
+  content:`
 <p>Your roof is the most important protective element of your Tennessee home, yet most homeowners never inspect it until a leak appears. Annual inspections — particularly after spring hail season and before winter — catch small problems before they become expensive emergencies. This checklist covers what to look for from both the ground and inside your attic.</p>
 <h3>Ground-Level Inspection (Safe — No Ladder Required)</h3>
 <ul>
@@ -1247,25 +491,16 @@ a{color:inherit}
 <h4>Are professional roof inspections expensive in Tennessee?</h4>
 <p>Enix Exteriors offers free roof inspections for Tennessee homeowners. Many reputable contractors in Tennessee do the same — take advantage of this before considering an insurance claim or repair decision.</p>
 <p>Contact Enix Exteriors to schedule your free professional roof inspection. We serve all of Knox County, Anderson County, Blount County, and the surrounding East Tennessee region.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-12" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-12">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">TPO vs. Modified Bitumen: Which Commercial Roof Is Right for Your Tennessee Building?</div>
-        <div class="article-read">7 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-12" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// COMMERCIAL ROOFING (12–19)
+// ════════════════════════════════════════════════════
+{
+  id:"12", category:"COMMERCIAL ROOFING",
+  title:"TPO vs. Modified Bitumen: Which Commercial Roof Is Right for Your Tennessee Building?",
+  readTime:7,
+  content:`
 <p>If you own or manage a commercial property in Tennessee with a flat or low-slope roof, you'll be choosing between the two dominant roofing systems: <strong>TPO (Thermoplastic Polyolefin)</strong> and <strong>Modified Bitumen</strong>. Both are proven systems with significant track records — but they serve different buildings, budgets, and priorities. The Enix Exteriors commercial roofing team has installed both extensively across East Tennessee, and this guide reflects real-world experience.</p>
 <h3>Understanding TPO Roofing</h3>
 <p>TPO is a single-ply membrane made from thermoplastic polyolefin — a synthetic rubber-like material rolled out in sheets and heat-welded at the seams. It's currently the most installed commercial roofing membrane in the United States, valued for its energy efficiency and cost-effectiveness.</p>
@@ -1309,25 +544,13 @@ a{color:inherit}
 <h4>What does commercial roof replacement cost in Tennessee?</h4>
 <p>Commercial roofing costs vary by system, building size, and access. TPO typically runs $5–$8 per sq ft installed; modified bitumen $6–$10 per sq ft. Large complex buildings with equipment and penetrations cost more. Contact Enix Exteriors for a site-specific assessment.</p>
 <p>Enix Exteriors installs TPO, modified bitumen, and EPDM commercial roofing systems across East Tennessee. We perform thorough pre-installation assessments and provide written warranties on all commercial work. Contact us for a free commercial roof inspection.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-13" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-13">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">EPDM Roofing: A Complete Guide for Tennessee Commercial Buildings</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-13" style="padding-top:22px">
-    
+{
+  id:"13", category:"COMMERCIAL ROOFING",
+  title:"EPDM Roofing: A Complete Guide for Tennessee Commercial Buildings",
+  readTime:6,
+  content:`
 <p>EPDM (Ethylene Propylene Diene Monomer) is a synthetic rubber roofing membrane that has been installed on commercial, institutional, and industrial buildings for over 50 years. While it has been largely eclipsed by TPO in new installations, EPDM remains a strong choice for many Tennessee commercial buildings — and understanding when it's the right system can save you significant money and headaches.</p>
 <h3>What Is EPDM Roofing?</h3>
 <p>EPDM is produced from ethylene and propylene, materials derived from oil and natural gas. It comes in large sheets (up to 50 feet wide) that are either fully adhered, mechanically fastened, or ballasted with smooth river stone. The material is black in standard form and requires a coating or cover board for energy efficiency — though white EPDM is now available from several manufacturers.</p>
@@ -1359,25 +582,13 @@ a{color:inherit}
 <h4>How is EPDM repaired when it leaks?</h4>
 <p>Most EPDM leaks occur at seams or penetrations. Repairs are made with EPDM seam tape, lap caulk, and liquid flashing — all materials that can be applied by a qualified commercial roofing contractor without full membrane replacement.</p>
 <p>Enix Exteriors inspects, repairs, and installs EPDM commercial roofing systems across Tennessee. If you're not sure whether your existing EPDM system can be repaired or needs replacement, our free commercial inspection will give you a clear, unbiased answer.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-14" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-14">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">Commercial Roof Coatings: Types, Benefits, and Cost in Tennessee</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-14" style="padding-top:22px">
-    
+{
+  id:"14", category:"COMMERCIAL ROOFING",
+  title:"Commercial Roof Coatings: Types, Benefits, and Cost in Tennessee",
+  readTime:6,
+  content:`
 <p>Commercial roof coatings represent one of the most cost-effective investments a Tennessee building owner can make. Rather than replacing an aging but structurally sound flat roof, a professionally applied coating can extend its life by 10–20 years, dramatically improve energy efficiency, and restore weatherproofing — often at 30–50% of replacement cost. Here's what every Tennessee commercial property owner should know.</p>
 <h3>What Are Commercial Roof Coatings?</h3>
 <p>A roof coating is a fluid-applied membrane applied over an existing roofing substrate. When properly applied, it forms a seamless, watertight layer that seals existing cracks and seams, reflects UV radiation, and bridges small gaps in the existing membrane. Coatings are not a substitute for a damaged structural system — they work best on roofs that are fundamentally sound but showing age or surface deterioration.</p>
@@ -1405,25 +616,13 @@ a{color:inherit}
 <h4>Do roof coatings qualify for energy tax incentives?</h4>
 <p>Reflective cool roof coatings (those meeting ENERGY STAR reflectance requirements) may qualify for Section 179D commercial energy tax deductions. Consult your tax advisor for the specific Tennessee application.</p>
 <p>Enix Exteriors evaluates Tennessee commercial roofs for coating candidacy with no cost or obligation. A core cut analysis and full moisture scan determines whether your roof is a good coating candidate — or whether replacement is the better investment. Contact us to schedule your commercial assessment.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-15" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-15">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">Flat Roof Drainage: Solving Ponding Water Problems on Tennessee Commercial Roofs</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-15" style="padding-top:22px">
-    
+{
+  id:"15", category:"COMMERCIAL ROOFING",
+  title:"Flat Roof Drainage: Solving Ponding Water Problems on Tennessee Commercial Roofs",
+  readTime:5,
+  content:`
 <p>Ponding water — standing water that remains on a flat or low-slope roof more than 48 hours after rain — is the leading cause of premature commercial roof failure in Tennessee. The state's 50+ inches of annual rainfall creates persistent drainage challenges, and ignoring ponding water can accelerate membrane degradation, compress insulation (reducing R-value), and lead to structural overloading. Here's how to identify, diagnose, and solve ponding water problems.</p>
 <h3>Why Ponding Water Damages Commercial Roofs</h3>
 <ul>
@@ -1457,25 +656,13 @@ a{color:inherit}
 <h4>Who is responsible for flat roof drainage design?</h4>
 <p>The architect and structural engineer who designed the building are responsible for original drainage design. When modifications or additions have been made, the contractor who performed those changes may bear responsibility for drainage problems they introduced.</p>
 <p>Enix Exteriors diagnoses and solves commercial roof drainage problems across Tennessee. Our commercial team performs comprehensive drainage assessments and recommends the most cost-effective solution for your specific building. Schedule a free commercial inspection today.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-16" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-16">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">Commercial Roof Maintenance Plans: What to Include and Why They Matter</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-16" style="padding-top:22px">
-    
+{
+  id:"16", category:"COMMERCIAL ROOFING",
+  title:"Commercial Roof Maintenance Plans: What to Include and Why They Matter",
+  readTime:5,
+  content:`
 <p>Commercial roofs in Tennessee represent a significant capital investment — often $50,000 to several hundred thousand dollars for larger buildings. Yet most commercial building owners have no formal maintenance plan, relying instead on reactive repair when something goes wrong. This approach consistently leads to premature roof failure, avoidable emergency repair costs, and shortened roof lifespan. A structured maintenance program pays for itself many times over.</p>
 <h3>What a Commercial Roof Maintenance Plan Should Include</h3>
 <h4>Semi-Annual Professional Inspections (Spring and Fall)</h4>
@@ -1496,25 +683,13 @@ a{color:inherit}
 <h4>What's the typical cost of a commercial roof maintenance program in Tennessee?</h4>
 <p>Enix Exteriors commercial maintenance programs typically range from $800–$3,000 annually depending on building size and system type. Multi-building portfolios receive volume pricing.</p>
 <p>Enix Exteriors offers customized commercial roof maintenance programs for Tennessee property owners and managers. Contact our commercial division for a maintenance program quote specific to your building's system and size.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-17" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-17">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">How Long Does a Commercial Roof Last in Tennessee?</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-17" style="padding-top:22px">
-    
+{
+  id:"17", category:"COMMERCIAL ROOFING",
+  title:"How Long Does a Commercial Roof Last in Tennessee?",
+  readTime:5,
+  content:`
 <p>Commercial building owners often ask "how long should my roof last?" before making replacement or repair decisions. The answer depends significantly on the roofing system installed, the installation quality, the maintenance history, and Tennessee's specific climate demands. Here's what you can realistically expect from each major commercial roofing system in our region.</p>
 <h3>Expected Lifespan by Commercial Roofing System</h3>
 <ul>
@@ -1548,25 +723,13 @@ a{color:inherit}
 <h4>Can a commercial roof in Tennessee be coated to extend its life?</h4>
 <p>Yes — if the substrate is sound and dry, silicone or acrylic coatings can add 10–20 years of life at a fraction of replacement cost. See our article on commercial roof coatings for details.</p>
 <p>Enix Exteriors provides comprehensive commercial roof assessments across Tennessee — including core sampling and moisture analysis — to give you an accurate picture of your roof's remaining useful life and the most cost-effective path forward.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-18" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-18">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">TPO Roofing Installation: What Tennessee Property Owners Should Expect</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-18" style="padding-top:22px">
-    
+{
+  id:"18", category:"COMMERCIAL ROOFING",
+  title:"TPO Roofing Installation: What Tennessee Property Owners Should Expect",
+  readTime:5,
+  content:`
 <p>Understanding what a professional TPO installation involves helps you evaluate contractor proposals, ask the right questions, and identify shortcuts that could compromise your new roof's performance. A properly installed TPO system on a Tennessee commercial building can last 20–25 years; a poorly installed one may fail within 5–7 years. Here's what quality TPO installation looks like from start to finish.</p>
 <h3>Pre-Installation Assessment</h3>
 <p>Before any material is ordered or installed, a professional contractor should:</p>
@@ -1599,25 +762,13 @@ a{color:inherit}
 <h4>Can a TPO roof be installed in winter in East Tennessee?</h4>
 <p>TPO can be installed year-round, but very cold temperatures affect heat welding quality. Experienced crews use indoor-heated equipment and may need to tent areas in extreme cold. Most contractors prefer installation above 40°F.</p>
 <p>Enix Exteriors commercial crews are factory-trained TPO installers. We use 60-mil membrane as our standard, document all weld testing, and provide comprehensive manufacturer warranty enrollment on all qualifying installations.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-19" data-category="COMMERCIAL ROOFING">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-19">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">COMMERCIAL ROOFING</span>
-        <div class="article-title">Commercial vs. Residential Roofing: Key Differences Tennessee Property Owners Should Know</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-19" style="padding-top:22px">
-    
+{
+  id:"19", category:"COMMERCIAL ROOFING",
+  title:"Commercial vs. Residential Roofing: Key Differences Tennessee Property Owners Should Know",
+  readTime:5,
+  content:`
 <p>Many Tennessee property owners manage both commercial and residential properties — and some assume the two types of roofing are similar. They're not. Commercial and residential roofing involve fundamentally different materials, installation methods, building codes, contractor qualifications, and warranty structures. Understanding the differences helps you ask the right questions and hire contractors with the right expertise for each project.</p>
 <h3>Slope and Design</h3>
 <p><strong>Residential roofing</strong> is almost always steep-slope (4/12 pitch or greater), which sheds water quickly by gravity. Asphalt shingles, metal panels, and tile work on steep slopes because water doesn't sit on the surface long enough to penetrate laps and seams.</p>
@@ -1639,25 +790,16 @@ a{color:inherit}
 <p>For simple commercial projects (small flat roofs, metal accents, etc.), possibly. But complex commercial systems — TPO, EPDM, modified bitumen — require specific training and equipment that most residential roofers don't have. Always verify commercial experience specifically.</p>
 <h4>Does Enix Exteriors handle both commercial and residential roofing in Tennessee?</h4>
 <p>Yes. Enix Exteriors maintains dedicated residential and commercial roofing divisions with separate crews trained for each type of work. We do not cross-train residential crews onto complex commercial systems or vice versa.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-20" data-category="STORM DAMAGE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-20">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">STORM DAMAGE</span>
-        <div class="article-title">What to Do Immediately After Storm Damage to Your Tennessee Roof</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-20" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// STORM DAMAGE (20–25)
+// ════════════════════════════════════════════════════
+{
+  id:"20", category:"STORM DAMAGE",
+  title:"What to Do Immediately After Storm Damage to Your Tennessee Roof",
+  readTime:6,
+  content:`
 <p>East Tennessee experiences dozens of significant storm events every year — severe thunderstorms, hailstorms, high winds, and occasional tornadoes. When your property is hit, the next several hours are critical. Acting correctly can mean the difference between a fully covered insurance claim and a denied or reduced settlement. Here's the step-by-step guide Enix Exteriors gives every Tennessee homeowner who calls after a storm.</p>
 <h3>Step 1: Ensure Your Family's Safety First</h3>
 <p>Before doing anything else, verify your home is safe to be in. If the storm caused structural damage — sagging ceilings, cracked walls, visible roof sections missing — evacuate and call your utility company if downed power lines are a concern. Do not go onto your roof, especially while it's wet or structurally compromised.</p>
@@ -1694,25 +836,13 @@ a{color:inherit}
 <h4>What if the storm damaged my neighbor's property but not obviously mine?</h4>
 <p>Hail damage is not always visible to the untrained eye from the ground. If your neighbors experienced damage and you're in the same hail swath, your roof may also be damaged. A free professional inspection will confirm either way — don't assume you're fine without having it checked.</p>
 <p>Enix Exteriors provides 24/7 emergency storm response and free storm damage inspections across Tennessee. Call us immediately after any significant storm event for a professional assessment and insurance claim guidance.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-21" data-category="STORM DAMAGE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-21">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">STORM DAMAGE</span>
-        <div class="article-title">Hail Damage and Your Tennessee Roof: What Every Homeowner Needs to Know</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-21" style="padding-top:22px">
-    
+{
+  id:"21", category:"STORM DAMAGE",
+  title:"Hail Damage and Your Tennessee Roof: What Every Homeowner Needs to Know",
+  readTime:6,
+  content:`
 <p>Tennessee sits in a region that sees some of the most frequent and severe hailstorms in the eastern United States. Hail the size of quarters can total a roof that looks perfectly fine from the street. Understanding what hail damage looks like — and why it matters even when invisible — is essential for every Tennessee property owner.</p>
 <h3>How Hail Damages Asphalt Shingles</h3>
 <p>When hailstones strike an asphalt shingle, they dislodge granules from the shingle's surface. These granules are not decorative — they are the primary UV protection for the asphalt layer beneath. Without them:</p>
@@ -1746,25 +876,13 @@ a{color:inherit}
 <h4>Can hail damage be repaired, or does the whole roof need replacing?</h4>
 <p>When hail damage exceeds 25–30% of the roof surface (which is common in significant storms), replacement is typically the appropriate scope. Widespread granule loss cannot be patched — it's a systemic impairment requiring replacement to restore the roof to its pre-storm condition.</p>
 <p>Enix Exteriors has documented and managed hundreds of hail damage insurance claims across Tennessee. We know exactly what adjusters look for and how to ensure your claim accurately reflects the damage your property sustained. Contact us for a free post-storm inspection.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-22" data-category="STORM DAMAGE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-22">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">STORM DAMAGE</span>
-        <div class="article-title">Wind Damage Roof Inspection: A Step-by-Step Guide for Tennessee Homeowners</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-22" style="padding-top:22px">
-    
+{
+  id:"22", category:"STORM DAMAGE",
+  title:"Wind Damage Roof Inspection: A Step-by-Step Guide for Tennessee Homeowners",
+  readTime:5,
+  content:`
 <p>Tennessee regularly experiences high-wind events — from spring derecho storms to tornado-adjacent straight-line winds to sustained thunderstorm gusts. Wind damage to roofs doesn't always announce itself with a dramatic missing section. Often it's subtle: lifted tabs, compromised adhesive strips, or loosened flashing that create slow leaks months later. Here's how to inspect your Tennessee roof for wind damage after any significant wind event.</p>
 <h3>Safe Ground-Level Wind Damage Inspection</h3>
 <p>Never go onto your roof after a storm without professional safety training. Conduct your initial inspection from the ground with binoculars if available:</p>
@@ -1798,25 +916,13 @@ a{color:inherit}
 <h4>My shingles were old before the storm — will insurance still cover wind damage?</h4>
 <p>Possibly, under an ACV (Actual Cash Value) policy that accounts for depreciation, or fully under an RCV (Replacement Cost Value) policy. Old age alone doesn't disqualify a claim — the damage must have resulted from the covered storm event.</p>
 <p>Enix Exteriors performs free wind damage inspections across Tennessee. We document all damage in writing with photos and help you navigate the insurance claim process from inspection through final installation.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-23" data-category="STORM DAMAGE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-23">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">STORM DAMAGE</span>
-        <div class="article-title">Emergency Roof Tarping: When You Need It and What It Costs in Tennessee</div>
-        <div class="article-read">4 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-23" style="padding-top:22px">
-    
+{
+  id:"23", category:"STORM DAMAGE",
+  title:"Emergency Roof Tarping: When You Need It and What It Costs in Tennessee",
+  readTime:4,
+  content:`
 <p>When a Tennessee storm leaves your roof with active openings — missing sections, broken skylights, damaged flashing creating streams of water — emergency tarping is the immediate solution that protects your home's interior while permanent repairs are planned and scheduled. Understanding when tarping is necessary, what it should include, and how to handle it correctly for insurance purposes can save you thousands in interior water damage costs.</p>
 <h3>When Emergency Tarping Is Necessary</h3>
 <ul>
@@ -1847,25 +953,13 @@ a{color:inherit}
 <h4>How long can my roof stay tarped before permanent repair?</h4>
 <p>A properly installed professional tarp can protect a roof for 30–90 days. However, longer is not better — tarps can trap moisture, shift in wind, and degrade in UV. Permanent repair should begin as soon as possible after your insurance claim is filed and approved.</p>
 <p>Enix Exteriors provides 24/7 emergency storm response and tarping across Tennessee. Call us immediately after any storm event that results in active water intrusion — we'll be there quickly and document everything for your insurance claim.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-24" data-category="STORM DAMAGE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-24">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">STORM DAMAGE</span>
-        <div class="article-title">Preparing Your Tennessee Roof for Storm Season</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-24" style="padding-top:22px">
-    
+{
+  id:"24", category:"STORM DAMAGE",
+  title:"Preparing Your Tennessee Roof for Storm Season",
+  readTime:5,
+  content:`
 <p>Tennessee's severe weather season doesn't follow a neat calendar — significant storms can hit from February through November, with peak activity in spring (March–June) and a secondary fall season (September–October). The best strategy for protecting your roof is proactive preparation: addressing vulnerabilities before the storms come, rather than after. This guide walks through what Tennessee homeowners can do to minimize storm damage risk.</p>
 <h3>Pre-Season Roof Inspection (February and August)</h3>
 <p>Have your roof professionally inspected twice annually — once in late winter before spring storm season, and once in late summer before the fall season. A professional inspector will identify:</p>
@@ -1890,25 +984,13 @@ a{color:inherit}
 <h4>Is storm damage prevention worth the investment?</h4>
 <p>Absolutely. Fixing a $200 flashing issue before storm season prevents a $5,000+ interior water damage repair. Pre-season maintenance on a $15,000 roof is consistently one of the highest-return investments a Tennessee homeowner can make.</p>
 <p>Enix Exteriors offers pre-storm season inspection and maintenance services across Tennessee. Contact us in late winter and late summer to schedule your proactive inspection — early booking fills quickly ahead of storm season.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-25" data-category="STORM DAMAGE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-25">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">STORM DAMAGE</span>
-        <div class="article-title">Storm Damage vs. Normal Wear: How to Tell the Difference on Your Tennessee Roof</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-25" style="padding-top:22px">
-    
+{
+  id:"25", category:"STORM DAMAGE",
+  title:"Storm Damage vs. Normal Wear: How to Tell the Difference on Your Tennessee Roof",
+  readTime:5,
+  content:`
 <p>One of the most common disputes in Tennessee roofing insurance claims is whether damage was caused by a storm or by normal aging and wear. Insurance companies cover sudden storm damage but deny claims for gradual deterioration — and the line between the two is not always obvious. Understanding how professionals distinguish storm damage from normal wear helps you document your claim effectively and avoid a wrongful denial.</p>
 <h3>Characteristics of Storm Damage</h3>
 <h4>Hail Damage Markers</h4>
@@ -1941,25 +1023,16 @@ a{color:inherit}
 <h4>Can I dispute an adjuster's finding that my damage is wear and tear?</h4>
 <p>Yes. You can request a re-inspection, hire a public adjuster, or submit a contractor's written damage assessment that contradicts the adjuster's finding. If still denied, Tennessee has an insurance commissioner complaint process and you can pursue legal remedies.</p>
 <p>Enix Exteriors has extensive experience documenting storm damage for Tennessee insurance claims and clearly distinguishing storm impact from pre-existing conditions. Our detailed written reports carry weight with insurance adjusters and, when needed, with insurance commissioners.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-26" data-category="INSURANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-26">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">INSURANCE</span>
-        <div class="article-title">Navigating Insurance Claims for Roof Storm Damage in Tennessee</div>
-        <div class="article-read">7 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-26" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// INSURANCE (26–30)
+// ════════════════════════════════════════════════════
+{
+  id:"26", category:"INSURANCE",
+  title:"Navigating Insurance Claims for Roof Storm Damage in Tennessee",
+  readTime:7,
+  content:`
 <p>A successful insurance claim for storm damage in Tennessee requires more than just calling your insurer. The claims process is designed to be navigated — and property owners who understand it consistently receive better outcomes than those who passively accept the first offer. The Enix Exteriors team has assisted with hundreds of Tennessee insurance claims. Here's what works.</p>
 <h3>Is Your Damage Covered?</h3>
 <p>Standard Tennessee homeowner's policies cover <strong>sudden and accidental</strong> storm damage — hail, wind, lightning, tornadoes, and fire. They do <strong>not</strong> cover:</p>
@@ -1995,25 +1068,13 @@ a{color:inherit}
 <h4>Should I use a public adjuster for my Tennessee roof claim?</h4>
 <p>For complex claims, large losses, or denied/underpaid claims, a licensed public adjuster can add value — they typically work on 10–15% contingency. For straightforward claims with a cooperative insurer, an experienced roofing contractor can guide the process without the added cost.</p>
 <p>Enix Exteriors assists Tennessee property owners through every step of the insurance claims process — from free initial inspection through final installation. We do not charge for claims assistance or adjuster meetings. Call us after any storm event.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-27" data-category="INSURANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-27">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">INSURANCE</span>
-        <div class="article-title">ACV vs. RCV Insurance Coverage: Which Is Better for Your Tennessee Roof?</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-27" style="padding-top:22px">
-    
+{
+  id:"27", category:"INSURANCE",
+  title:"ACV vs. RCV Insurance Coverage: Which Is Better for Your Tennessee Roof?",
+  readTime:5,
+  content:`
 <p>When Tennessee homeowners file a roof insurance claim, the most important factor in how much money they receive isn't the extent of the damage — it's the type of coverage in their policy. Actual Cash Value (ACV) and Replacement Cost Value (RCV) produce dramatically different settlement amounts for the same damage. Understanding the difference before you need to file can save you tens of thousands of dollars.</p>
 <h3>How Actual Cash Value (ACV) Works</h3>
 <p>ACV pays you the value of your roof at the time of the loss — meaning the original cost minus depreciation. Insurance companies calculate depreciation based on the material's expected lifespan and current age.</p>
@@ -2037,25 +1098,13 @@ a{color:inherit}
 <h4>My insurer sent me an ACV check but says more is available — what does that mean?</h4>
 <p>Under an RCV policy, the initial payment is ACV. The "recoverable depreciation" (the holdback amount) is released when you provide your insurance company with documentation that the repairs were completed by a licensed contractor. Complete the repairs and submit your contractor's invoice and certificate of completion.</p>
 <p>Enix Exteriors helps Tennessee homeowners understand their policy coverage and maximize their legitimate claim amount. We provide documentation for both initial ACV payments and depreciation holdback releases. Call us for guidance on any storm damage claim.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-28" data-category="INSURANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-28">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">INSURANCE</span>
-        <div class="article-title">How to Document Roof Damage for Your Tennessee Insurance Claim</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-28" style="padding-top:22px">
-    
+{
+  id:"28", category:"INSURANCE",
+  title:"How to Document Roof Damage for Your Tennessee Insurance Claim",
+  readTime:5,
+  content:`
 <p>A successful roof insurance claim in Tennessee lives or dies on documentation. Adjusters make decisions based on evidence — photos, written assessments, storm records, and contractor estimates. Property owners who document thoroughly almost always receive better claim outcomes than those who rely on the adjuster alone. Here's how to build an ironclad documentation file for any Tennessee roof claim.</p>
 <h3>Immediate Post-Storm Documentation</h3>
 <p>Begin documenting as soon as it's safe to do so — before any cleanup, tarping, or repair:</p>
@@ -2094,25 +1143,13 @@ a{color:inherit}
 <h4>What if I don't have photos from immediately after the storm?</h4>
 <p>It's not ideal, but not disqualifying. The NWS storm record, your contractor's assessment, and the physical evidence still present on the roof are all meaningful evidence. Act as soon as possible — waiting longer allows more evidence to degrade.</p>
 <p>Enix Exteriors performs thorough, documented roof inspections across Tennessee that include detailed written reports with photographs specifically prepared to support insurance claims. Our documentation is accepted by all major insurers. Contact us for a free inspection.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-29" data-category="INSURANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-29">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">INSURANCE</span>
-        <div class="article-title">What to Do If Your Tennessee Roof Insurance Claim Is Denied</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-29" style="padding-top:22px">
-    
+{
+  id:"29", category:"INSURANCE",
+  title:"What to Do If Your Tennessee Roof Insurance Claim Is Denied",
+  readTime:5,
+  content:`
 <p>Insurance claim denials are frustrating — and in Tennessee, they happen more often than homeowners expect. But a denial is not necessarily the final word. Many denied roof claims in Tennessee can be successfully appealed, and homeowners who understand the process have recovered full replacement settlements on initially denied claims. Here's what to do if your claim is denied.</p>
 <h3>Understand Why the Claim Was Denied</h3>
 <p>Your insurer is required to provide a written explanation for the denial. Common denial reasons include:</p>
@@ -2144,25 +1181,13 @@ a{color:inherit}
 <h4>How long do I have to appeal a denied Tennessee roof insurance claim?</h4>
 <p>Policy terms vary — typically 1–2 years from the denial date for filing suit. However, the sooner you appeal, the stronger your case. Evidence degrades over time, and storm documentation becomes harder to obtain.</p>
 <p>Enix Exteriors has experience providing detailed documentation packages for denied Tennessee claims and can recommend licensed public adjusters for complex situations. Call us for a second professional opinion on any denied claim.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-30" data-category="INSURANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-30">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">INSURANCE</span>
-        <div class="article-title">Assignment of Benefits (AOB): Why Tennessee Homeowners Should Never Sign One</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-30" style="padding-top:22px">
-    
+{
+  id:"30", category:"INSURANCE",
+  title:"Assignment of Benefits (AOB): Why Tennessee Homeowners Should Never Sign One",
+  readTime:5,
+  content:`
 <p>After a major storm in Tennessee, door-to-door roofing contractors frequently ask homeowners to sign an "Assignment of Benefits" (AOB) or "Direction to Pay" agreement. This document transfers your insurance rights to the contractor, allowing them to file, negotiate, and collect your insurance settlement directly. Understanding what you're signing — and why it's almost always a bad idea — can protect you from one of the most significant post-storm financial risks Tennessee homeowners face.</p>
 <h3>What an AOB Agreement Actually Does</h3>
 <p>When you sign an AOB, you legally transfer your rights under your insurance policy to the contractor. This means:</p>
@@ -2196,25 +1221,16 @@ a{color:inherit}
 <h4>What if I already signed an AOB — can I cancel it?</h4>
 <p>Tennessee's three-day right of rescission for home solicitation contracts may apply if the contractor came to your door and work has not yet started. Consult a Tennessee attorney immediately for guidance specific to your situation.</p>
 <p>Enix Exteriors assists Tennessee homeowners through the entire insurance claims process — from inspection through final installation — without requiring an Assignment of Benefits. We believe your rights are your own. Call us for honest claims guidance.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-31" data-category="MAINTENANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-31">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">MAINTENANCE</span>
-        <div class="article-title">Gutter Maintenance 101: Protecting Your Tennessee Home from Water Damage</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-31" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// MAINTENANCE & GUTTERS (31–35)
+// ════════════════════════════════════════════════════
+{
+  id:"31", category:"MAINTENANCE",
+  title:"Gutter Maintenance 101: Protecting Your Tennessee Home from Water Damage",
+  readTime:5,
+  content:`
 <p>Gutters are one of the most overlooked components of Tennessee home maintenance — and one of the most consequential when neglected. Tennessee averages over 50 inches of rainfall per year (well above the national average), and without properly functioning gutters, all that water runs directly down your walls and pools around your foundation. The result: foundation cracking, basement flooding, siding rot, and even roof damage. Here's what every Tennessee homeowner needs to know.</p>
 <h3>How Often to Clean Tennessee Gutters</h3>
 <p>The general recommendation for most Tennessee homeowners:</p>
@@ -2244,25 +1260,13 @@ a{color:inherit}
 <h4>Are gutter guards worth it for Tennessee homeowners?</h4>
 <p>For homes with significant tree coverage — common in East Tennessee — quality micro-mesh gutter guards can dramatically reduce cleaning frequency. See our dedicated gutter guard article for an honest evaluation of what works and what doesn't.</p>
 <p>Enix Exteriors installs seamless gutters, gutter guards, and downspout extensions across Tennessee. We also repair damaged gutters and fascia as part of our comprehensive exterior services. Call for a free gutter inspection.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-32" data-category="MAINTENANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-32">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">MAINTENANCE</span>
-        <div class="article-title">Seamless vs. Sectional Gutters: Which Is the Better Investment for Tennessee Homes?</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-32" style="padding-top:22px">
-    
+{
+  id:"32", category:"MAINTENANCE",
+  title:"Seamless vs. Sectional Gutters: Which Is the Better Investment for Tennessee Homes?",
+  readTime:5,
+  content:`
 <p>If your gutters are reaching the end of their life — leaking at joints, pulling away from the fascia, or showing significant rust — you're facing a replacement decision: sectional or seamless? For most Tennessee homeowners, the choice is clear, but understanding the trade-offs helps you make an informed investment and ask your contractor the right questions.</p>
 <h3>How Sectional Gutters Work (and Where They Fail)</h3>
 <p>Sectional gutters come pre-cut in 10-foot sections from a hardware store or building supply. They're connected on-site with slip-joint connectors sealed with gutter sealant or caulk. The connection points are the fundamental weakness of the system:</p>
@@ -2295,25 +1299,13 @@ a{color:inherit}
 <h4>How long does seamless gutter installation take?</h4>
 <p>For most Tennessee homes, a complete seamless gutter installation takes 1 day. The machine forms gutters on-site to exact lengths, and an experienced crew can install 200–400 linear feet per day.</p>
 <p>Enix Exteriors custom-forms seamless aluminum gutters on-site for Tennessee homeowners. We offer 20+ color options, 5" and 6" profiles, and gutter guard integration. Contact us for a free gutter inspection and estimate.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-33" data-category="MAINTENANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-33">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">MAINTENANCE</span>
-        <div class="article-title">Gutter Guards: An Honest Review for Tennessee Homeowners</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-33" style="padding-top:22px">
-    
+{
+  id:"33", category:"MAINTENANCE",
+  title:"Gutter Guards: An Honest Review for Tennessee Homeowners",
+  readTime:5,
+  content:`
 <p>Gutter guard systems are marketed with bold promises — "never clean your gutters again" — that are often overstated. But that doesn't mean all gutter guards are ineffective. For Tennessee homeowners with significant tree coverage, the right system can dramatically reduce cleaning frequency and prevent expensive clog-related damage. Here's an honest, unbiased assessment of what works and what doesn't in Tennessee's specific environment.</p>
 <h3>Why Tennessee Homes Particularly Benefit from Gutter Guards</h3>
 <p>East Tennessee's forested landscape means most residential properties have significant tree canopy. Oak leaves, pine needles, sweet gum balls, maple seeds, and various deciduous debris are a constant challenge for gutters in Knox, Anderson, Blount, and surrounding counties. Without protection, gutters may need cleaning 3–4 times per year — creating cost, ladder risk, and potential clog damage between cleanings.</p>
@@ -2334,25 +1326,13 @@ a{color:inherit}
 <h4>Do gutter guards affect ice dam formation in East Tennessee winters?</h4>
 <p>Some designs can trap ice at the gutter edge in freeze-thaw conditions. Micro-mesh systems typically perform adequately in East Tennessee's moderate winter climate, but should be discussed with your contractor for steep-pitch or north-facing installations.</p>
 <p>Enix Exteriors installs and recommends gutter guard systems appropriate for your home's specific tree coverage, roof type, and budget. We provide honest assessments — including when guards may not be the best investment for your situation. Call for a free consultation.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-34" data-category="MAINTENANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-34">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">MAINTENANCE</span>
-        <div class="article-title">When to Replace Your Gutters: Signs, Costs, and Options for Tennessee Homeowners</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-34" style="padding-top:22px">
-    
+{
+  id:"34", category:"MAINTENANCE",
+  title:"When to Replace Your Gutters: Signs, Costs, and Options for Tennessee Homeowners",
+  readTime:5,
+  content:`
 <p>Gutters typically last 20–30 years in Tennessee, but their lifespan depends heavily on material quality, installation, and maintenance history. Knowing when to repair vs. replace — and what replacement involves — helps you make a cost-effective decision that protects your home for years to come.</p>
 <h3>Clear Signs Your Tennessee Gutters Need Replacement</h3>
 <ul>
@@ -2387,25 +1367,13 @@ a{color:inherit}
 <h4>Does homeowner's insurance cover gutter damage in Tennessee?</h4>
 <p>Storm damage to gutters (from hail, wind, or falling branches) is typically covered. Normal aging and rust are not. Document any storm-related gutter damage as part of your overall storm damage claim.</p>
 <p>Enix Exteriors replaces gutters, fascia, and soffit across Tennessee as part of our comprehensive exterior services. We provide free estimates and can package gutter work with roofing projects for maximum efficiency. Call us for a free inspection.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-35" data-category="MAINTENANCE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-35">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">MAINTENANCE</span>
-        <div class="article-title">Seasonal Roof Maintenance Calendar for Tennessee Homeowners</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-35" style="padding-top:22px">
-    
+{
+  id:"35", category:"MAINTENANCE",
+  title:"Seasonal Roof Maintenance Calendar for Tennessee Homeowners",
+  readTime:5,
+  content:`
 <p>Your Tennessee roof faces distinct challenges in each season. Summer's intense UV and heat, fall's heavy leaf and debris loading, winter's freeze-thaw cycles, and spring's severe storm season all stress your roofing system in different ways. A structured seasonal maintenance routine keeps small problems small — and prevents a $300 repair from becoming a $15,000 emergency. Here's the calendar Enix Exteriors recommends for all Tennessee homeowners.</p>
 <h3>Winter (December–February): Monitor and Prepare</h3>
 <ul>
@@ -2443,25 +1411,16 @@ a{color:inherit}
 <h4>Can I do my own roof maintenance, or should I always use a professional?</h4>
 <p>Gutter cleaning and ground-level inspections are appropriate for homeowners comfortable with ladder safety. Anything requiring going on the roof should be left to professionals with proper safety equipment and training.</p>
 <p>Contact Enix Exteriors to set up a seasonal inspection schedule for your Tennessee home or commercial property. Regular professional oversight is the single most effective way to maximize your roof's lifespan.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-36" data-category="ROOF COMPONENTS">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-36">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">ROOF COMPONENTS</span>
-        <div class="article-title">Understanding Roof Warranties: What Every Tennessee Property Owner Should Know</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-36" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// ROOF COMPONENTS (36–41)
+// ════════════════════════════════════════════════════
+{
+  id:"36", category:"ROOF COMPONENTS",
+  title:"Understanding Roof Warranties: What Every Tennessee Property Owner Should Know",
+  readTime:6,
+  content:`
 <p>A roofing warranty is only as valuable as what it actually covers and the party who stands behind it. Many Tennessee property owners are surprised — after experiencing a roofing problem — to discover their warranty doesn't cover what they thought. Understanding the types of coverage, what voids them, and what questions to ask before signing a contract prevents this costly surprise.</p>
 <h3>The Two Types of Roofing Warranties</h3>
 <h4>1. Manufacturer (Material) Warranties</h4>
@@ -2511,25 +1470,13 @@ a{color:inherit}
 <h4>Does my Tennessee homeowner's insurance replace my roofing warranty?</h4>
 <p>No — they cover different things. Insurance covers sudden damage events (storms, fire). Warranties cover manufacturing defects and workmanship errors. Both are important and neither substitutes for the other.</p>
 <p>Enix Exteriors is certified by all major shingle manufacturers and provides enhanced system warranties on qualifying installations. We provide complete written warranty documentation at project completion — no fine-print surprises.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-37" data-category="ROOF COMPONENTS">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-37">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">ROOF COMPONENTS</span>
-        <div class="article-title">Roofing Underlayment: Types, Purpose, and Why It Matters for Tennessee Roofs</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-37" style="padding-top:22px">
-    
+{
+  id:"37", category:"ROOF COMPONENTS",
+  title:"Roofing Underlayment: Types, Purpose, and Why It Matters for Tennessee Roofs",
+  readTime:5,
+  content:`
 <p>Underlayment is the layer of protective material installed directly on the roof deck before shingles or metal panels are applied. Most Tennessee homeowners never think about underlayment — it's invisible in a finished roof. But it's one of the most critical layers in your roofing system, providing backup waterproofing if shingles fail, protecting the deck during installation, and contributing to wind and fire resistance ratings. Choosing the right underlayment matters.</p>
 <h3>The Three Types of Roofing Underlayment</h3>
 <h4>1. Asphalt-Saturated Felt (Traditional)</h4>
@@ -2559,25 +1506,13 @@ a{color:inherit}
 <h4>Does underlayment matter if I'm installing metal roofing?</h4>
 <p>Absolutely. Metal roofing installations require high-temperature synthetic underlayment (not standard synthetic) due to the intense heat metal transfers to the deck. Standard synthetic and felt underlayment will degrade rapidly under metal panels.</p>
 <p>Every Enix Exteriors installation uses premium synthetic underlayment and code-compliant ice-and-water shield — no felt shortcuts. We'll specify exactly what underlayment we're using in your written estimate.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-38" data-category="ROOF COMPONENTS">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-38">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">ROOF COMPONENTS</span>
-        <div class="article-title">Roof Flashing: The Leading Cause of Roof Leaks in Tennessee Homes</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-38" style="padding-top:22px">
-    
+{
+  id:"38", category:"ROOF COMPONENTS",
+  title:"Roof Flashing: The Leading Cause of Roof Leaks in Tennessee Homes",
+  readTime:5,
+  content:`
 <p>If someone tells you your Tennessee roof is leaking, there's a better-than-even chance the culprit is flashing — not a failed shingle. Flashing is the metal or polymer material used to seal transitions and joints in your roofing system: around chimneys, at valleys, where the roof meets walls, around skylights and pipe penetrations. It's the most technically demanding part of any roof installation, and it's the most common failure point. Understanding flashing helps you recognize problems early and evaluate whether your contractor is doing it right.</p>
 <h3>Where Roof Flashing Is Used</h3>
 <ul>
@@ -2612,25 +1547,13 @@ a{color:inherit}
 <h4>How much does chimney flashing repair cost in Tennessee?</h4>
 <p>Chimney flashing repair ranges from $200–$600 for simple step flashing repairs to $800–$2,000 for full chimney reflashing with a new cricket. The cost is almost always less than the interior water damage that results from ignoring it.</p>
 <p>Enix Exteriors uses galvanized steel and aluminum flashing on all installations — no caulk-only shortcuts. Our flashing installations follow IRC specifications and manufacturer requirements. Call for a free leak diagnosis and flashing assessment.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-39" data-category="ROOF COMPONENTS">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-39">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">ROOF COMPONENTS</span>
-        <div class="article-title">Attic Ventilation: Why It Matters More Than You Think for Tennessee Roofs</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-39" style="padding-top:22px">
-    
+{
+  id:"39", category:"ROOF COMPONENTS",
+  title:"Attic Ventilation: Why It Matters More Than You Think for Tennessee Roofs",
+  readTime:5,
+  content:`
 <p>Attic ventilation is one of the most misunderstood and overlooked aspects of residential roofing in Tennessee. Most homeowners think of ventilation as an energy efficiency feature — and it is — but it's equally important for your roof's structural longevity, shingle lifespan, and moisture management. Poor attic ventilation is directly linked to premature shingle failure, mold growth, and ice dam formation — all costly problems in Tennessee's climate.</p>
 <h3>How Attic Ventilation Works</h3>
 <p>Proper attic ventilation uses a balanced intake and exhaust system:</p>
@@ -2665,25 +1588,13 @@ a{color:inherit}
 <h4>Should I add a powered attic ventilator in Tennessee?</h4>
 <p>In most cases, a properly designed passive system (soffit + ridge vents) outperforms powered ventilators and avoids the risk of depressurizing the attic and drawing conditioned air from the living space. Consult a roofing professional before adding power ventilation to an existing system.</p>
 <p>Enix Exteriors assesses and corrects attic ventilation as part of every Tennessee roofing installation. We won't install a new roof over inadequate ventilation — it would shorten the lifespan of the very product we're warranting. Call for a free ventilation assessment.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-40" data-category="ROOF COMPONENTS">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-40">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">ROOF COMPONENTS</span>
-        <div class="article-title">Fascia, Soffit, and Drip Edge: Your Tennessee Roof's Support System Explained</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-40" style="padding-top:22px">
-    
+{
+  id:"40", category:"ROOF COMPONENTS",
+  title:"Fascia, Soffit, and Drip Edge: Your Tennessee Roof's Support System Explained",
+  readTime:5,
+  content:`
 <p>When most Tennessee homeowners think about their roof, they picture shingles. But the roof's edges — including the fascia, soffit, and drip edge — are critical components that protect the structural integrity of the entire system. When these components fail, water damage extends far beyond the roof itself, affecting interior walls, attic insulation, and even the home's structural framing. Here's what you need to know about each.</p>
 <h3>Fascia: The Vertical Edge Board</h3>
 <p>The fascia is the vertical board at the bottom edge of the roof's rafters — the surface visible at the roofline when you look at your home from the street. It serves as:</p>
@@ -2716,25 +1627,13 @@ a{color:inherit}
 <h4>Can fascia and soffit be replaced without replacing the roof?</h4>
 <p>Yes — fascia and soffit work can be done independently of roofing. However, timing soffit and fascia replacement with a roofing project is efficient, since crews have full access to the eave area.</p>
 <p>Enix Exteriors installs and replaces fascia, soffit, and drip edge across Tennessee as part of comprehensive roofing projects or as standalone exterior services. Call for a free inspection of your home's eave system.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-41" data-category="ROOF COMPONENTS">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-41">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">ROOF COMPONENTS</span>
-        <div class="article-title">Roof Decking and Sheathing: The Hidden Foundation of Every Tennessee Roof</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-41" style="padding-top:22px">
-    
+{
+  id:"41", category:"ROOF COMPONENTS",
+  title:"Roof Decking and Sheathing: The Hidden Foundation of Every Tennessee Roof",
+  readTime:5,
+  content:`
 <p>When roofing contractors talk about "the deck," they mean the structural surface to which all roofing materials are attached — typically oriented strand board (OSB) or plywood sheathing nailed to the roof rafters or trusses. The deck is invisible once a roof is installed, but it's the literal foundation of your entire roofing system. Damaged, rotted, or improperly specified decking is one of the most common causes of premature roofing failure in Tennessee — and one of the least anticipated costs in a roofing project.</p>
 <h3>OSB vs. Plywood: What's the Difference?</h3>
 <p>Both are engineered wood panels used as roof sheathing in Tennessee. Their differences:</p>
@@ -2761,25 +1660,16 @@ a{color:inherit}
 <h4>Does damaged decking void my shingle warranty?</h4>
 <p>Yes. Shingles installed over soft, rotted, or severely deteriorated decking will not receive manufacturer warranty support, as the installation conditions don't meet specification requirements.</p>
 <p>Enix Exteriors inspects all decking during tear-off and provides a clear report of any replacement needed before proceeding. We document all decking work with photos and include it in the final project documentation. No surprise charges.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-42" data-category="EXTERIOR SERVICES">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-42">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">EXTERIOR SERVICES</span>
-        <div class="article-title">Siding Materials Comparison: Vinyl, Fiber Cement, and Wood in Tennessee</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-42" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// EXTERIOR SERVICES (42–46)
+// ════════════════════════════════════════════════════
+{
+  id:"42", category:"EXTERIOR SERVICES",
+  title:"Siding Materials Comparison: Vinyl, Fiber Cement, and Wood in Tennessee",
+  readTime:6,
+  content:`
 <p>Your home's siding is its primary defense against Tennessee's weather — protecting structural framing from the humidity, rain, and temperature swings that characterize our region. When siding replacement becomes necessary, choosing the right material for Tennessee's specific climate makes a significant difference in longevity, maintenance burden, and long-term value. Here's how the three most common siding materials compare for Tennessee homes.</p>
 <h3>Vinyl Siding: Tennessee's Most Affordable Option</h3>
 <p>Vinyl siding is the most commonly installed siding type in Tennessee and across the United States, valued primarily for its low cost and low maintenance requirements.</p>
@@ -2839,25 +1729,13 @@ a{color:inherit}
 <h4>How long should new siding last on a Tennessee home?</h4>
 <p>Vinyl: 20–40 years. Fiber cement: 30–50+ years. Wood: 20–30 years with consistent maintenance, potentially less if maintenance lapses.</p>
 <p>Enix Exteriors installs fiber cement, vinyl, and wood siding across Tennessee. We'll assess your home's specific exposure, style, and budget to recommend the right material. Call for a free siding consultation and estimate.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-43" data-category="EXTERIOR SERVICES">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-43">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">EXTERIOR SERVICES</span>
-        <div class="article-title">Energy-Efficient Windows: What Tennessee Homeowners Need to Know</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-43" style="padding-top:22px">
-    
+{
+  id:"43", category:"EXTERIOR SERVICES",
+  title:"Energy-Efficient Windows: What Tennessee Homeowners Need to Know",
+  readTime:5,
+  content:`
 <p>Window replacement is one of the most impactful home improvement projects Tennessee homeowners can make — not just for aesthetics, but for year-round comfort and energy savings. Tennessee's climate demands windows that perform in both summer heat (when solar gain is the enemy) and winter cold (when heat loss matters). Here's what to look for and what to ask when evaluating window replacement for your Tennessee home.</p>
 <h3>Key Window Performance Ratings for Tennessee</h3>
 <p>The National Fenestration Rating Council (NFRC) certifies window performance with standardized ratings. The most important for Tennessee homes:</p>
@@ -2883,25 +1761,13 @@ a{color:inherit}
 <h4>How long does window replacement take for a typical Tennessee home?</h4>
 <p>A crew of two can typically replace 10–15 windows in a single day for standard replacement (insert) installations. Full-frame replacements (removing and replacing the entire frame) take longer per window but provide a more complete installation.</p>
 <p>Enix Exteriors installs ENERGY STAR-certified windows across Tennessee with professional flashing and air sealing for a complete weathertight installation. Call for a free window assessment and estimate.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-44" data-category="EXTERIOR SERVICES">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-44">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">EXTERIOR SERVICES</span>
-        <div class="article-title">Solar Panels and Your Roof: What Tennessee Homeowners Need to Know Before Installing</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-44" style="padding-top:22px">
-    
+{
+  id:"44", category:"EXTERIOR SERVICES",
+  title:"Solar Panels and Your Roof: What Tennessee Homeowners Need to Know Before Installing",
+  readTime:5,
+  content:`
 <p>Tennessee's abundant sunshine makes solar power an increasingly attractive investment for homeowners — particularly with federal tax credits of up to 30% under the Inflation Reduction Act and TVA's net metering program. But how solar panels interact with your roof is a critical consideration that many homeowners overlook until problems emerge. Here's what to evaluate before committing to a solar installation on your Tennessee roof.</p>
 <h3>Assess Your Roof Before Installing Solar</h3>
 <p>Solar panels have a 25–30 year lifespan. Installing them on a roof that will need replacement in 5–10 years creates a significant complication: solar panels must be removed and reinstalled for any roofing work, adding $3,000–$8,000+ in costs per removal and reinstallation. Before installing solar:</p>
@@ -2932,25 +1798,13 @@ a{color:inherit}
 <h4>Should I replace my roof or install solar first?</h4>
 <p>Replace your roof first if it has fewer than 10 years of remaining life. The cost of panel removal and reinstallation for a mid-lifespan roof replacement will exceed the cost of simply replacing the roof before the solar installation.</p>
 <p>Enix Exteriors works directly with solar installers across Tennessee to ensure roofing systems are properly prepared and penetrations are correctly flashed. We provide pre-solar roof assessments at no charge. Contact us before committing to a solar installation.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-45" data-category="EXTERIOR SERVICES">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-45">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">EXTERIOR SERVICES</span>
-        <div class="article-title">How to Find and Fix a Roof Leak Before It Causes Major Damage</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-45" style="padding-top:22px">
-    
+{
+  id:"45", category:"EXTERIOR SERVICES",
+  title:"How to Find and Fix a Roof Leak Before It Causes Major Damage",
+  readTime:5,
+  content:`
 <p>In Tennessee, where rainfall averages over 50 inches per year, a roof leak is not a matter of "if" but often "when" — particularly as roofs age past 15–20 years. The difference between a $500 flashing repair and a $15,000 structural repair is almost always speed of detection and response. This guide helps Tennessee homeowners identify leaks early, locate their source, and understand what professional repair involves.</p>
 <h3>Early Warning Signs of a Roof Leak</h3>
 <ul>
@@ -2986,25 +1840,13 @@ a{color:inherit}
 <h4>Can I fix a roof leak myself?</h4>
 <p>Simple repairs like replacing a pipe boot or resealing a small flashing gap can be DIY projects if you're comfortable safely working at height. However, misidentifying the leak source is extremely common — many DIY repairs treat the wrong location. Professional diagnosis is worthwhile for any persistent or unclear leak.</p>
 <p>Enix Exteriors provides professional leak diagnosis and repair across Tennessee. We find the actual source of the leak — not just where the water appears — and repair it correctly the first time. Call for an emergency leak response or scheduled inspection.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-46" data-category="EXTERIOR SERVICES">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-46">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">EXTERIOR SERVICES</span>
-        <div class="article-title">Gutters and Downspouts: Protecting Your Tennessee Home's Foundation from Water Damage</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-46" style="padding-top:22px">
-    
+{
+  id:"46", category:"EXTERIOR SERVICES",
+  title:"Gutters and Downspouts: Protecting Your Tennessee Home's Foundation from Water Damage",
+  readTime:5,
+  content:`
 <p>Most Tennessee homeowners understand that gutters channel water off the roof. Fewer understand the critical connection between gutter performance and long-term foundation health. Foundation repairs in East Tennessee — where clay soils expand and contract dramatically with moisture — can run $10,000–$50,000+. A properly functioning gutter and downspout system is one of the most cost-effective ways to protect against this risk.</p>
 <h3>The Water Volume Your Gutters Handle</h3>
 <p>In a moderate Tennessee rain event (1 inch of rain), a 2,000 sq ft roof sheds approximately 1,200 gallons of water. During a Tennessee thunderstorm delivering 2 inches in an hour, that's 2,400 gallons in 60 minutes. Your gutter system must capture and direct all of it away from the foundation — or the alternatives are overflow, erosion, and foundation saturation.</p>
@@ -3037,25 +1879,16 @@ a{color:inherit}
 <h4>Are underground downspout extensions better than above-ground extensions?</h4>
 <p>For homes with adequate yard space, underground extensions that discharge at a pop-up emitter 8–15 feet from the foundation provide the best protection. They're also more aesthetically clean. The cost ($150–$400 per downspout) is modest compared to the foundation protection they provide.</p>
 <p>Enix Exteriors installs and repairs gutter systems, downspout extensions, and underground drainage solutions across Tennessee. We'll assess your home's current drainage and recommend cost-effective solutions. Call for a free inspection.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-47" data-category="LOCAL TENNESSEE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-47">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">LOCAL TENNESSEE</span>
-        <div class="article-title">Tennessee Weather and Your Roof: What Every Property Owner Should Know</div>
-        <div class="article-read">6 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-47" style="padding-top:22px">
-    
+// ════════════════════════════════════════════════════
+// LOCAL TENNESSEE (47–50)
+// ════════════════════════════════════════════════════
+{
+  id:"47", category:"LOCAL TENNESSEE",
+  title:"Tennessee Weather and Your Roof: What Every Property Owner Should Know",
+  readTime:6,
+  content:`
 <p>Tennessee sits at a geographic crossroads that makes it one of the most weather-diverse states in the eastern United States. Cold Arctic air from the north, warm moist Gulf air from the south, and mountainous terrain in the east create a climate that can produce severe hail one week, tornado-adjacent winds the next, and ice storms the following winter. Your roofing system must be designed and maintained to handle all of it. Here's the weather profile every Tennessee property owner should understand.</p>
 <h3>Hail Season: Tennessee's Biggest Roofing Threat</h3>
 <p>Tennessee experiences significant hailstorm activity particularly from March through June, with a secondary period in September and October. East Tennessee — including Knoxville and surrounding counties — sits at the western edge of the Appalachians where storm systems interact with terrain, producing frequent convective activity. Hailstones ranging from pea-size to golf ball and larger are recorded across Tennessee every year.</p>
@@ -3081,25 +1914,13 @@ a{color:inherit}
 <h4>Does Tennessee have building codes that specify minimum roofing requirements?</h4>
 <p>Yes. Tennessee adopts the International Residential Code (IRC) and International Building Code (IBC) with state amendments. Key requirements include minimum wind resistance ratings, underlayment specifications, ice-and-water shield at eaves, and ventilation ratios. Local jurisdictions (Knox County, Knoxville city limits, etc.) may have additional requirements.</p>
 <p>Enix Exteriors designs and installs roofing systems specifically for Tennessee's climate demands. Every installation accounts for local weather history, building codes, and material performance in our specific environment. Call for a free consultation.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-48" data-category="LOCAL TENNESSEE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-48">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">LOCAL TENNESSEE</span>
-        <div class="article-title">Roofing in Knoxville, TN: Local Issues, Climate, and What to Expect</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-48" style="padding-top:22px">
-    
+{
+  id:"48", category:"LOCAL TENNESSEE",
+  title:"Roofing in Knoxville, TN: Local Issues, Climate, and What to Expect",
+  readTime:5,
+  content:`
 <p>Enix Exteriors is Knoxville's roofing company — headquartered at 5992 Bearden View Lane and serving Knox County and the surrounding East Tennessee region. We know Knoxville's specific roofing challenges from daily field experience: the Clinch and Tennessee River valley's humidity, the mix of older craftsman and mid-century homes in neighborhoods like Sequoyah Hills and Holston Hills, and the newer construction in West Knoxville suburbs like Farragut, Hardin Valley, and Karns. This guide addresses Knoxville's specific roofing context.</p>
 <h3>Knoxville's Unique Weather Profile</h3>
 <p>Knoxville's location at the confluence of the Holston and French Broad Rivers — forming the Tennessee River — creates a microclimate with higher humidity than surrounding areas. This humidity, combined with the urban heat island effect of the metro area, produces conditions that accelerate algae growth on north- and east-facing roof slopes throughout Knox County. Algae-resistant shingles with copper- or zinc-granule treatment are highly recommended for Knoxville homes.</p>
@@ -3127,25 +1948,13 @@ a{color:inherit}
 <h4>What neighborhoods in Knoxville does Enix Exteriors serve?</h4>
 <p>We serve all of Knox County including Knoxville city limits, Farragut, Hardin Valley, Karns, Powell, Halls, Bearden, Sequoyah Hills, South Knoxville, East Knoxville, and all surrounding communities. We also serve Anderson, Blount, Jefferson, Loudon, and Sevier Counties.</p>
 <p>Call Enix Exteriors — Knoxville's locally owned roofing company — at (865) 685-ENIX for a free inspection and honest assessment of your Knox County property's roofing needs.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-49" data-category="LOCAL TENNESSEE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-49">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">LOCAL TENNESSEE</span>
-        <div class="article-title">East Tennessee Storm Season: Hail, Wind, and Protecting Your Roof</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-49" style="padding-top:22px">
-    
+{
+  id:"49", category:"LOCAL TENNESSEE",
+  title:"East Tennessee Storm Season: Hail, Wind, and Protecting Your Roof",
+  readTime:5,
+  content:`
 <p>East Tennessee experiences severe weather that would surprise many residents of other regions. The area's position along the western slope of the Appalachians, combined with the Tennessee Valley's funnel-like terrain, produces storm dynamics that generate intense convective activity — including frequent hail events, derecho-level straight-line winds, and occasional tornadoes. Understanding East Tennessee's specific storm patterns helps property owners prepare effectively.</p>
 <h3>East Tennessee's Primary Severe Weather Threats</h3>
 <h4>Hail Events</h4>
@@ -3177,25 +1986,13 @@ a{color:inherit}
 <h4>What should I do if I find storm damage on a weekend?</h4>
 <p>Enix Exteriors provides 24/7 emergency storm response for East Tennessee. If there's active water intrusion or significant structural damage, call us immediately. For non-emergency damage, schedule an inspection at your earliest convenience before the next rain event.</p>
 <p>Enix Exteriors is East Tennessee's storm damage specialist. We're locally owned, fully licensed, and have helped hundreds of Knox County and surrounding area homeowners navigate storm damage inspections and insurance claims. Call (865) 685-ENIX anytime after a storm.</p>
+`},
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-
-<div class="article-card" id="article-50" data-category="LOCAL TENNESSEE">
-  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-50">
-    <div class="article-header-left">
-      <div class="card-icon" style="margin-bottom:0"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <div class="article-meta">
-        <span class="article-category">LOCAL TENNESSEE</span>
-        <div class="article-title">Winterizing Your Tennessee Roof: A Complete Seasonal Checklist</div>
-        <div class="article-read">5 min read</div>
-      </div>
-    </div>
-    <div class="article-chevron"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-  </div>
-  <div class="article-body" id="body-50" style="padding-top:22px">
-    
+{
+  id:"50", category:"LOCAL TENNESSEE",
+  title:"Winterizing Your Tennessee Roof: A Complete Seasonal Checklist",
+  readTime:5,
+  content:`
 <p>While Tennessee doesn't experience the brutal winters of the upper Midwest, East Tennessee's freeze-thaw cycles, occasional ice storms, and periodic heavy snowfall create real roofing challenges. A properly winterized roof enters the cold season without vulnerabilities that cold, ice, and snow can exploit — preventing the leaks, ice dam damage, and structural stress that make winter one of the most common seasons for roofing emergencies. Here's the complete fall-into-winter checklist Enix Exteriors recommends for Tennessee homeowners.</p>
 <h3>Roof Inspection (Complete Before November)</h3>
 <ul>
@@ -3237,247 +2034,6 @@ a{color:inherit}
 <h4>Does homeowner's insurance cover ice dam damage in Tennessee?</h4>
 <p>Yes — ice dam damage is typically covered under homeowner's policies as a sudden accidental event. The resulting water damage to ceilings and walls is usually also covered. Poor attic insulation as a contributing factor may complicate claims — a roofing professional can help document the cause.</p>
 <p>Enix Exteriors performs pre-winter roof inspections and winterization services across East Tennessee. Schedule your fall inspection in September or October — before our schedule fills. Call (865) 685-ENIX to book.</p>
+`}
 
-    <a href="contact.html" class="article-cta">Get a Free Quote <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-  </div>
-</div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="min-height:60vh;display:flex;align-items:center;position:relative">
-  <div class="bg-image heavy"><img src="images/gallery-craftsman.jpg" alt="" loading="lazy"></div>
-  <div class="section-content text-center" style="width:100%">
-    <h2 class="headline-xl mb-4" style="font-size:clamp(30px,5vw,56px)">STILL HAVE QUESTIONS?<br>ASK ENIX EXTERIORS</h2>
-    <p class="lead mb-8" style="margin:0 auto 32px">Our experts are happy to answer your roofing questions for free — no obligation, no pressure.</p>
-    <div class="flex flex-wrap gap-4 justify-center"><a href="tel:8656853649" class="btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call (865) 685-ENIX</a><a href="contact.html" class="btn-primary">Send Us a Message <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-  </div>
-</section>
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div>
-        <img src="images/enix-logo-main.jpg" alt="Enix Exteriors" class="footer-logo" onerror="this.style.display='none'">
-        <div class="footer-brand-name">ENIX <span>EXTERIORS</span></div>
-        <p style="color:#A9B1BC;font-size:13.5px;margin:10px 0 6px;line-height:1.7">Your Local Roofing Expert. Tennessee's top commercial roofing contractor serving Knoxville and statewide.</p>
-        <div class="footer-badge" style="margin-top:14px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Licensed &amp; Insured</div>
-      </div>
-      <div>
-        <h4>Services</h4>
-        <a href="commercial-roofing.html">Commercial Roofing</a>
-        <a href="residential-roofing.html">Residential Roofing</a>
-        <a href="exterior-services.html">Exterior Services</a>
-        <a href="storm-damage-commercial.html">Storm Damage – Commercial</a>
-        <a href="storm-damage-residential.html">Storm Damage – Residential</a>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <a href="about.html">About Enix Exteriors</a>
-        <a href="education-hub.html">Education Hub</a>
-        <a href="gallery.html">Project Gallery</a>
-        <a href="tennessee-locations.html">Tennessee Locations</a>
-        <a href="contact.html">Contact Us</a>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <a href="tel:8656853649"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> (865) 685-ENIX</a>
-        <a href="mailto:info@enixexteriors.com"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@enixexteriors.com</a>
-        <p style="color:#A9B1BC;font-size:13px;margin-top:12px;line-height:1.7">
-          5992 Bearden View Ln, Knoxville TN 37909<br>
-          <strong style="color:#fff">Hours:</strong> Mon–Fri 7am–6pm<br>
-          <span style="color:#FF6A00;font-weight:600">Emergency: 24/7</span>
-        </p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p style="color:#5a6270;font-size:13px">&copy; 2025 Enix Exteriors LLC. All rights reserved.</p>
-      <p style="color:#5a6270;font-size:13px">Licensed &amp; Insured | Knoxville, Tennessee</p>
-    </div>
-  </div>
-</footer>
-<script>
-(function(){
-  /* NAV SCROLL */
-  var nb=document.getElementById('navbar');
-  if(nb){window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>40);},{ passive:true });}
-
-  /* MOBILE MENU */
-  var tog=document.getElementById('mobileToggle');
-  var menu=document.getElementById('mobileMenu');
-  var cls=document.getElementById('mobileClose');
-  function openMenu(){if(menu){menu.classList.add('open');document.body.style.overflow='hidden';if(tog)tog.setAttribute('aria-expanded','true');}}
-  function closeMenu(){if(menu){menu.classList.remove('open');document.body.style.overflow='';if(tog)tog.setAttribute('aria-expanded','false');}}
-  if(tog)tog.addEventListener('click',openMenu);
-  if(cls)cls.addEventListener('click',closeMenu);
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
-  if(menu){menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeMenu);});}
-
-  /* MULTI-STEP FORM */
-  var currentStep=1;
-  window.nextStep=function(){
-    if(currentStep<3){
-      var cur=document.getElementById('step'+currentStep);
-      var nxt=document.getElementById('step'+(currentStep+1));
-      if(cur)cur.style.display='none';
-      if(nxt)nxt.style.display='block';
-      var pn=document.getElementById('p'+(currentStep+1));
-      if(pn)pn.classList.add('active');
-      currentStep++;
-    }
-  };
-  window.prevStep=function(){
-    if(currentStep>1){
-      var cur=document.getElementById('step'+currentStep);
-      var prv=document.getElementById('step'+(currentStep-1));
-      if(cur)cur.style.display='none';
-      if(prv)prv.style.display='block';
-      var pn=document.getElementById('p'+currentStep);
-      if(pn)pn.classList.remove('active');
-      currentStep--;
-    }
-  };
-  window.handleFormSubmit=function(e){
-    e.preventDefault();
-    var f=e.target;
-    var fd=new FormData(f);
-    fetch(f.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
-      .then(function(){showSuccess(f);})
-      .catch(function(){showSuccess(f);});
-    return false;
-  };
-  function showSuccess(f){
-    var s3=document.getElementById('step3');
-    var sx=document.getElementById('success');
-    if(s3)s3.style.display='none';
-    if(sx)sx.style.display='block';
-    setTimeout(function(){
-      if(sx)sx.style.display='none';
-      var s1=document.getElementById('step1');
-      if(s1)s1.style.display='block';
-      ['p2','p3'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('active');});
-      currentStep=1;
-      if(f)f.reset();
-      document.querySelectorAll('.service-radio').forEach(function(r){r.classList.remove('selected');});
-    },3800);
-  }
-  document.querySelectorAll('.service-radio input[type=radio]').forEach(function(inp){
-    inp.addEventListener('change',function(){
-      document.querySelectorAll('.service-radio').forEach(function(r){r.classList.remove('selected');});
-      if(inp.checked)inp.closest('.service-radio').classList.add('selected');
-    });
-  });
-
-  /* ARTICLE ACCORDION */
-  document.querySelectorAll('.article-header').forEach(function(hdr){
-    hdr.addEventListener('click',function(){
-      var card=hdr.closest('.article-card');
-      var isOpen=card.classList.contains('open');
-      document.querySelectorAll('.article-card.open').forEach(function(c){c.classList.remove('open');});
-      if(!isOpen)card.classList.add('open');
-    });
-  });
-
-  /* ARTICLE CATEGORY FILTER */
-  document.querySelectorAll('.edu-filter-btn').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      document.querySelectorAll('.edu-filter-btn').forEach(function(b){b.classList.remove('active');});
-      btn.classList.add('active');
-      var cat=btn.dataset.cat;
-      document.querySelectorAll('.article-card').forEach(function(card){
-        if(cat==='ALL'||card.dataset.category===cat){card.style.display='';}
-        else{card.style.display='none';}
-      });
-    });
-  });
-
-  /* ANIMATED EDU VIDEO PLAYER */
-  (function(){
-    var vids={};
-    function initVid(id){
-      var el=document.getElementById(id);
-      if(!el)return;
-      var slides=el.querySelectorAll('.edu-slide');
-      var fill=el.querySelector('.edu-progress-fill');
-      var counter=el.querySelector('.edu-counter');
-      var playBtn=el.querySelector('.edu-play-btn');
-      vids[id]={el:el,slides:slides,fill:fill,counter:counter,playBtn:playBtn,
-        total:slides.length,current:0,playing:false,elapsed:0,
-        slideDur:11000,mainTimer:null,progTimer:null};
-    }
-    function showSlide(id,idx){
-      var v=vids[id];if(!v)return;
-      v.slides.forEach(function(s){s.classList.remove('active');});
-      v.slides[idx].classList.add('active');
-      v.current=idx;v.elapsed=0;
-      if(v.counter)v.counter.textContent=(idx+1)+'/'+v.total;
-      if(v.fill)v.fill.style.width=((idx/v.total)*100)+'%';
-    }
-    function updateProg(id){
-      var v=vids[id];if(!v)return;
-      v.elapsed+=100;
-      var pct=((v.current+v.elapsed/v.slideDur)/v.total)*100;
-      if(v.fill)v.fill.style.width=Math.min(pct,100)+'%';
-    }
-    function play(id){
-      var v=vids[id];if(!v||v.playing)return;
-      v.playing=true;
-      if(v.playBtn)v.playBtn.textContent='⏸';
-      v.mainTimer=setInterval(function(){showSlide(id,(v.current+1)%v.total);},v.slideDur);
-      v.progTimer=setInterval(function(){updateProg(id);},100);
-    }
-    function pause(id){
-      var v=vids[id];if(!v||!v.playing)return;
-      v.playing=false;
-      if(v.playBtn)v.playBtn.textContent='▶';
-      clearInterval(v.mainTimer);clearInterval(v.progTimer);
-    }
-    window.vidPlayPause=function(id){var v=vids[id];if(!v)return;if(v.playing)pause(id);else play(id);};
-    window.vidNext=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current+1)%v.total);if(wp)play(id);};
-    window.vidPrev=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current-1+v.total)%v.total);if(wp)play(id);};
-    document.querySelectorAll('.edu-player').forEach(function(el){
-      initVid(el.id);
-      var obs=new IntersectionObserver(function(entries){
-        entries.forEach(function(e){if(e.isIntersecting&&vids[el.id]&&!vids[el.id].playing)play(el.id);});
-      },{threshold:0.5});
-      obs.observe(el);
-    });
-  })();
-
-  /* GALLERY LIGHTBOX */
-  var galleryImgs=[];
-  var lightboxIdx=0;
-  var lb=document.getElementById('lightbox');
-  var lbImg=document.getElementById('lbImg');
-  document.querySelectorAll('.gallery-item').forEach(function(item,i){
-    var src=item.dataset.src;
-    if(src)galleryImgs.push(src);
-    item.addEventListener('click',function(){
-      lightboxIdx=i;
-      openLightbox();
-    });
-  });
-  function openLightbox(){
-    if(!lb||!lbImg)return;
-    lbImg.src=galleryImgs[lightboxIdx];
-    lb.classList.add('open');
-    document.body.style.overflow='hidden';
-  }
-  window.closeLightbox=function(){
-    if(lb)lb.classList.remove('open');
-    document.body.style.overflow='';
-  };
-  window.lightboxPrev=function(){lightboxIdx=(lightboxIdx-1+galleryImgs.length)%galleryImgs.length;if(lbImg)lbImg.src=galleryImgs[lightboxIdx];};
-  window.lightboxNext=function(){lightboxIdx=(lightboxIdx+1)%galleryImgs.length;if(lbImg)lbImg.src=galleryImgs[lightboxIdx];};
-  if(lb){
-    lb.addEventListener('click',function(e){if(e.target===lb)window.closeLightbox();});
-    document.addEventListener('keydown',function(e){
-      if(!lb.classList.contains('open'))return;
-      if(e.key==='ArrowLeft')window.lightboxPrev();
-      if(e.key==='ArrowRight')window.lightboxNext();
-      if(e.key==='Escape')window.closeLightbox();
-    });
-  }
-})();
-</script>
-</body>
-</html>
+]; // end ARTICLE_DATA
