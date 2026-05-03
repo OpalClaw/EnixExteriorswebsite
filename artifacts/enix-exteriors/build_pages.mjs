@@ -258,17 +258,12 @@ a{color:inherit}
 .video-label small{display:block;color:#A9B1BC;font-size:12px;font-weight:400;margin-top:3px;font-family:'Inter'}
 
 /* ===== ANIMATED EDU VIDEO PLAYER ===== */
-.edu-player{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:16/9;box-shadow:0 8px 40px rgba(0,0,0,.6)}
+.edu-player-wrap{background:rgba(18,21,26,.9);border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;padding:0}
+.edu-player-wrap-title{font-family:'Sora';font-weight:700;font-size:15px;color:#fff;padding:14px 16px 10px;display:flex;justify-content:space-between;align-items:center}
+.edu-player-wrap-title span{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#A9B1BC;cursor:pointer;transition:color .2s}
+.edu-player-wrap-title span:hover{color:#FF6A00}
+.edu-player{position:relative;border-radius:0;overflow:hidden;background:#000;aspect-ratio:16/9;box-shadow:none}
 .edu-player-screen{position:absolute;inset:0}
-.video-expand-card{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(18,21,26,.9);border-radius:16px;padding:14px 16px;cursor:pointer;color:#fff;text-align:left;transition:all .25s;margin-bottom:12px}
-.video-expand-card:hover{border-color:rgba(255,106,0,.38);transform:translateY(-1px)}
-.video-expand-card.open{border-color:#FF6A00}
-.video-expand-card-top{display:flex;align-items:center;justify-content:space-between;gap:14px}
-.video-expand-card-label{font-family:'Sora';font-weight:700;font-size:15px;line-height:1.35}
-.video-expand-card-toggle{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#A9B1BC;white-space:nowrap}
-.video-expand-card.open .video-expand-card-toggle{color:#FF6A00}
-.video-expand-panel{max-height:0;overflow:hidden;transition:max-height .45s ease,opacity .3s ease;opacity:0}
-.video-expand-panel.open{max-height:1200px;opacity:1}
 .edu-slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease}
 .edu-slide.active{opacity:1}
 .edu-slide-bg{position:absolute;inset:0}
@@ -282,22 +277,19 @@ a{color:inherit}
 .edu-slide-point::before{content:'›';color:#FF6A00;font-size:20px;line-height:1.25;flex-shrink:0}
 .edu-slide-cta-btn{display:inline-block;margin-top:22px;background:#FF6A00;color:#fff;font-family:'Sora';font-weight:700;font-size:14px;padding:13px 26px;border-radius:8px;text-decoration:none;letter-spacing:.03em;transition:opacity .2s}
 .edu-slide-cta-btn:hover{opacity:.88}
-.edu-player-controls{display:flex;align-items:center;gap:10px;padding:14px 0 0;background:transparent;z-index:10}
+.edu-player-controls{display:flex;align-items:center;gap:10px;padding:12px 14px 14px;background:rgba(11,12,14,.95)}
 .edu-play-btn{width:38px;height:38px;border-radius:50%;background:#FF6A00;border:none;cursor:pointer;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s;line-height:1}
 .edu-play-btn:hover{transform:scale(1.1)}
 .edu-nav-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);border:none;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;line-height:1}
 .edu-nav-btn:hover{background:rgba(255,106,0,.55)}
+.edu-fs-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);border:none;cursor:pointer;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;line-height:1;margin-left:4px}
+.edu-fs-btn:hover{background:rgba(255,106,0,.55)}
 .edu-progress-track{flex:1;height:4px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden}
 .edu-progress-fill{height:100%;background:#FF6A00;width:0%;transition:width .1s linear;border-radius:4px}
 .edu-counter{font-family:'IBM Plex Mono';font-size:11px;color:rgba(255,255,255,.65);flex-shrink:0;min-width:32px;text-align:right}
-.video-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);padding:18px}
-.video-modal.open{display:flex}
-.video-modal-inner{width:min(1200px,96vw);max-height:96vh;display:flex;flex-direction:column;gap:12px}
-.video-modal-close{align-self:flex-end;border:none;background:#FF6A00;color:#fff;width:42px;height:42px;border-radius:50%;font-size:28px;line-height:1;cursor:pointer}
-.video-modal-player{border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.video-modal-player .edu-player{aspect-ratio:16/9;width:100%}
-.video-modal-player .edu-player-controls{position:static;padding:12px 4px 0}
-.video-modal-player .edu-player-screen{position:relative;height:calc(100% - 56px)}
+.edu-player:-webkit-full-screen{width:100vw;height:100vh;aspect-ratio:unset}
+.edu-player:-moz-full-screen{width:100vw;height:100vh;aspect-ratio:unset}
+.edu-player:fullscreen{width:100vw;height:100vh;aspect-ratio:unset}
 /* ===== ARTICLE CATEGORY FILTER ===== */
 .edu-filter{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 40px}
 .edu-filter-btn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#A9B1BC;padding:9px 16px;border-radius:100px;cursor:pointer;transition:all .25s}
@@ -635,20 +627,12 @@ const SCRIPT = `<script>
   window.vidPlayPause=function(id){var v=vids[id];if(!v)return;if(v.playing)pause(id);else play(id);};
   window.vidNext=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current+1)%v.total);if(wp)play(id);};
   window.vidPrev=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current-1+v.total)%v.total);if(wp)play(id);};
-  window.openVideoModal=function(html){
-    var modal=document.getElementById('videoModal');
-    var host=document.getElementById('videoModalPlayer');
-    if(!modal||!host)return;
-    host.innerHTML=html;
-    modal.classList.add('open');
-    document.body.style.overflow='hidden';
-  };
-  window.closeVideoModal=function(){
-    var modal=document.getElementById('videoModal');
-    var host=document.getElementById('videoModalPlayer');
-    if(modal)modal.classList.remove('open');
-    if(host)host.innerHTML='';
-    document.body.style.overflow='';
+  window.vidFullscreen=function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    if(el.requestFullscreen)el.requestFullscreen();
+    else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+    else if(el.mozRequestFullScreen)el.mozRequestFullScreen();
   };
     document.querySelectorAll('.edu-player').forEach(function(el){
       initVid(el.id);
@@ -766,22 +750,9 @@ const videoCard = (img, tag, title, href=URL.contact) =>
     <div class="video-card-info"><span class="video-card-tag">${tag}</span><div class="video-card-title">${title}</div></div>
   </a>`;
 
-const videoExpandCard = (player, label) => `<div class="video-expand-shell">
-<button type="button" class="video-expand-card" onclick="openVideoModal(this.nextElementSibling.innerHTML);return false;">
-  <div class="video-expand-card-top">
-    <div class="video-expand-card-label">${label}</div>
-    <div class="video-expand-card-toggle">Full screen</div>
-  </div>
-</button>
-<div class="video-expand-panel">
+const videoExpandCard = (player, label) => `<div class="edu-player-wrap">
+  <div class="edu-player-wrap-title">${label}</div>
   ${player}
-</div>`;
-
-const videoModalShell = `<div class="video-modal" id="videoModal" onclick="if(event.target===this)closeVideoModal()">
-  <div class="video-modal-inner">
-    <button type="button" class="video-modal-close" onclick="closeVideoModal()">×</button>
-    <div class="video-modal-player" id="videoModalPlayer"></div>
-  </div>
 </div>`;
 
 // Animated educational video slide-show player
@@ -799,13 +770,14 @@ const makeEduVideo = (id, slides) => {
   </div>`).join('');
   return `<div class="edu-player" id="${id}">
   <div class="edu-player-screen">${slideHtml}</div>
-  <div class="edu-player-controls">
-    <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
-    <button class="edu-nav-btn" onclick="vidPrev('${id}')">‹</button>
-    <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
-    <button class="edu-nav-btn" onclick="vidNext('${id}')">›</button>
-    <span class="edu-counter">1/${slides.length}</span>
-  </div>
+</div>
+<div class="edu-player-controls">
+  <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
+  <button class="edu-nav-btn" onclick="vidPrev('${id}')">‹</button>
+  <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
+  <button class="edu-nav-btn" onclick="vidNext('${id}')">›</button>
+  <span class="edu-counter">1/${slides.length}</span>
+  <button class="edu-fs-btn" title="Full screen" onclick="vidFullscreen('${id}')">⛶</button>
 </div>`;
 };
 
@@ -1672,7 +1644,6 @@ const educationBody = () => `${hero(
   <span>Quick Call</span>
   <strong>(865) 685-ENIX</strong>
 </a>
-${videoModalShell}
 
 <section class="section section-bg-dark">
   <div class="section-content tight">
