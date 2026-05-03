@@ -21,9 +21,10 @@ const pageMap = [
   { src: path.join(__dirname, "public", "storm-damage-commercial.html"),  label: "05-Storm-Damage-Commercial.html" },
   { src: path.join(__dirname, "public", "storm-damage-residential.html"), label: "06-Storm-Damage-Residential.html" },
   { src: path.join(__dirname, "public", "education-hub.html"),            label: "07-Education-Hub.html" },
-  { src: path.join(__dirname, "public", "about.html"),                    label: "08-About.html" },
-  { src: path.join(__dirname, "public", "contact.html"),                  label: "09-Contact.html" },
-  { src: path.join(__dirname, "public", "tennessee-locations.html"),      label: "10-Tennessee-Locations.html" },
+  { src: path.join(__dirname, "public", "gallery.html"),                  label: "08-Project-Gallery.html" },
+  { src: path.join(__dirname, "public", "about.html"),                    label: "09-About.html" },
+  { src: path.join(__dirname, "public", "contact.html"),                  label: "10-Contact.html" },
+  { src: path.join(__dirname, "public", "tennessee-locations.html"),      label: "11-Tennessee-Locations.html" },
 ];
 
 for (const { src, label } of pageMap) {

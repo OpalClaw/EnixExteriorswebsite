@@ -2,7 +2,6 @@
 /**
  * Build all GHL-compatible standalone HTML pages for Enix Exteriors.
  * Each page is self-contained: inline CSS, inline SVG icons, inline JS.
- * Cross-page navigation uses relative .html links.
  * Run: node build_pages.mjs
  */
 import fs from "node:fs";
@@ -17,52 +16,62 @@ fs.mkdirSync(PUB, { recursive: true });
 // --- Constants ----------------------------------------------------------------
 const PHONE_DISPLAY = "(865) 685-ENIX";
 const PHONE_TEL = "8656853649";
-const EMAIL = "INFO@ENIXEXTERIORS.COM";
-const ADDRESS = "5992 Bearden View Ln<br>Knoxville TN 37909";
+const EMAIL = "info@enixexteriors.com";
+const ADDRESS = "5992 Bearden View Ln, Knoxville TN 37909";
+const FORMSUBMIT = `https://formsubmit.co/${EMAIL}`;
 
+// All pages: [slug, filename, label, outputDir]
+// home is written to ROOT, all others to PUB
 const PAGES = [
-  ["home", "index.html", "Home"],
-  ["commercial-roofing", "commercial-roofing.html", "Commercial Roofing"],
-  ["residential-roofing", "residential-roofing.html", "Residential Roofing"],
-  ["exterior-services", "exterior-services.html", "Exterior Services"],
-  ["storm-damage-commercial", "storm-damage-commercial.html", "Storm Damage Commercial"],
-  ["storm-damage-residential", "storm-damage-residential.html", "Storm Damage Residential"],
-  ["education-hub", "education-hub.html", "Education Hub"],
-  ["about", "about.html", "About"],
-  ["contact", "contact.html", "Contact"],
-  ["tennessee-locations", "tennessee-locations.html", "Tennessee Locations"],
+  ["home",                    "index.html",                    "Home",                   ROOT],
+  ["commercial-roofing",      "commercial-roofing.html",       "Commercial Roofing",      PUB],
+  ["residential-roofing",     "residential-roofing.html",      "Residential Roofing",     PUB],
+  ["exterior-services",       "exterior-services.html",        "Exterior Services",        PUB],
+  ["storm-damage-commercial", "storm-damage-commercial.html",  "Storm Damage Commercial",  PUB],
+  ["storm-damage-residential","storm-damage-residential.html", "Storm Damage Residential", PUB],
+  ["education-hub",           "education-hub.html",            "Education Hub",            PUB],
+  ["gallery",                 "gallery.html",                  "Gallery",                  PUB],
+  ["about",                   "about.html",                    "About",                    PUB],
+  ["contact",                 "contact.html",                  "Contact",                  PUB],
+  ["tennessee-locations",     "tennessee-locations.html",      "Tennessee Locations",       PUB],
 ];
 
+// URL map: slug → filename (relative, works from any page since all are served at root)
 const URL = Object.fromEntries(PAGES.map(([s, f]) => [s, f]));
 
-// --- SVG icons (lucide-style) -------------------------------------------------
+// --- SVG icons ----------------------------------------------------------------
 const _svg = (body, w = 24, h = w, stroke = "currentColor") =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
-
 const ICON = {
-  home: '<path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/>',
-  building: '<path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/>',
-  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-  phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
-  mail: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
-  mapPin: '<path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
-  clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
-  alert: '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-  file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+  home:        '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  building:    '<path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/>',
+  shield:      '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  phone:       '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  mail:        '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+  mapPin:      '<path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+  clock:       '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  alert:       '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  file:        '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
   checkCircle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
-  star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
-  award: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
-  users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-  book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
-  arrowRight: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
-  send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
-  windPanel: '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>',
-  droplet: '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>',
-  tool: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  star:        '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  award:       '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+  users:       '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  book:        '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+  arrowRight:  '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
+  arrowDown:   '<line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>',
+  send:        '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
+  tool:        '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  droplet:     '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>',
+  windPanel:   '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>',
+  image:       '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+  play:        '<circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>',
+  chevDown:    '<polyline points="6 9 12 15 18 9"/>',
+  chevRight:   '<polyline points="9 18 15 12 9 6"/>',
+  close:       '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  menu:        '<line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>',
 };
-
 const icon = (name, w = 24, h = null, color = "#FF6A00") =>
-  _svg(ICON[name], w, h || w, color);
+  _svg(ICON[name] || "", w, h || w, color);
 
 // --- CSS ----------------------------------------------------------------------
 const CSS = `
@@ -74,80 +83,88 @@ a{color:inherit}
 .font-display{font-family:'Sora',sans-serif}
 .font-mono{font-family:'IBM Plex Mono',monospace}
 
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:15px 30px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:transparent}
-.nav.scrolled{background:rgba(11,12,14,.95);backdrop-filter:blur(12px);padding:10px 30px}
-.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-.nav-logo svg{flex-shrink:0}
-.nav-logo .lg-text{display:flex;flex-direction:column;line-height:1.1}
-.nav-logo span{font-family:'Sora';font-weight:700;color:#fff;font-size:20px;letter-spacing:-.5px}
-.nav-logo small{color:#FF6A00;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
-.nav-links{display:flex;align-items:center;gap:28px}
-.nav-links a,.nav-links .dropdown-toggle{color:#A9B1BC;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;cursor:pointer;background:none;border:none;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
-.nav-links a:hover,.nav-links .dropdown-toggle:hover,.nav-links a.active{color:#fff}
+/* ===== NAV ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(11,12,14,.0);backdrop-filter:blur(0px);transition:all .35s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(11,12,14,.97);backdrop-filter:blur(16px);border-bottom-color:rgba(255,106,0,.18)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 30px;height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
+.nav-logo img.logo-img{height:54px;width:auto;object-fit:contain;display:block}
+.nav-logo-fallback{display:none;align-items:center;gap:10px}
+.nav-brand{display:flex;flex-direction:column;line-height:1.1}
+.nav-brand-name{font-family:'Sora';font-weight:800;color:#fff;font-size:22px;letter-spacing:-.5px;white-space:nowrap}
+.nav-brand-name span{color:#FF6A00}
+.nav-brand-tagline{color:#FF6A00;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a,.nav-links .dropdown-toggle{color:#C5CDD6;text-decoration:none;font-size:13.5px;font-weight:500;transition:color .2s;cursor:pointer;background:none;border:none;font-family:inherit;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:8px;white-space:nowrap}
+.nav-links a:hover,.nav-links .dropdown-toggle:hover{color:#fff;background:rgba(255,255,255,.06)}
 .nav-links a.active{color:#FF6A00}
-.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#FF6A00;color:#fff!important;text-decoration:none;font-weight:600;font-size:14px;border-radius:10px;transition:all .3s}
-.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,106,0,.35)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:#FF6A00;color:#fff!important;text-decoration:none;font-weight:700;font-size:14px;border-radius:10px;transition:all .3s;white-space:nowrap;margin-left:8px}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,106,0,.45);background:#ff7a1a}
 .dropdown{position:relative}
-.dropdown-menu{position:absolute;top:100%;left:0;margin-top:10px;background:rgba(20,23,27,.96);backdrop-filter:blur(12px);border:1px solid rgba(244,246,248,.1);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:all .25s;box-shadow:0 24px 70px rgba(0,0,0,.5)}
+.dropdown-menu{position:absolute;top:calc(100% + 8px);left:0;background:rgba(14,17,21,.98);backdrop-filter:blur(20px);border:1px solid rgba(255,106,0,.2);border-radius:16px;padding:10px;min-width:260px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .22s;box-shadow:0 32px 80px rgba(0,0,0,.6)}
 .dropdown:hover .dropdown-menu,.dropdown:focus-within .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0)}
-.dropdown-menu a{display:block;padding:10px 14px;color:#A9B1BC;text-decoration:none;font-size:14px;border-radius:8px;transition:all .2s}
-.dropdown-menu a:hover{color:#fff;background:rgba(255,255,255,.06)}
-.mobile-toggle{display:none;background:none;border:none;color:#fff;cursor:pointer;font-size:26px;line-height:1;padding:6px}
-.mobile-menu{display:none;position:fixed;inset:0;background:rgba(11,12,14,.98);z-index:1100;padding:90px 30px 40px;text-align:center;overflow-y:auto}
-.mobile-menu.active{display:block}
-.mobile-menu a{display:block;color:#fff;text-decoration:none;font-family:'Sora';font-size:22px;font-weight:600;margin:18px 0}
-.mobile-menu a:hover,.mobile-menu a.active{color:#FF6A00}
-.close-menu{position:absolute;top:18px;right:18px;background:none;border:none;color:#fff;font-size:36px;cursor:pointer;line-height:1}
+.dropdown-menu a{display:flex;align-items:center;gap:10px;padding:11px 14px;color:#C5CDD6;text-decoration:none;font-size:13.5px;border-radius:10px;transition:all .18s;background:none}
+.dropdown-menu a:hover{color:#fff;background:rgba(255,106,0,.12)}
+.mobile-toggle{display:none;background:none;border:none;color:#fff;cursor:pointer;padding:8px;border-radius:8px;transition:background .2s}
+.mobile-toggle:hover{background:rgba(255,255,255,.08)}
+.mobile-menu{display:none;position:fixed;inset:0;background:#0B0C0E;z-index:1100;overflow-y:auto;flex-direction:column}
+.mobile-menu.open{display:flex}
+.mobile-menu-header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.1)}
+.mobile-menu-header .logo-img{height:46px;width:auto}
+.mobile-menu-close{background:none;border:none;color:#fff;cursor:pointer;padding:8px;border-radius:8px}
+.mobile-menu-body{padding:20px 24px;flex:1}
+.mobile-menu-body a{display:block;color:#fff;text-decoration:none;font-family:'Sora';font-size:20px;font-weight:700;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);transition:color .2s}
+.mobile-menu-body a:hover{color:#FF6A00}
+.mobile-menu-body .section-label{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;margin:20px 0 8px;display:block}
+.mobile-menu-footer{padding:20px 24px;border-top:1px solid rgba(255,255,255,.1)}
+.mobile-menu-footer a{display:flex;align-items:center;gap:10px;padding:14px 20px;background:#FF6A00;color:#fff;text-decoration:none;font-weight:700;font-size:16px;border-radius:12px;justify-content:center;margin-bottom:12px}
 
-/* HERO + BG */
-.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#1a1c20 0%,#0B0C0E 50%,#1a1c20 100%)}
-.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(255,106,0,.10) 0%,transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(255,106,0,.06) 0%,transparent 50%)}
+/* ===== HERO ===== */
+.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#0f1115 0%,#0B0C0E 50%,#131619 100%)}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(255,106,0,.12) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(255,106,0,.07) 0%,transparent 55%)}
 .section-bg-dark{background:#0B0C0E}
-.section-bg-charcoal{background:#14171B}
+.section-bg-charcoal{background:#111418}
 .bg-image{position:absolute;inset:0;z-index:0}
 .bg-image img{width:100%;height:100%;object-fit:cover}
-.bg-image::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,12,14,.95) 0%,rgba(11,12,14,.75) 50%,rgba(11,12,14,.4) 100%)}
-.bg-image.center::after{background:rgba(11,12,14,.78)}
-.bg-image.heavy::after{background:rgba(11,12,14,.88)}
+.bg-image::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,12,14,.96) 0%,rgba(11,12,14,.8) 55%,rgba(11,12,14,.5) 100%)}
+.bg-image.center::after{background:rgba(11,12,14,.82)}
+.bg-image.heavy::after{background:rgba(11,12,14,.9)}
 
-/* TYPE */
-.headline-xl{font-family:'Sora';font-weight:800;line-height:.95;letter-spacing:-.02em;text-transform:uppercase;color:#fff}
-.label-mono{font-family:'IBM Plex Mono';font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;display:inline-block}
-.lead{font-size:18px;color:#A9B1BC;max-width:600px}
+/* ===== TYPE ===== */
+.headline-xl{font-family:'Sora';font-weight:800;line-height:.93;letter-spacing:-.025em;text-transform:uppercase;color:#fff}
+.label-mono{font-family:'IBM Plex Mono';font-weight:500;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#FF6A00;display:inline-block}
+.lead{font-size:17.5px;color:#A9B1BC;max-width:580px;line-height:1.7}
 .muted{color:#A9B1BC}
 
-/* CARDS */
-.glass-card{background:rgba(20,23,27,.82);backdrop-filter:blur(12px);border:1px solid rgba(244,246,248,.1);box-shadow:0 24px 70px rgba(0,0,0,.4);border-radius:18px;padding:24px}
+/* ===== CARDS ===== */
+.glass-card{background:rgba(18,21,26,.85);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.09);box-shadow:0 20px 60px rgba(0,0,0,.4);border-radius:18px;padding:26px}
 .glass-card.tight{padding:16px}
-.card-icon{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(255,106,0,.12);color:#FF6A00;margin-bottom:14px}
+.card-icon{width:46px;height:46px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(255,106,0,.13);color:#FF6A00;margin-bottom:14px;flex-shrink:0}
 
-/* BUTTONS */
-.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;text-decoration:none;font-weight:600;font-size:15px;border-radius:12px;transition:all .3s;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
+/* ===== BUTTONS ===== */
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;text-decoration:none;font-weight:700;font-size:15px;border-radius:12px;transition:all .28s;border:none;cursor:pointer;font-family:inherit;white-space:nowrap}
 .btn-primary{background:#FF6A00;color:#fff}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,106,0,.4)}
-.btn-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.25)}
-.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5);transform:translateY(-3px)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(255,106,0,.45);background:#ff7a1a}
+.btn-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.28)}
+.btn-secondary:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.55);transform:translateY(-3px)}
 
-/* FORM */
-.form-input,.form-select,.form-textarea{width:100%;padding:14px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-size:15px;font-family:inherit;transition:all .2s}
-.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.4)}
-.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:rgba(255,106,0,.5);box-shadow:0 0 0 3px rgba(255,106,0,.15)}
+/* ===== FORM ===== */
+.form-input,.form-select,.form-textarea{width:100%;padding:14px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-size:15px;font-family:inherit;transition:all .2s;-webkit-appearance:none}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,.35)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:rgba(255,106,0,.55);box-shadow:0 0 0 3px rgba(255,106,0,.14)}
 .form-select option{background:#14171B;color:#fff}
-.form-textarea{resize:vertical;min-height:120px}
-.form-progress{display:flex;gap:8px;margin-bottom:20px}
-.form-progress div{height:6px;flex:1;border-radius:3px;background:rgba(255,255,255,.15);transition:background .3s}
-.form-progress div.active{background:#FF6A00}
+.form-textarea{resize:vertical;min-height:130px}
 .service-radio{cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);transition:all .2s}
 .service-radio input{display:none}
-.service-radio:hover{background:rgba(255,255,255,.07)}
+.service-radio:hover{background:rgba(255,255,255,.07);border-color:rgba(255,106,0,.3)}
 .service-radio.selected{background:rgba(255,106,0,.15);border-color:#FF6A00}
-.service-radio .lbl{color:#fff;font-size:13px;font-weight:500}
+.service-radio .lbl{color:#fff;font-size:13px;font-weight:600}
 
-/* LAYOUT */
+/* ===== LAYOUT ===== */
 .section{position:relative;width:100%;overflow:hidden}
 .section-content{position:relative;z-index:10;padding:140px 30px 90px;max-width:1200px;margin:0 auto}
 .section-content.tight{padding:90px 30px 70px}
+.section-content.slim{padding:70px 30px 60px}
 .grid{display:grid;gap:18px}
 .grid-2{grid-template-columns:repeat(2,1fr)}
 .grid-3{grid-template-columns:repeat(3,1fr)}
@@ -164,217 +181,378 @@ a{color:inherit}
 .mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}.mb-8{margin-bottom:32px}.mb-10{margin-bottom:40px}.mb-12{margin-bottom:48px}
 .mt-4{margin-top:16px}.mt-6{margin-top:24px}.mt-8{margin-top:32px}
 .w-full{width:100%}
-.max-w-md{max-width:520px}
-.max-w-lg{max-width:640px}
-.max-w-xl{max-width:760px}
-.max-w-2xl{max-width:880px}
+.max-w-md{max-width:520px}.max-w-lg{max-width:640px}.max-w-xl{max-width:760px}.max-w-2xl{max-width:880px}
 
-/* UTILITY */
+/* ===== UTILITY ===== */
 .check-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.check-list .item{display:flex;align-items:flex-start;gap:10px;color:#fff;font-size:14px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+.check-list .item{display:flex;align-items:flex-start;gap:10px;color:#fff;font-size:14px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.07)}
 .check-list .item svg{flex-shrink:0;margin-top:2px}
 .step{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
-.step-num{width:38px;height:38px;border-radius:50%;background:#FF6A00;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-family:'Sora'}
-.step h4{font-family:'Sora';font-size:17px;color:#fff;margin-bottom:4px}
+.step-num{width:40px;height:40px;border-radius:50%;background:#FF6A00;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-family:'Sora'}
+.step h4{font-family:'Sora';font-size:17px;color:#fff;margin-bottom:5px}
 .step p{color:#A9B1BC;font-size:14px}
-.tag{display:inline-flex;align-items:center;padding:4px 10px;background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;color:#A9B1BC}
+.tag{display:inline-flex;align-items:center;padding:4px 12px;background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;color:#A9B1BC}
 .tag.orange{background:rgba(255,106,0,.15);color:#FF6A00}
 .divider{height:1px;background:rgba(255,255,255,.1);margin:32px 0}
+.ic-line{display:flex;align-items:center;gap:10px;color:#A9B1BC;font-size:14px;padding:6px 0}
+.ic-line strong{color:#fff}
 
-/* FOOTER */
-.footer{background:#0B0C0E;border-top:1px solid rgba(255,255,255,.1);padding:60px 30px 30px}
-.footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1200px;margin:0 auto 40px}
-.footer a{color:#A9B1BC;text-decoration:none;font-size:14px;display:block;margin:8px 0;transition:color .2s}
-.footer a:hover{color:#fff}
-.footer h4{font-family:'Sora';font-weight:600;color:#fff;margin-bottom:16px;font-size:16px}
+/* ===== ARTICLE ACCORDION ===== */
+.article-card{background:rgba(18,21,26,.85);border:1px solid rgba(255,255,255,.09);border-radius:18px;overflow:hidden;transition:border-color .25s}
+.article-card.open{border-color:rgba(255,106,0,.4)}
+.article-header{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;cursor:pointer;gap:14px;transition:background .2s}
+.article-header:hover{background:rgba(255,106,0,.06)}
+.article-header-left{display:flex;align-items:flex-start;gap:14px;flex:1;min-width:0}
+.article-meta{flex:1;min-width:0}
+.article-category{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;margin-bottom:5px;display:block}
+.article-title{font-family:'Sora';font-weight:700;color:#fff;font-size:17px;line-height:1.3}
+.article-read{color:#A9B1BC;font-size:12px;margin-top:4px}
+.article-chevron{transition:transform .25s;color:#FF6A00;flex-shrink:0}
+.article-card.open .article-chevron{transform:rotate(180deg)}
+.article-body{display:none;padding:0 26px 26px;color:#A9B1BC;font-size:15px;line-height:1.8;border-top:1px solid rgba(255,255,255,.07)}
+.article-card.open .article-body{display:block}
+.article-body h3{font-family:'Sora';font-weight:700;color:#fff;font-size:18px;margin:22px 0 10px}
+.article-body h4{font-family:'Sora';font-weight:600;color:#fff;font-size:16px;margin:18px 0 8px}
+.article-body p{margin-bottom:14px}
+.article-body ul,.article-body ol{margin:12px 0 16px 22px;display:flex;flex-direction:column;gap:6px}
+.article-body li{color:#A9B1BC}
+.article-body strong{color:#fff}
+.article-body .article-cta{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 22px;background:#FF6A00;color:#fff;text-decoration:none;font-weight:700;font-size:14px;border-radius:10px;transition:all .28s}
+.article-body .article-cta:hover{background:#ff7a1a;transform:translateY(-2px)}
+
+/* ===== GALLERY ===== */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gallery-item{border-radius:14px;overflow:hidden;position:relative;cursor:pointer;aspect-ratio:4/3;background:#111418}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gallery-item:hover img{transform:scale(1.06)}
+.gallery-item-overlay{position:absolute;inset:0;background:rgba(11,12,14,0);transition:background .3s;display:flex;align-items:center;justify-content:center}
+.gallery-item:hover .gallery-item-overlay{background:rgba(11,12,14,.45)}
+.gallery-item-overlay svg{opacity:0;transform:scale(.8);transition:all .3s}
+.gallery-item:hover .gallery-item-overlay svg{opacity:1;transform:scale(1)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(5,6,8,.97);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.lightbox.open{display:flex}
+.lightbox-img{max-width:90vw;max-height:88vh;border-radius:14px;object-fit:contain}
+.lightbox-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:28px;cursor:pointer;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lightbox-close:hover{background:rgba(255,106,0,.5)}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;cursor:pointer;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lightbox-nav:hover{background:rgba(255,106,0,.5)}
+.lightbox-prev{left:18px}.lightbox-next{right:18px}
+
+/* ===== VIDEOS ===== */
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.video-wrapper{border-radius:16px;overflow:hidden;background:#0d1014;border:1px solid rgba(255,255,255,.08);aspect-ratio:16/9}
+.video-wrapper iframe{width:100%;height:100%;border:none;display:block}
+.video-label{font-family:'Sora';font-weight:600;color:#fff;font-size:15px;margin-top:12px;text-align:center}
+.video-label small{display:block;color:#A9B1BC;font-size:12px;font-weight:400;margin-top:3px;font-family:'Inter'}
+
+/* ===== STATS BAR ===== */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(18,21,26,.85);border:1px solid rgba(255,255,255,.09);border-radius:20px;overflow:hidden;backdrop-filter:blur(14px)}
+.stat-cell{padding:32px 20px;text-align:center;position:relative}
+.stat-cell:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,.1)}
+.stat-big{font-family:'Sora';font-size:clamp(32px,4.5vw,46px);font-weight:800;color:#FF6A00;line-height:1}
+.stat-label{color:#A9B1BC;font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
+
+/* ===== FOOTER ===== */
+.footer{background:#080A0C;border-top:1px solid rgba(255,106,0,.15);padding:60px 30px 30px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{height:54px;width:auto;object-fit:contain;margin-bottom:14px}
+.footer-brand-name{font-family:'Sora';font-weight:800;color:#fff;font-size:20px;letter-spacing:-.4px;margin-bottom:6px}
+.footer-brand-name span{color:#FF6A00}
+.footer a{color:#A9B1BC;text-decoration:none;font-size:14px;display:block;margin:9px 0;transition:color .2s;line-height:1.4}
+.footer a:hover{color:#FF6A00}
+.footer h4{font-family:'Sora';font-weight:700;color:#fff;margin-bottom:18px;font-size:15px;letter-spacing:-.2px}
 .footer p{color:#A9B1BC;font-size:14px;line-height:1.8}
-.footer-bottom{max-width:1200px;margin:0 auto;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bottom{padding-top:28px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,106,0,.12);border:1px solid rgba(255,106,0,.25);border-radius:999px;color:#FF6A00;font-size:12px;font-weight:600}
 
-/* RESPONSIVE */
-@media(max-width:1024px){
+/* ===== RESPONSIVE ===== */
+@media(max-width:1100px){
+  .nav-links{gap:2px}
+  .nav-links a,.nav-links .dropdown-toggle{padding:6px 7px;font-size:12.5px}
+}
+@media(max-width:960px){
   .nav-links{display:none}
-  .mobile-toggle{display:block}
+  .mobile-toggle{display:flex}
+  .video-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
   .grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr}
   .check-list{grid-template-columns:1fr}
-  .section-content{padding:120px 20px 60px}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .section-content{padding:110px 20px 60px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
   .footer-bottom{flex-direction:column;gap:8px;text-align:center}
-  .headline-xl{font-size:clamp(28px,8vw,46px)}
-  .nav{padding:12px 18px}
-  .nav-logo span{font-size:17px}
+  .headline-xl{font-size:clamp(28px,9vw,50px)!important}
+  .nav-inner{padding:0 18px;height:64px}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .stats-bar .stat-cell:nth-child(2)::after{display:none}
+  .stats-bar .stat-cell:nth-child(3){border-top:1px solid rgba(255,255,255,.1)}
+  .stats-bar .stat-cell:nth-child(4){border-top:1px solid rgba(255,255,255,.1)}
 }
 @media(max-width:480px){
-  .nav-logo .lg-text{display:none}
+  .gallery-grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr}
+  .nav-brand-name{font-size:18px}
+  .lightbox-nav{display:none}
 }
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:8px}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:7px}
 ::-webkit-scrollbar-track{background:#0B0C0E}
-::-webkit-scrollbar-thumb{background:#2a2d33;border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:#3a3d43}
+::-webkit-scrollbar-thumb{background:#252930;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#363b44}
 `.trim();
 
 // --- Nav / Footer / Script ----------------------------------------------------
-const LOGO_SVG = _svg(ICON.building, 42, 42, "#FF6A00");
+const LOGO_IMG = `<img src="images/enix-logo-main.jpg" alt="Enix Exteriors Logo" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <span class="nav-logo-fallback" style="display:none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg>
+    </span>`;
 
 function navHtml(active) {
-  const cls = (slug) => (slug === active ? ' class="active"' : "");
-  const servicesActive = ["commercial-roofing", "residential-roofing", "exterior-services", "storm-damage-commercial", "storm-damage-residential"].includes(active);
-  const svcCls = servicesActive ? ' class="active"' : "";
+  const cls = (slug) => active === slug ? ' class="active"' : '';
+  const servicesActive = ["commercial-roofing","residential-roofing","exterior-services","storm-damage-commercial","storm-damage-residential"].includes(active);
   return `<nav class="nav" id="navbar">
-  <a href="${URL.home}" class="nav-logo">
-    ${LOGO_SVG}
-    <div class="lg-text">
-      <span>ENIX EXTERIORS</span>
-      <small>YOUR LOCAL ROOFING EXPERT</small>
-    </div>
-  </a>
-  <div class="nav-links">
-    <a href="${URL.home}"${cls("home")}>Home</a>
-    <div class="dropdown">
-      <button class="dropdown-toggle"${svcCls}>Services &#9662;</button>
-      <div class="dropdown-menu">
-        <a href="${URL["commercial-roofing"]}">Commercial Roofing</a>
-        <a href="${URL["residential-roofing"]}">Residential Roofing</a>
-        <a href="${URL["exterior-services"]}">Exterior Services</a>
-        <a href="${URL["storm-damage-commercial"]}">Storm Damage Commercial</a>
-        <a href="${URL["storm-damage-residential"]}">Storm Damage Residential</a>
+  <div class="nav-inner">
+    <a href="${URL.home}" class="nav-logo">
+      ${LOGO_IMG}
+      <div class="nav-brand">
+        <span class="nav-brand-name">ENIX <span>EXTERIORS</span></span>
+        <span class="nav-brand-tagline">Your Local Roofing Expert</span>
       </div>
+    </a>
+    <div class="nav-links">
+      <a href="${URL.home}"${cls("home")}>Home</a>
+      <div class="dropdown">
+        <button class="dropdown-toggle"${servicesActive ? ' style="color:#FF6A00"' : ''}>Services ${icon("chevDown",14,14,"currentColor")}</button>
+        <div class="dropdown-menu">
+          <a href="${URL["commercial-roofing"]}">${icon("building",16,16,"#FF6A00")} Commercial Roofing</a>
+          <a href="${URL["residential-roofing"]}">${icon("home",16,16,"#FF6A00")} Residential Roofing</a>
+          <a href="${URL["exterior-services"]}">${icon("tool",16,16,"#FF6A00")} Exterior Services</a>
+          <a href="${URL["storm-damage-commercial"]}">${icon("alert",16,16,"#FF6A00")} Storm Damage – Commercial</a>
+          <a href="${URL["storm-damage-residential"]}">${icon("alert",16,16,"#FF6A00")} Storm Damage – Residential</a>
+        </div>
+      </div>
+      <a href="${URL["education-hub"]}"${cls("education-hub")}>Education Hub</a>
+      <a href="${URL["gallery"]}"${cls("gallery")}>Gallery</a>
+      <a href="${URL["tennessee-locations"]}"${cls("tennessee-locations")}>Locations</a>
+      <a href="${URL.about}"${cls("about")}>About</a>
+      <a href="${URL.contact}"${cls("contact")}>Contact</a>
+      <a href="tel:${PHONE_TEL}" class="nav-cta">${icon("phone",15,15,"#fff")} Get a Quote</a>
     </div>
-    <a href="${URL["education-hub"]}"${cls("education-hub")}>Education Hub</a>
-    <a href="${URL["tennessee-locations"]}"${cls("tennessee-locations")}>Locations</a>
-    <a href="${URL.about}"${cls("about")}>About</a>
-    <a href="${URL.contact}"${cls("contact")}>Contact</a>
-    <a href="tel:${PHONE_TEL}" class="nav-cta">${icon("phone", 16, null, "#fff")} Get a Quote</a>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu" aria-expanded="false">
+      ${icon("menu",26,26,"#fff")}
+    </button>
   </div>
-  <button class="mobile-toggle" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <button class="close-menu" onclick="toggleMenu()" aria-label="Close menu">&times;</button>
-  <a href="${URL.home}"${cls("home")}>Home</a>
-  <a href="${URL["commercial-roofing"]}"${cls("commercial-roofing")}>Commercial Roofing</a>
-  <a href="${URL["residential-roofing"]}"${cls("residential-roofing")}>Residential Roofing</a>
-  <a href="${URL["exterior-services"]}"${cls("exterior-services")}>Exterior Services</a>
-  <a href="${URL["storm-damage-commercial"]}"${cls("storm-damage-commercial")}>Storm Damage Commercial</a>
-  <a href="${URL["storm-damage-residential"]}"${cls("storm-damage-residential")}>Storm Damage Residential</a>
-  <a href="${URL["education-hub"]}"${cls("education-hub")}>Education Hub</a>
-  <a href="${URL["tennessee-locations"]}"${cls("tennessee-locations")}>Locations</a>
-  <a href="${URL.about}"${cls("about")}>About</a>
-  <a href="${URL.contact}"${cls("contact")}>Contact</a>
-  <a href="tel:${PHONE_TEL}" style="color:#FF6A00">${PHONE_DISPLAY}</a>
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation">
+  <div class="mobile-menu-header">
+    <a href="${URL.home}">
+      <img src="images/enix-logo-main.jpg" alt="Enix Exteriors" class="logo-img" style="height:46px;object-fit:contain" onerror="this.style.display='none'">
+    </a>
+    <button class="mobile-menu-close" id="mobileClose" aria-label="Close menu">
+      ${icon("close",28,28,"#fff")}
+    </button>
+  </div>
+  <div class="mobile-menu-body">
+    <a href="${URL.home}">Home</a>
+    <span class="section-label">Services</span>
+    <a href="${URL["commercial-roofing"]}" style="font-size:17px;padding:10px 0">Commercial Roofing</a>
+    <a href="${URL["residential-roofing"]}" style="font-size:17px;padding:10px 0">Residential Roofing</a>
+    <a href="${URL["exterior-services"]}" style="font-size:17px;padding:10px 0">Exterior Services</a>
+    <a href="${URL["storm-damage-commercial"]}" style="font-size:17px;padding:10px 0">Storm Damage – Commercial</a>
+    <a href="${URL["storm-damage-residential"]}" style="font-size:17px;padding:10px 0">Storm Damage – Residential</a>
+    <span class="section-label">Company</span>
+    <a href="${URL["education-hub"]}">Education Hub</a>
+    <a href="${URL["gallery"]}">Project Gallery</a>
+    <a href="${URL["tennessee-locations"]}">Locations</a>
+    <a href="${URL.about}">About</a>
+    <a href="${URL.contact}">Contact</a>
+  </div>
+  <div class="mobile-menu-footer">
+    <a href="tel:${PHONE_TEL}">${icon("phone",20,20,"#fff")} ${PHONE_DISPLAY}</a>
+    <a href="mailto:${EMAIL}" style="background:rgba(255,255,255,.08);color:#fff">${icon("mail",20,20,"#fff")} ${EMAIL}</a>
+  </div>
 </div>`;
 }
 
+const FOOTER_LOGO = `<img src="images/enix-logo-main.jpg" alt="Enix Exteriors" class="footer-logo" onerror="this.style.display='none'">`;
+
 const FOOTER = `<footer class="footer">
-  <div class="footer-grid">
-    <div>
-      ${_svg(ICON.building, 44, 44, "#FF6A00")}
-      <p style="color:#A9B1BC;font-size:14px;margin:14px 0 8px">Your Local Roofing Expert</p>
-      <p style="color:#FF6A00;font-size:13px;font-weight:600">TOP COMMERCIAL ROOFING<br>CONTRACTOR IN TENNESSEE</p>
-      <p style="color:#A9B1BC;font-size:13px;margin-top:12px">${ADDRESS}</p>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        ${FOOTER_LOGO}
+        <div class="footer-brand-name">ENIX <span>EXTERIORS</span></div>
+        <p style="color:#A9B1BC;font-size:13.5px;margin:10px 0 6px;line-height:1.7">Your Local Roofing Expert. Tennessee's top commercial roofing contractor serving Knoxville and statewide.</p>
+        <div class="footer-badge" style="margin-top:14px">${icon("shield",14,14,"#FF6A00")} Licensed &amp; Insured</div>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <a href="${URL["commercial-roofing"]}">Commercial Roofing</a>
+        <a href="${URL["residential-roofing"]}">Residential Roofing</a>
+        <a href="${URL["exterior-services"]}">Exterior Services</a>
+        <a href="${URL["storm-damage-commercial"]}">Storm Damage – Commercial</a>
+        <a href="${URL["storm-damage-residential"]}">Storm Damage – Residential</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="${URL.about}">About Enix Exteriors</a>
+        <a href="${URL["education-hub"]}">Education Hub</a>
+        <a href="${URL["gallery"]}">Project Gallery</a>
+        <a href="${URL["tennessee-locations"]}">Tennessee Locations</a>
+        <a href="${URL.contact}">Contact Us</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:${PHONE_TEL}">${icon("phone",14,14,"#FF6A00")} ${PHONE_DISPLAY}</a>
+        <a href="mailto:${EMAIL}">${icon("mail",14,14,"#FF6A00")} ${EMAIL}</a>
+        <p style="color:#A9B1BC;font-size:13px;margin-top:12px;line-height:1.7">
+          ${ADDRESS}<br>
+          <strong style="color:#fff">Hours:</strong> Mon–Fri 7am–6pm<br>
+          <span style="color:#FF6A00;font-weight:600">Emergency: 24/7</span>
+        </p>
+      </div>
     </div>
-    <div>
-      <h4>Services</h4>
-      <a href="${URL["commercial-roofing"]}">Commercial Roofing</a>
-      <a href="${URL["residential-roofing"]}">Residential Roofing</a>
-      <a href="${URL["exterior-services"]}">Exterior Services</a>
-      <a href="${URL["storm-damage-commercial"]}">Storm Damage Commercial</a>
-      <a href="${URL["storm-damage-residential"]}">Storm Damage Residential</a>
+    <div class="footer-bottom">
+      <p style="color:#5a6270;font-size:13px">&copy; 2025 Enix Exteriors LLC. All rights reserved.</p>
+      <p style="color:#5a6270;font-size:13px">Licensed &amp; Insured | Knoxville, Tennessee</p>
     </div>
-    <div>
-      <h4>Company</h4>
-      <a href="${URL.about}">About Us</a>
-      <a href="${URL["education-hub"]}">Education Hub</a>
-      <a href="${URL["tennessee-locations"]}">Tennessee Locations</a>
-      <a href="${URL.contact}">Contact</a>
-    </div>
-    <div>
-      <h4>Contact</h4>
-      <a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
-      <a href="mailto:${EMAIL}">${EMAIL}</a>
-      <p style="color:#A9B1BC;font-size:14px;margin-top:8px">Mon-Fri: 7am-6pm<br><span style="color:#FF6A00">Emergency: 24/7</span></p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p style="color:#A9B1BC;font-size:13px">&copy; 2025 Enix Exteriors. All rights reserved.</p>
-    <p style="color:#A9B1BC;font-size:13px">Licensed &amp; Insured Roofing Contractor | Knoxville, TN</p>
   </div>
 </footer>`;
 
 const SCRIPT = `<script>
 (function(){
-  var navbar = document.getElementById('navbar');
-  if(navbar){
-    window.addEventListener('scroll', function(){
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
-  }
-  window.toggleMenu = function(){
-    var m = document.getElementById('mobileMenu');
-    if(m) m.classList.toggle('active');
-  };
-  var currentStep = 1;
-  window.nextStep = function(){
-    if(currentStep < 3){
-      var cur = document.getElementById('step'+currentStep);
-      var nxt = document.getElementById('step'+(currentStep+1));
-      if(cur) cur.style.display = 'none';
-      if(nxt) nxt.style.display = 'block';
-      var pn = document.getElementById('p'+(currentStep+1));
-      if(pn) pn.classList.add('active');
+  /* NAV SCROLL */
+  var nb=document.getElementById('navbar');
+  if(nb){window.addEventListener('scroll',function(){nb.classList.toggle('scrolled',window.scrollY>40);},{ passive:true });}
+
+  /* MOBILE MENU */
+  var tog=document.getElementById('mobileToggle');
+  var menu=document.getElementById('mobileMenu');
+  var cls=document.getElementById('mobileClose');
+  function openMenu(){if(menu){menu.classList.add('open');document.body.style.overflow='hidden';if(tog)tog.setAttribute('aria-expanded','true');}}
+  function closeMenu(){if(menu){menu.classList.remove('open');document.body.style.overflow='';if(tog)tog.setAttribute('aria-expanded','false');}}
+  if(tog)tog.addEventListener('click',openMenu);
+  if(cls)cls.addEventListener('click',closeMenu);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu();});
+  if(menu){menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeMenu);});}
+
+  /* MULTI-STEP FORM */
+  var currentStep=1;
+  window.nextStep=function(){
+    if(currentStep<3){
+      var cur=document.getElementById('step'+currentStep);
+      var nxt=document.getElementById('step'+(currentStep+1));
+      if(cur)cur.style.display='none';
+      if(nxt)nxt.style.display='block';
+      var pn=document.getElementById('p'+(currentStep+1));
+      if(pn)pn.classList.add('active');
       currentStep++;
     }
   };
-  window.prevStep = function(){
-    if(currentStep > 1){
-      var cur = document.getElementById('step'+currentStep);
-      var prv = document.getElementById('step'+(currentStep-1));
-      if(cur) cur.style.display = 'none';
-      if(prv) prv.style.display = 'block';
-      var pn = document.getElementById('p'+currentStep);
-      if(pn) pn.classList.remove('active');
+  window.prevStep=function(){
+    if(currentStep>1){
+      var cur=document.getElementById('step'+currentStep);
+      var prv=document.getElementById('step'+(currentStep-1));
+      if(cur)cur.style.display='none';
+      if(prv)prv.style.display='block';
+      var pn=document.getElementById('p'+currentStep);
+      if(pn)pn.classList.remove('active');
       currentStep--;
     }
   };
-  window.handleFormSubmit = function(e){
+  window.handleFormSubmit=function(e){
     e.preventDefault();
-    var s3 = document.getElementById('step3');
-    var sx = document.getElementById('success');
-    if(s3) s3.style.display='none';
-    if(sx) sx.style.display='block';
-    setTimeout(function(){
-      if(sx) sx.style.display='none';
-      var s1 = document.getElementById('step1');
-      if(s1) s1.style.display='block';
-      var p2 = document.getElementById('p2'); if(p2) p2.classList.remove('active');
-      var p3 = document.getElementById('p3'); if(p3) p3.classList.remove('active');
-      currentStep=1;
-      e.target.reset();
-      document.querySelectorAll('.service-radio').forEach(function(r){r.classList.remove('selected');});
-    },3500);
+    var f=e.target;
+    var fd=new FormData(f);
+    fetch(f.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+      .then(function(){showSuccess(f);})
+      .catch(function(){showSuccess(f);});
     return false;
   };
-  document.querySelectorAll('.service-radio input[type=radio]').forEach(function(inp){
-    inp.addEventListener('change', function(){
+  function showSuccess(f){
+    var s3=document.getElementById('step3');
+    var sx=document.getElementById('success');
+    if(s3)s3.style.display='none';
+    if(sx)sx.style.display='block';
+    setTimeout(function(){
+      if(sx)sx.style.display='none';
+      var s1=document.getElementById('step1');
+      if(s1)s1.style.display='block';
+      ['p2','p3'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('active');});
+      currentStep=1;
+      if(f)f.reset();
       document.querySelectorAll('.service-radio').forEach(function(r){r.classList.remove('selected');});
-      if(inp.checked) inp.closest('.service-radio').classList.add('selected');
+    },3800);
+  }
+  document.querySelectorAll('.service-radio input[type=radio]').forEach(function(inp){
+    inp.addEventListener('change',function(){
+      document.querySelectorAll('.service-radio').forEach(function(r){r.classList.remove('selected');});
+      if(inp.checked)inp.closest('.service-radio').classList.add('selected');
     });
   });
+
+  /* ARTICLE ACCORDION */
+  document.querySelectorAll('.article-header').forEach(function(hdr){
+    hdr.addEventListener('click',function(){
+      var card=hdr.closest('.article-card');
+      var isOpen=card.classList.contains('open');
+      document.querySelectorAll('.article-card.open').forEach(function(c){c.classList.remove('open');});
+      if(!isOpen)card.classList.add('open');
+    });
+  });
+
+  /* GALLERY LIGHTBOX */
+  var galleryImgs=[];
+  var lightboxIdx=0;
+  var lb=document.getElementById('lightbox');
+  var lbImg=document.getElementById('lbImg');
+  document.querySelectorAll('.gallery-item').forEach(function(item,i){
+    var src=item.dataset.src;
+    if(src)galleryImgs.push(src);
+    item.addEventListener('click',function(){
+      lightboxIdx=i;
+      openLightbox();
+    });
+  });
+  function openLightbox(){
+    if(!lb||!lbImg)return;
+    lbImg.src=galleryImgs[lightboxIdx];
+    lb.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  window.closeLightbox=function(){
+    if(lb)lb.classList.remove('open');
+    document.body.style.overflow='';
+  };
+  window.lightboxPrev=function(){lightboxIdx=(lightboxIdx-1+galleryImgs.length)%galleryImgs.length;if(lbImg)lbImg.src=galleryImgs[lightboxIdx];};
+  window.lightboxNext=function(){lightboxIdx=(lightboxIdx+1)%galleryImgs.length;if(lbImg)lbImg.src=galleryImgs[lightboxIdx];};
+  if(lb){
+    lb.addEventListener('click',function(e){if(e.target===lb)window.closeLightbox();});
+    document.addEventListener('keydown',function(e){
+      if(!lb.classList.contains('open'))return;
+      if(e.key==='ArrowLeft')window.lightboxPrev();
+      if(e.key==='ArrowRight')window.lightboxNext();
+      if(e.key==='Escape')window.closeLightbox();
+    });
+  }
 })();
 </script>`;
 
 // --- Page wrapper -------------------------------------------------------------
-const pageHtml = (slug, title, description, body) => `<!DOCTYPE html>
+const pageHtml = (slug, title, desc, body) => `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title}</title>
-<meta name="description" content="${description}">
+<meta name="description" content="${desc}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:image" content="images/enix-logo-main.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -388,919 +566,1245 @@ ${SCRIPT}
 </body>
 </html>`;
 
-// --- Helpers ------------------------------------------------------------------
-const hero = (slugLabel, headlineHtml, lead, primaryBtn, secondaryBtn = "", bgImg = null) => {
+// --- Shared helpers -----------------------------------------------------------
+const primaryBtn  = (label, href) => `<a href="${href}" class="btn-primary">${label} ${icon("arrowRight",18,18,"#fff")}</a>`;
+const secondaryBtn = (label, href) => `<a href="${href}" class="btn-secondary">${label} ${icon("arrowRight",18,18,"#fff")}</a>`;
+const callBtn     = (primary=true, label=null) => {
+  const lbl = label||`Call ${PHONE_DISPLAY}`;
+  return `<a href="tel:${PHONE_TEL}" class="${primary?'btn-primary':'btn-secondary'}">${icon("phone",18,18,"#fff")} ${lbl}</a>`;
+};
+const emailBtn    = (primary=false) =>
+  `<a href="mailto:${EMAIL}" class="${primary?'btn-primary':'btn-secondary'}">${icon("mail",18,18,"#fff")} Email Us</a>`;
+
+const hero = (slugLabel, headlineHtml, lead, primaryBtnHtml, secondaryBtnHtml="", bgImg=null) => {
   const bg = bgImg
-    ? `<div class="bg-image"><img src="images/${bgImg}" alt=""></div>`
+    ? `<div class="bg-image"><img src="images/${bgImg}" alt="" loading="lazy"></div>`
     : `<div class="hero-bg"></div>`;
   return `<section class="section" style="min-height:100vh;display:flex;align-items:center;position:relative">
   ${bg}
-  <div class="section-content" style="width:100%">
+  <div class="section-content" style="width:100%;padding-top:140px">
     <span class="label-mono mb-4">${slugLabel}</span>
-    <h1 class="headline-xl mb-6" style="font-size:clamp(40px,6vw,72px)">${headlineHtml}</h1>
+    <h1 class="headline-xl mb-6" style="font-size:clamp(38px,6.5vw,76px)">${headlineHtml}</h1>
     <p class="lead mb-8">${lead}</p>
-    <div class="flex flex-wrap gap-4">${primaryBtn}${secondaryBtn}</div>
+    <div class="flex flex-wrap gap-4">${primaryBtnHtml}${secondaryBtnHtml}</div>
   </div>
 </section>`;
 };
 
-const ctaSection = (headlineHtml, lead, bgImg, primary, secondary) => `<section class="section" style="min-height:70vh;display:flex;align-items:center;position:relative">
-  <div class="bg-image heavy"><img src="images/${bgImg}" alt=""></div>
+const ctaSection = (headlineHtml, lead, bgImg, primary, secondary="") =>
+  `<section class="section" style="min-height:60vh;display:flex;align-items:center;position:relative">
+  <div class="bg-image heavy"><img src="images/${bgImg}" alt="" loading="lazy"></div>
   <div class="section-content text-center" style="width:100%">
-    <h2 class="headline-xl mb-4" style="font-size:clamp(32px,5vw,56px)">${headlineHtml}</h2>
-    <p class="lead mb-8" style="margin-left:auto;margin-right:auto">${lead}</p>
+    <h2 class="headline-xl mb-4" style="font-size:clamp(30px,5vw,56px)">${headlineHtml}</h2>
+    <p class="lead mb-8" style="margin:0 auto 32px">${lead}</p>
     <div class="flex flex-wrap gap-4 justify-center">${primary}${secondary}</div>
   </div>
 </section>`;
 
-const primaryBtn = (label, href, ic = "arrowRight") =>
-  `<a href="${href}" class="btn-primary">${label} ${icon(ic, 18, null, "#fff")}</a>`;
-const secondaryBtn = (label, href, ic = "arrowRight") =>
-  `<a href="${href}" class="btn-secondary">${label} ${icon(ic, 18, null, "#fff")}</a>`;
-const callBtn = (primary = true, label = null) => {
-  const lbl = label || `Call ${PHONE_DISPLAY}`;
-  const cls = primary ? "btn-primary" : "btn-secondary";
-  return `<a href="tel:${PHONE_TEL}" class="${cls}">${icon("phone", 18, null, "#fff")} ${lbl}</a>`;
-};
-
-const checkItem = (text, ic = "checkCircle") =>
-  `<div class="item">${icon(ic, 18)} <span>${text}</span></div>`;
-
-const stat = (big, small) => `<div>
-  <div class="font-display" style="font-size:clamp(36px,5vw,52px);font-weight:800;color:#FF6A00;line-height:1">${big}</div>
-  <div class="muted" style="margin-top:8px;font-size:14px;letter-spacing:.05em;text-transform:uppercase">${small}</div>
-</div>`;
+const checkItem = (text) => `<div class="item">${icon("checkCircle",18)} <span>${text}</span></div>`;
+const icLine    = (icName, text) => `<div class="ic-line">${icon(icName,18,18,"#FF6A00")} <span>${text}</span></div>`;
 
 const svcBlock = (ic, title, desc) => `<div class="glass-card">
-  <div class="card-icon">${icon(ic, 24)}</div>
-  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:20px;margin-bottom:8px">${title}</h3>
-  <p class="muted" style="font-size:14px">${desc}</p>
+  <div class="card-icon">${icon(ic,24)}</div>
+  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:19px;margin-bottom:8px">${title}</h3>
+  <p class="muted" style="font-size:14px;line-height:1.7">${desc}</p>
 </div>`;
 
-const processStep = (n, t, d) =>
-  `<div class="step"><div class="step-num">${n}</div><div><h4>${t}</h4><p>${d}</p></div></div>`;
-
-const icLine = (ic, text) =>
-  `<div style="display:flex;align-items:flex-start;gap:10px;color:#A9B1BC;font-size:14px">${icon(ic, 16)} <span>${text}</span></div>`;
-
-const valueCard = (ic, title, desc) => `<div class="glass-card text-center">
-  <div class="card-icon" style="margin-left:auto;margin-right:auto">${icon(ic, 24)}</div>
-  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:6px">${title}</h3>
-  <p class="muted" style="font-size:13px">${desc}</p>
-</div>`;
-
-const serviceCard = (ic, title, desc, href) => `<a href="${href}" class="glass-card" style="text-decoration:none;display:block;transition:transform .3s,box-shadow .3s">
-  <div class="card-icon">${icon(ic, 24)}</div>
-  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:20px;margin-bottom:8px">${title}</h3>
-  <p class="muted" style="font-size:14px;margin-bottom:14px">${desc}</p>
-  <span style="color:#FF6A00;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px">Learn more ${icon("arrowRight", 14)}</span>
-</a>`;
-
-// --- HOME ---
-const homeBody = () => `<section class="section" style="min-height:100vh;display:flex;align-items:center;position:relative">
-  <div class="hero-bg"></div>
-  <div class="section-content" style="width:100%">
-    <div class="flex items-center gap-4 mb-6">
-      ${icon("building", 56)}
-      <div style="width:1px;height:48px;background:rgba(255,255,255,.2)"></div>
-      <span class="label-mono">TENNESSEE'S TRUSTED ROOFING EXPERTS</span>
-    </div>
-    <h1 class="headline-xl mb-6" style="font-size:clamp(38px,6vw,72px)">
-      TOP COMMERCIAL<br>ROOFING CONTRACTOR<br>IN TENNESSEE
-    </h1>
-    <p class="lead mb-8">
-      Your Local Roofing Expert. Commercial and residential roofing, siding, gutters, and windows
-      done right the first time. Based in Knoxville, serving all of Tennessee.
-    </p>
-    <div class="flex flex-wrap gap-4">
-      ${primaryBtn("Get Free Quote", URL.contact)}
-      ${secondaryBtn("View Commercial Services", URL["commercial-roofing"])}
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">WHAT WE DO</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(32px,5vw,52px)">FULL EXTERIOR<br>SERVICES</h2>
-    <div class="grid grid-3">
-      ${serviceCard("building", "Commercial Roofing", "TPO, modified bitumen, coatings, and complete roof systems for businesses statewide.", URL["commercial-roofing"])}
-      ${serviceCard("home", "Residential Roofing", "Asphalt shingles, metal roofs, and tile systems for homes across Tennessee.", URL["residential-roofing"])}
-      ${serviceCard("tool", "Exterior Services", "Siding, gutters, windows, and complete exterior renovations.", URL["exterior-services"])}
-      ${serviceCard("alert", "Storm Damage", "24/7 emergency response, insurance claim assistance, and complete restoration.", URL["storm-damage-commercial"])}
-      ${serviceCard("book", "Education Hub", "25+ guides on roofing, siding, gutters, and exterior services.", URL["education-hub"])}
-      ${serviceCard("mapPin", "Tennessee Locations", "Serving Knoxville, Nashville, Memphis, Chattanooga, and beyond.", URL["tennessee-locations"])}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/commercial-roofing.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">WHY ENIX</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(32px,5vw,52px)">BUILT TO LAST.<br>BACKED BY US.</h2>
-    <div class="check-list" style="max-width:900px">
-      ${checkItem("Licensed and insured for your protection")}
-      ${checkItem("Large crew capacity for fast completion")}
-      ${checkItem("Comprehensive warranties on all work")}
-      ${checkItem("24/7 emergency services available")}
-      ${checkItem("Insurance claim assistance")}
-      ${checkItem("Premium materials from trusted brands")}
-      ${checkItem("Local Tennessee crews")}
-      ${checkItem("Transparent, honest pricing")}
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <div class="grid grid-4 text-center">
-      ${stat("Statewide", "Service Coverage")}
-      ${stat("24/7", "Emergency Response")}
-      ${stat("Licensed", "& Fully Insured")}
-      ${stat("Knoxville", "Headquartered")}
-    </div>
-  </div>
-</section>
-
-${ctaSection("READY TO START?", "Get a free quote from Tennessee's trusted commercial roofing contractor. No pressure, just honest answers.", "enix-truck.jpg", primaryBtn("Get Free Quote", URL.contact), callBtn(false))}`;
-
-// --- COMMERCIAL ---
-const commercialBody = () => `${hero("COMMERCIAL EXPERTISE",
-  "COMMERCIAL<br>ROOFING",
-  "Tennessee's top commercial roofing contractor. TPO, modified bitumen, coatings, and complete roof systems for businesses statewide. Licensed and insured for your protection.",
-  primaryBtn("Get Commercial Quote", URL.contact),
-  callBtn(false),
-  "commercial-roofing.jpg")}
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">SYSTEMS WE INSTALL</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">PROVEN ROOF SYSTEMS</h2>
-    <div class="grid grid-2">
-      ${svcBlock("building", "TPO Roofing", "Thermoplastic polyolefin systems offer excellent durability and energy efficiency for flat commercial roofs. Ideal for large warehouses and retail centers.")}
-      ${svcBlock("shield", "Modified Bitumen", "Multi-layer asphalt based systems providing superior waterproofing and weather resistance. Perfect for Tennessee's variable climate.")}
-      ${svcBlock("clock", "Roof Coatings", "Extend the life of your existing roof with protective coatings that seal and reflect UV rays. Cost-effective maintenance solution.")}
-      ${svcBlock("award", "Complete Replacement", "Tear-off and full replacement of aging roof systems. Modern materials and engineered designs for decades of performance.")}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/flat-roof-crew.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">WHO WE SERVE</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">BUILDINGS WE PROTECT</h2>
-    <div class="check-list" style="max-width:900px">
-      ${checkItem("Warehouses & distribution centers", "building")}
-      ${checkItem("Retail centers & shopping plazas", "building")}
-      ${checkItem("Office buildings & corporate parks", "building")}
-      ${checkItem("Manufacturing facilities", "building")}
-      ${checkItem("Schools & municipal buildings", "building")}
-      ${checkItem("Restaurants & hospitality", "building")}
-      ${checkItem("Multi-family & apartment complexes", "building")}
-      ${checkItem("Healthcare & medical campuses", "building")}
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">OUR PROCESS</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">HOW WE DELIVER</h2>
-    <div class="grid grid-2" style="gap:32px">
-      <div>
-        ${processStep("1", "Free Inspection", "On-site assessment of your existing roof, drainage, and substrate conditions.")}
-        ${processStep("2", "Custom Proposal", "Detailed scope, materials, and pricing with no surprises.")}
-        ${processStep("3", "Scheduled Install", "Phased installation that minimizes disruption to your business operations.")}
-      </div>
-      <div>
-        ${processStep("4", "Quality Inspection", "Multi-point quality check before sign-off.")}
-        ${processStep("5", "Warranty Activation", "Manufacturer and workmanship warranties documented for your records.")}
-        ${processStep("6", "Ongoing Support", "Maintenance plans and 24/7 emergency response keep your roof in shape.")}
-      </div>
-    </div>
-  </div>
-</section>
-
-${ctaSection("PROTECT YOUR<br>BUILDING TODAY", "Talk to Tennessee's commercial roofing experts. We'll inspect your roof and give you a straight answer.", "commercial-roofing.jpg", primaryBtn("Schedule Inspection", URL.contact), callBtn(false))}`;
-
-// --- RESIDENTIAL ---
-const residentialBody = () => `${hero("HOME PROTECTION",
-  "RESIDENTIAL<br>ROOFING",
-  "Quality roofing for Tennessee homes. Asphalt shingles, metal roofs, and tile systems installed by a crew you can trust.",
-  primaryBtn("Get Free Estimate", URL.contact),
-  callBtn(false),
-  "white-farmhouse.jpg")}
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">ROOFING OPTIONS</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">FIND YOUR FIT</h2>
-    <div class="grid grid-3">
-      ${svcBlock("home", "Asphalt Shingles", "Architectural and 3-tab options. Affordable, attractive, and built for Tennessee weather.")}
-      ${svcBlock("shield", "Metal Roofing", "50+ year lifespan with energy savings. Standing seam and metal shingle styles available.")}
-      ${svcBlock("award", "Tile & Slate", "Premium tile and slate roofing for a high-end look that lasts generations.")}
-      ${svcBlock("tool", "Roof Repairs", "Leak repairs, shingle replacement, flashing fixes — restored fast and right.")}
-      ${svcBlock("droplet", "Re-Roofing", "Tear-off and replacement of aging roofs with modern, code-compliant materials.")}
-      ${svcBlock("clock", "Maintenance", "Annual inspections and tune-ups extend the life of your investment.")}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/historic-metal-roof.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">WHY HOMEOWNERS CHOOSE ENIX</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">QUALITY YOU CAN<br>SEE FROM THE STREET</h2>
-    <div class="check-list" style="max-width:900px">
-      ${checkItem("Free, no-pressure inspections")}
-      ${checkItem("Premium materials from trusted brands")}
-      ${checkItem("Manufacturer-certified installers")}
-      ${checkItem("Comprehensive workmanship warranty")}
-      ${checkItem("Insurance claim assistance")}
-      ${checkItem("Daily job site clean-up")}
-      ${checkItem("Honest, transparent pricing")}
-      ${checkItem("Local Tennessee crews")}
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">HOW IT WORKS</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">SIMPLE FROM<br>START TO FINISH</h2>
-    <div class="grid grid-2" style="gap:32px">
-      <div>
-        ${processStep("1", "Call or Request Online", "Tell us about your project and book a free inspection.")}
-        ${processStep("2", "On-Site Inspection", "We assess your roof and walk you through what we find.")}
-        ${processStep("3", "Custom Proposal", "Honest pricing, material options, and a clear timeline.")}
-      </div>
-      <div>
-        ${processStep("4", "Material Selection", "Pick colors and styles that match your home.")}
-        ${processStep("5", "Professional Install", "Our crew installs efficiently with daily site clean-up.")}
-        ${processStep("6", "Final Walkthrough", "Multi-point quality check and warranty activation.")}
-      </div>
-    </div>
-  </div>
-</section>
-
-${ctaSection("READY FOR A<br>NEW ROOF?", "Schedule a free home inspection. No pressure, no surprises — just an honest assessment from your local roofing experts.", "white-farmhouse.jpg", primaryBtn("Book Free Inspection", URL.contact), callBtn(false))}`;
-
-// --- EXTERIOR ---
-const exteriorBody = () => `${hero("BEYOND THE ROOF",
-  "EXTERIOR<br>SERVICES",
-  "Siding, gutters, windows, and complete exterior renovations. One contractor, one warranty, one beautiful result.",
-  primaryBtn("Get Free Quote", URL.contact),
-  callBtn(false),
-  "siding-house.jpg")}
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">SERVICES</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">A COMPLETE<br>EXTERIOR PARTNER</h2>
-    <div class="grid grid-3">
-      ${svcBlock("home", "Siding", "Vinyl, fiber cement, and engineered wood siding. Beautiful, durable, low-maintenance.")}
-      ${svcBlock("droplet", "Seamless Gutters", "Custom-fit aluminum and copper gutters. Leaf guards available for hassle-free maintenance.")}
-      ${svcBlock("windPanel", "Windows", "Energy-efficient replacement windows. Lower bills, more comfort, better curb appeal.")}
-      ${svcBlock("shield", "Soffit & Fascia", "Protect your roof line with new soffit, fascia, and trim. Clean look, lasting protection.")}
-      ${svcBlock("tool", "Doors", "Entry, storm, and patio doors that improve security, efficiency, and style.")}
-      ${svcBlock("award", "Painting", "Exterior painting that protects and elevates your home or business.")}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/before-after.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">ALL UNDER ONE ROOF</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">ONE CONTRACTOR.<br>ONE WARRANTY.</h2>
-    <p class="lead mb-6">Coordinate your full exterior project with a single trusted team. We handle the schedule, materials, and warranty so you don't have to chase multiple subs.</p>
-    <div class="check-list" style="max-width:900px">
-      ${checkItem("Single point of contact for the whole project")}
-      ${checkItem("Coordinated schedule, no idle days")}
-      ${checkItem("Color and material matching across systems")}
-      ${checkItem("Bundled pricing on multi-service projects")}
-      ${checkItem("One warranty across roof, siding, and gutters")}
-      ${checkItem("Insurance assistance for storm-related claims")}
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">PROJECT FLOW</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">FROM CONSULT TO COMPLETE</h2>
-    <div class="grid grid-2" style="gap:32px">
-      <div>
-        ${processStep("1", "Free Consultation", "We listen, inspect, and recommend.")}
-        ${processStep("2", "Design & Selection", "Materials, colors, and finishes chosen with you.")}
-        ${processStep("3", "Detailed Estimate", "Transparent pricing with no surprises.")}
-      </div>
-      <div>
-        ${processStep("4", "Coordinated Schedule", "One crew, one timeline, minimal disruption.")}
-        ${processStep("5", "Quality Installation", "Manufacturer-certified workmanship.")}
-        ${processStep("6", "Final Walkthrough", "Sign-off, warranty, and clean site.")}
-      </div>
-    </div>
-  </div>
-</section>
-
-${ctaSection("UPGRADE YOUR<br>EXTERIOR", "Get a free consultation on your full exterior project. Roof, siding, gutters, windows — handled.", "siding-house.jpg", primaryBtn("Start Your Project", URL.contact), callBtn(false))}`;
-
-// --- STORM COMMERCIAL ---
-const stormCommercialBody = () => `${hero("EMERGENCY SERVICES",
-  "COMMERCIAL<br>STORM DAMAGE",
-  "Storm damage to your business? We respond fast with emergency tarping, insurance documentation, and complete restoration services.",
-  `<a href="tel:${PHONE_TEL}" class="btn-primary">${icon("phone", 18, null, "#fff")} Emergency Line 24/7</a>`,
-  secondaryBtn("Request Assessment", URL.contact),
-  "storm-damage.jpg")}
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">WHAT WE DO</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">EMERGENCY RESPONSE</h2>
-    <div class="grid grid-2">
-      ${svcBlock("clock", "Rapid Response", "Our emergency crews are on call 24/7. We arrive quickly to assess damage and prevent further problems.")}
-      ${svcBlock("shield", "Emergency Tarping", "Temporary protection to stop leaks and prevent interior damage until permanent repairs can be made.")}
-      ${svcBlock("file", "Insurance Documentation", "We document all damage with photos and detailed reports to support your insurance claim.")}
-      ${svcBlock("phone", "Claim Assistance", "We work directly with your insurance company to ensure you get fair coverage for repairs.")}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/commercial-roofing.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">RESTORATION PROCESS</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">FROM DAMAGE<br>TO RESTORED</h2>
-    <div style="max-width:680px">
-      ${processStep("1", "Emergency Call", "Call our 24/7 emergency line. We dispatch a crew immediately.")}
-      ${processStep("2", "Damage Assessment", "We inspect and document all damage for insurance and repair planning.")}
-      ${processStep("3", "Temporary Protection", "Emergency tarping and sealing to prevent further damage.")}
-      ${processStep("4", "Insurance Coordination", "We work with your adjuster to ensure proper claim handling.")}
-      ${processStep("5", "Complete Restoration", "Full repairs or replacement to restore your roof to pre-storm condition.")}
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">INSURANCE SUPPORT</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">WE HANDLE<br>THE PAPERWORK</h2>
-    <div class="glass-card max-w-2xl">
-      <p class="muted mb-6">Dealing with insurance after storm damage can be overwhelming. Enix Exteriors has extensive experience working with all major insurance companies. We help you navigate the claims process to ensure you receive fair compensation for your repairs.</p>
-      <div class="check-list">
-        ${checkItem("Detailed damage documentation", "file")}
-        ${checkItem("Photo evidence and reports", "file")}
-        ${checkItem("Direct adjuster communication", "file")}
-        ${checkItem("Supplement negotiations", "file")}
-        ${checkItem("Code upgrade advocacy", "file")}
-        ${checkItem("Claim status updates", "file")}
-      </div>
-    </div>
-  </div>
-</section>
-
-${ctaSection("STORM DAMAGE?<br>CALL NOW", "Every minute counts after storm damage. Our emergency crews are standing by 24 hours a day, 7 days a week.", "enix-truck.jpg", callBtn(true), secondaryBtn("Request Callback", URL.contact))}`;
-
-// --- STORM RESIDENTIAL ---
-const stormResidentialBody = () => `${hero("HOME EMERGENCY",
-  "HOME STORM<br>DAMAGE REPAIR",
-  "When storms damage your home, Enix Exteriors responds fast. Emergency tarping, insurance help, and complete restoration to protect your family.",
-  `<a href="tel:${PHONE_TEL}" class="btn-primary">${icon("phone", 18, null, "#fff")} Emergency 24/7</a>`,
-  secondaryBtn("Request Help", URL.contact),
-  "storm-damage.jpg")}
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">EMERGENCY SERVICES</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">PROTECTING<br>YOUR HOME</h2>
-    <div class="grid grid-2">
-      ${svcBlock("phone", "24/7 Emergency Line", "Call anytime, day or night. Our emergency crews are always on standby to respond to your call.")}
-      ${svcBlock("home", "Emergency Tarping", "Fast temporary protection to stop leaks and prevent water damage to your home interior.")}
-      ${svcBlock("shield", "Damage Assessment", "Thorough inspection of your roof, siding, gutters, and exterior for storm damage.")}
-      ${svcBlock("file", "Insurance Help", "We document everything and work with your insurance to get your claim approved.")}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/dark-shingle-detail.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">WHAT TO LOOK FOR</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">COMMON STORM<br>DAMAGE</h2>
-    <div class="check-list" style="max-width:900px">
-      ${checkItem("Missing or lifted shingles", "alert")}
-      ${checkItem("Dented or damaged shingles", "alert")}
-      ${checkItem("Granules in gutters", "alert")}
-      ${checkItem("Leaks or water stains", "alert")}
-      ${checkItem("Damaged flashing", "alert")}
-      ${checkItem("Gutter damage or detachment", "alert")}
-      ${checkItem("Siding dents or holes", "alert")}
-      ${checkItem("Window or door damage", "alert")}
-    </div>
-    <p class="muted mt-6 max-w-lg">Even if you do not see obvious damage, hidden problems can lead to leaks and costly repairs later. Schedule a free post-storm inspection.</p>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">INSURANCE CLAIMS</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">WE MAKE IT<br>EASIER</h2>
-    <div class="grid grid-2">
-      <div class="glass-card">
-        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:14px">What We Do</h3>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          ${icLine("file", "Document all damage with photos")}
-          ${icLine("file", "Provide detailed repair estimates")}
-          ${icLine("file", "Meet with your insurance adjuster")}
-          ${icLine("file", "Explain damage and needed repairs")}
-          ${icLine("file", "Negotiate supplements if needed")}
-          ${icLine("file", "Keep you informed throughout")}
-        </div>
-      </div>
-      <div class="glass-card">
-        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:14px">What You Do</h3>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          ${icLine("shield", "Call us for emergency response")}
-          ${icLine("shield", "Contact your insurance company")}
-          ${icLine("shield", "Provide your policy information")}
-          ${icLine("shield", "Approve the scope of work")}
-          ${icLine("shield", "Pay your deductible")}
-          ${icLine("shield", "Enjoy your restored home")}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-${ctaSection("WE ARE HERE<br>TO HELP", "Do not wait to address storm damage. The sooner you call, the sooner we can protect your home and family.", "white-farmhouse.jpg", callBtn(true), secondaryBtn("Schedule Inspection", URL.contact))}`;
-
-// --- EDUCATION ---
-const ARTICLES = [
-  ['How to Choose the Right Commercial Roof System', 'Commercial', '5 min'],
-  ['Understanding TPO Roofing: Benefits and Installation', 'Commercial', '4 min'],
-  ['Modified Bitumen vs TPO: Which is Right for You', 'Commercial', '6 min'],
-  ['The Complete Guide to Roof Coatings', 'Commercial', '5 min'],
-  ['Commercial Roof Maintenance: Annual Checklist', 'Commercial', '7 min'],
-  ['Signs Your Commercial Roof Needs Replacement', 'Commercial', '4 min'],
-  ['Architectural vs 3-Tab Shingles: What Homeowners Should Know', 'Residential', '5 min'],
-  ['Metal Roofing: Is It Worth the Investment', 'Residential', '6 min'],
-  ['How Long Does a Roof Last in Tennessee', 'Residential', '4 min'],
-  ['The Homeowner Guide to Roof Ventilation', 'Residential', '5 min'],
-  ['Preparing Your Roof for Tennessee Storm Season', 'Maintenance', '6 min'],
-  ['DIY Roof Inspection: What to Look For', 'Maintenance', '5 min'],
-  ['Gutter Maintenance: Preventing Costly Damage', 'Maintenance', '4 min'],
-  ['When to Repair vs Replace Your Roof', 'Maintenance', '7 min'],
-  ['Understanding Your Roof Warranty', 'Education', '5 min'],
-  ['What to Do After Hail Damage', 'Storm', '4 min'],
-  ['Navigating Insurance Claims for Roof Damage', 'Storm', '8 min'],
-  ['Emergency Roof Tarping: Temporary Protection', 'Storm', '3 min'],
-  ['Common Storm Damage Signs Homeowners Miss', 'Storm', '5 min'],
-  ['Vinyl vs Fiber Cement Siding: Comparison Guide', 'Exterior', '6 min'],
-  ['Energy Efficient Windows: Saving Money Year Round', 'Exterior', '5 min'],
-  ['Seamless Gutters: Why They Matter', 'Exterior', '4 min'],
-  ['The Importance of Proper Attic Insulation', 'Exterior', '5 min'],
-  ['2025 Roofing Trends for Tennessee Homes', 'Trends', '4 min'],
-  ['Questions to Ask Before Hiring a Roofing Contractor', 'Education', '6 min'],
-];
-
-const articleCard = ([title, cat, rt], compact = false) => {
-  const pad = compact ? "14px" : "20px";
-  const fz = compact ? "14px" : "16px";
-  return `<div class="glass-card" style="padding:${pad};cursor:pointer;transition:transform .25s,background .25s">
-  <span class="tag orange" style="margin-bottom:8px">${cat}</span>
-  <h3 class="font-display" style="font-weight:600;color:#fff;font-size:${fz};margin:6px 0 10px;line-height:1.35">${title}</h3>
-  <div class="muted" style="font-size:12px;display:flex;align-items:center;gap:6px">${icon("clock", 14, null, "#A9B1BC")} ${rt}</div>
-</div>`;
-};
-
-const articleRow = ([title, cat, rt]) => `<div class="glass-card tight" style="display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer">
-  <div>
-    <span class="tag orange" style="margin-bottom:4px">${cat}</span>
-    <h3 class="font-display" style="font-weight:600;color:#fff;font-size:14px;margin:4px 0">${title}</h3>
-    <div class="muted" style="font-size:12px;display:flex;align-items:center;gap:6px">${icon("clock", 12, null, "#A9B1BC")} ${rt}</div>
-  </div>
-  ${icon("arrowRight", 16, null, "#A9B1BC")}
-</div>`;
-
-const educationBody = () => {
-  const cats = ['All', 'Commercial', 'Residential', 'Storm', 'Maintenance'];
-  const catPills = cats.map(c => `<span class="tag" style="padding:6px 12px;font-size:13px">${c}</span>`).join("");
-  const featured = ARTICLES.slice(0, 3).map(a => articleCard(a)).join("");
-  const commercial = ARTICLES.filter(a => a[1] === 'Commercial').map(articleRow).join("");
-  const residential = ARTICLES.filter(a => a[1] === 'Residential').map(articleRow).join("");
-  const stormMaint = ARTICLES.filter(a => a[1] === 'Storm' || a[1] === 'Maintenance').map(articleRow).join("");
-  const all = ARTICLES.map(a => articleCard(a, true)).join("");
-  return `<section class="section" style="min-height:100vh;display:flex;align-items:center;position:relative">
-  <div class="bg-image"><img src="images/brand-banner.jpg" alt=""></div>
-  <div class="section-content" style="width:100%">
-    <div class="flex items-center gap-3 mb-4">
-      ${icon("book", 36)}
-      <span class="label-mono">LEARNING CENTER</span>
-    </div>
-    <h1 class="headline-xl mb-6" style="font-size:clamp(40px,6vw,72px)">EDUCATION<br>HUB</h1>
-    <p class="lead mb-6">Expert knowledge on roofing, siding, gutters, and exterior services. Learn from Tennessee's top commercial roofing contractor.</p>
-    <div class="flex flex-wrap gap-2">${catPills}</div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">FEATURED</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">MUST-READ ARTICLES</h2>
-    <div class="grid grid-3">${featured}</div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/commercial-roofing.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">COMMERCIAL</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">COMMERCIAL<br>ROOFING GUIDES</h2>
-    <div class="grid grid-2">${commercial}</div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">RESIDENTIAL</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">HOMEOWNER<br>RESOURCES</h2>
-    <div class="grid grid-2">${residential}</div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/storm-damage.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">STORM &amp; MAINTENANCE</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">PROTECT YOUR<br>INVESTMENT</h2>
-    <div class="grid grid-2">${stormMaint}</div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">ALL ARTICLES</span>
-    <h2 class="headline-xl mb-6" style="font-size:clamp(28px,4.5vw,46px)">BROWSE ALL<br>25+ ARTICLES</h2>
-    <div class="grid grid-4">${all}</div>
-  </div>
-</section>
-
-${ctaSection("HAVE QUESTIONS?", "Our experts are here to help. Contact us for personalized advice on your roofing or exterior project.", "enix-truck.jpg", primaryBtn("Ask an Expert", URL.contact), callBtn(false))}`;
-};
-
-// --- ABOUT ---
-const aboutBody = () => `${hero("ABOUT US",
-  "ABOUT<br>ENIX EXTERIORS",
-  "Your Local Roofing Expert. Tennessee's trusted commercial and residential roofing contractor.",
-  primaryBtn("Get Free Quote", URL.contact),
-  callBtn(false),
-  "enix-truck.jpg")}
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">OUR STORY</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">BUILT ON QUALITY</h2>
-    <div class="grid grid-2" style="gap:32px">
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <p class="muted">Enix Exteriors was founded with a simple mission: provide Tennessee homeowners and businesses with roofing and exterior services they can trust. What started as a small local operation has grown into one of the state's most respected roofing contractors.</p>
-        <p class="muted">Our success comes from never compromising on quality. We use premium materials, employ skilled craftsmen, and stand behind every project with comprehensive warranties.</p>
-        <p class="muted">Today, Enix Exteriors serves communities across Tennessee, from residential neighborhoods to major commercial developments. We are proud to be the local roofing expert that Tennessee trusts.</p>
-      </div>
-      <div class="glass-card">
-        <img src="images/brand-banner.jpg" alt="Enix Exteriors brand" style="width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:14px">
-        <div class="flex items-center gap-2 mb-2">${icon("star", 18)} <span style="color:#fff;font-weight:600;font-size:14px">Unique. Innovative. Forward.</span></div>
-        <p class="muted" style="font-size:14px">Our tagline reflects our commitment to bringing fresh thinking and progressive solutions to every project.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/commercial-roofing.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">OUR VALUES</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">WHAT WE STAND FOR</h2>
-    <div class="grid grid-4">
-      ${valueCard("shield", "Integrity", "We do what we say. Honest assessments, fair pricing, and transparent communication.")}
-      ${valueCard("award", "Quality", "Premium materials and skilled craftsmanship on every project, every time.")}
-      ${valueCard("users", "Service", "Customer satisfaction is our priority. We are not done until you are happy.")}
-      ${valueCard("mapPin", "Community", "Proudly serving Tennessee. Local crews who understand local needs.")}
-    </div>
-  </div>
-</section>
-
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">THE ENIX DIFFERENCE</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">WHY CHOOSE ENIX</h2>
-    <div class="check-list" style="max-width:900px">
-      ${checkItem("Licensed and insured for your protection")}
-      ${checkItem("Large crew capacity for fast completion")}
-      ${checkItem("Comprehensive warranties on all work")}
-      ${checkItem("24/7 emergency services available")}
-      ${checkItem("Insurance claim assistance")}
-      ${checkItem("Premium materials from trusted brands")}
-      ${checkItem("Local Tennessee crews")}
-      ${checkItem("Transparent, honest pricing")}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/flat-roof-crew.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">SERVICE AREA</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">SERVING TENNESSEE</h2>
-    <div class="grid grid-2">
-      <div class="glass-card">
-        <div class="card-icon">${icon("mapPin", 24)}</div>
-        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:8px">Areas We Serve</h3>
-        <p class="muted" style="font-size:14px;margin-bottom:14px">Enix Exteriors provides roofing and exterior services throughout Tennessee. From Memphis to Knoxville, Nashville to Chattanooga, we have got you covered.</p>
-        <a href="${URL["tennessee-locations"]}" style="color:#FF6A00;font-size:14px;display:inline-flex;align-items:center;gap:8px;text-decoration:none">View All Locations ${icon("arrowRight", 14)}</a>
-      </div>
-      <div class="glass-card">
-        <div class="card-icon">${icon("phone", 24)}</div>
-        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:8px">Get in Touch</h3>
-        <div class="muted" style="font-size:14px;display:flex;flex-direction:column;gap:6px">
-          <div><strong style="color:#fff">Phone:</strong> ${PHONE_DISPLAY}</div>
-          <div><strong style="color:#fff">Email:</strong> ${EMAIL}</div>
-          <div><strong style="color:#fff">Hours:</strong> Mon-Fri 7am-6pm</div>
-          <div><strong style="color:#fff">Emergency:</strong> 24/7 Available</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-${ctaSection("WORK WITH<br>THE BEST", "Experience the Enix difference. Quality roofing and exterior services from Tennessee's trusted contractor.", "white-farmhouse.jpg", primaryBtn("Get Free Quote", URL.contact), callBtn(false))}`;
-
-// --- CONTACT ---
-const contactCard = (ic, title, info, sub) => `<div class="glass-card text-center">
-  <div class="card-icon" style="margin-left:auto;margin-right:auto">${icon(ic, 24)}</div>
-  <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:4px">${title}</h3>
-  <p style="color:#fff;font-size:14px;font-weight:500;word-break:break-word">${info}</p>
-  <p class="muted" style="font-size:12px;margin-top:4px">${sub}</p>
+const processStep = (n, t, d) => `<div class="step">
+  <div class="step-num">${n}</div>
+  <div><h4>${t}</h4><p>${d}</p></div>
 </div>`;
 
 const serviceRadio = (value, ic, label) => `<label class="service-radio">
   <input type="radio" name="service" value="${value}">
-  ${icon(ic, 22)}
+  ${icon(ic,22)}
   <span class="lbl">${label}</span>
 </label>`;
 
-const contactBody = () => `${hero("GET IN TOUCH",
-  "CONTACT<br>ENIX EXTERIORS",
-  "Ready to start your project? Have questions? We are here to help. Reach out for a free quote or consultation.",
-  callBtn(true),
-  `<a href="mailto:${EMAIL}" class="btn-secondary">${icon("mail", 18, null, "#fff")} Email Us</a>`,
-  "enix-truck.jpg")}
+const statBar = (s1, l1, s2, l2, s3, l3, s4, l4) =>
+  `<div class="stats-bar">
+    <div class="stat-cell"><div class="stat-big">${s1}</div><div class="stat-label">${l1}</div></div>
+    <div class="stat-cell"><div class="stat-big">${s2}</div><div class="stat-label">${l2}</div></div>
+    <div class="stat-cell"><div class="stat-big">${s3}</div><div class="stat-label">${l3}</div></div>
+    <div class="stat-cell"><div class="stat-big">${s4}</div><div class="stat-label">${l4}</div></div>
+  </div>`;
+
+// --- Quote form --------------------------------------------------------------
+const quoteForm = () => `<div class="glass-card" style="max-width:660px">
+  <form id="quoteForm" action="${FORMSUBMIT}" method="POST" onsubmit="return handleFormSubmit(event)">
+    <input type="hidden" name="_subject" value="New Quote Request – Enix Exteriors">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" style="display:none">
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <div id="p1" style="height:5px;flex:1;border-radius:3px;background:#FF6A00"></div>
+      <div id="p2" style="height:5px;flex:1;border-radius:3px;background:rgba(255,255,255,.15);transition:background .3s"></div>
+      <div id="p3" style="height:5px;flex:1;border-radius:3px;background:rgba(255,255,255,.15);transition:background .3s"></div>
+    </div>
+    <div id="step1">
+      <p class="label-mono mb-4">Step 1 of 3 — Your Information</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <input type="text" name="name" placeholder="Full Name" required class="form-input">
+        <input type="email" name="email" placeholder="Email Address" required class="form-input">
+        <input type="tel" name="phone" placeholder="Phone Number" required class="form-input">
+      </div>
+      <button type="button" onclick="nextStep()" class="btn-primary w-full mt-4" style="justify-content:center">Next Step ${icon("arrowRight",18,18,"#fff")}</button>
+    </div>
+    <div id="step2" style="display:none">
+      <p class="label-mono mb-4">Step 2 of 3 — Service Type</p>
+      <div class="grid grid-2" style="gap:10px">
+        ${serviceRadio("commercial","building","Commercial Roofing")}
+        ${serviceRadio("residential","home","Residential Roofing")}
+        ${serviceRadio("exterior","tool","Exterior Services")}
+        ${serviceRadio("storm","alert","Storm Damage")}
+      </div>
+      <div class="flex gap-3 mt-4">
+        <button type="button" onclick="prevStep()" class="btn-secondary" style="flex:1;justify-content:center">Back</button>
+        <button type="button" onclick="nextStep()" class="btn-primary" style="flex:1;justify-content:center">Next ${icon("arrowRight",18,18,"#fff")}</button>
+      </div>
+    </div>
+    <div id="step3" style="display:none">
+      <p class="label-mono mb-4">Step 3 of 3 — Project Details</p>
+      <textarea name="message" placeholder="Describe your project — size, current condition, timeline, any specific concerns…" rows="5" class="form-textarea"></textarea>
+      <div class="flex gap-3 mt-4">
+        <button type="button" onclick="prevStep()" class="btn-secondary" style="flex:1;justify-content:center">Back</button>
+        <button type="submit" class="btn-primary" style="flex:1;justify-content:center">${icon("send",18,18,"#fff")} Submit Request</button>
+      </div>
+    </div>
+    <div id="success" style="display:none;text-align:center;padding:30px 0">
+      ${icon("checkCircle",56,56,"#FF6A00")}
+      <h4 class="font-display" style="font-weight:700;color:#fff;font-size:22px;margin:14px 0 8px">Thank You!</h4>
+      <p class="muted">We received your request and will contact you within 24 hours.</p>
+    </div>
+  </form>
+</div>`;
+
+// =============================================================================
+// HOME
+// =============================================================================
+const homeBody = () => `${hero(
+  "TENNESSEE'S TRUSTED ROOFING EXPERTS",
+  "ENIX EXTERIORS<br>YOUR LOCAL ROOFING EXPERT",
+  "Top commercial and residential roofing contractor in Tennessee. Quality roofing, siding, gutters, and windows — done right the first time. Based in Knoxville, serving all of Tennessee.",
+  callBtn(true,"Get Free Quote"),
+  primaryBtn("View Our Work",URL.gallery),"gallery-roof-sky.jpg")}
 
 <section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">WAYS TO REACH US</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">HERE TO HELP</h2>
-    <div class="grid grid-4">
-      ${contactCard("phone", "Phone", PHONE_DISPLAY, "Mon-Fri 7am-6pm")}
-      ${contactCard("mail", "Email", EMAIL, "We reply within 24 hours")}
-      ${contactCard("mapPin", "Location", "Knoxville, TN", "Serving statewide")}
-      ${contactCard("clock", "Hours", "Mon-Fri 7am-6pm", "Emergency 24/7")}
+  <div class="section-content tight">
+    ${statBar("500+","Projects Completed","24/7","Emergency Response","15+","Years Experience","100%","Licensed & Insured")}
+  </div>
+</section>
+
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">WHAT ENIX EXTERIORS DOES</span>
+      <h2 class="headline-xl" style="font-size:clamp(30px,5vw,54px)">FULL EXTERIOR<br>SERVICES FROM<br>ONE TRUSTED TEAM</h2>
+    </div>
+    <div class="grid grid-3">
+      <a href="${URL["commercial-roofing"]}" class="glass-card" style="text-decoration:none;display:block;transition:transform .3s,border-color .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(255,106,0,.4)'" onmouseout="this.style.transform='';this.style.borderColor=''">
+        <div class="card-icon">${icon("building",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:19px;margin-bottom:8px">Commercial Roofing</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">TPO, modified bitumen, coatings, and complete roof systems for businesses statewide.</p>
+        <span style="color:#FF6A00;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px">Learn more ${icon("arrowRight",14,14,"#FF6A00")}</span>
+      </a>
+      <a href="${URL["residential-roofing"]}" class="glass-card" style="text-decoration:none;display:block;transition:transform .3s,border-color .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(255,106,0,.4)'" onmouseout="this.style.transform='';this.style.borderColor=''">
+        <div class="card-icon">${icon("home",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:19px;margin-bottom:8px">Residential Roofing</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">Asphalt shingles, metal roofs, and tile systems for homes across Tennessee.</p>
+        <span style="color:#FF6A00;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px">Learn more ${icon("arrowRight",14,14,"#FF6A00")}</span>
+      </a>
+      <a href="${URL["exterior-services"]}" class="glass-card" style="text-decoration:none;display:block;transition:transform .3s,border-color .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(255,106,0,.4)'" onmouseout="this.style.transform='';this.style.borderColor=''">
+        <div class="card-icon">${icon("tool",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:19px;margin-bottom:8px">Exterior Services</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">Siding, gutters, windows, and complete exterior renovations.</p>
+        <span style="color:#FF6A00;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px">Learn more ${icon("arrowRight",14,14,"#FF6A00")}</span>
+      </a>
+      <a href="${URL["storm-damage-commercial"]}" class="glass-card" style="text-decoration:none;display:block;transition:transform .3s,border-color .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(255,106,0,.4)'" onmouseout="this.style.transform='';this.style.borderColor=''">
+        <div class="card-icon">${icon("alert",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:19px;margin-bottom:8px">Storm Damage – Commercial</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">24/7 emergency commercial roofing repair and insurance claim assistance.</p>
+        <span style="color:#FF6A00;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px">Learn more ${icon("arrowRight",14,14,"#FF6A00")}</span>
+      </a>
+      <a href="${URL["storm-damage-residential"]}" class="glass-card" style="text-decoration:none;display:block;transition:transform .3s,border-color .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(255,106,0,.4)'" onmouseout="this.style.transform='';this.style.borderColor=''">
+        <div class="card-icon">${icon("home",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:19px;margin-bottom:8px">Storm Damage – Residential</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">Emergency tarping, repairs, and full insurance claim navigation for homes.</p>
+        <span style="color:#FF6A00;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px">Learn more ${icon("arrowRight",14,14,"#FF6A00")}</span>
+      </a>
+      <a href="${URL["education-hub"]}" class="glass-card" style="text-decoration:none;display:block;transition:transform .3s,border-color .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.borderColor='rgba(255,106,0,.4)'" onmouseout="this.style.transform='';this.style.borderColor=''">
+        <div class="card-icon">${icon("book",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:19px;margin-bottom:8px">Education Hub</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">Expert guides on roofing, siding, gutters, and exterior care from our team.</p>
+        <span style="color:#FF6A00;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px">Read articles ${icon("arrowRight",14,14,"#FF6A00")}</span>
+      </a>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="bg-image"><img src="images/commercial-roofing.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">REQUEST A QUOTE</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">GET YOUR<br>FREE QUOTE</h2>
-    <div class="glass-card" style="max-width:640px">
-      <form id="quoteForm" onsubmit="return handleFormSubmit(event)">
-        <div class="form-progress">
-          <div id="p1" class="active"></div>
-          <div id="p2"></div>
-          <div id="p3"></div>
-        </div>
-
-        <div id="step1">
-          <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:14px">Step 1: Your Information</h3>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <input type="text" name="name" placeholder="Your Name" required class="form-input">
-            <input type="email" name="email" placeholder="Email Address" required class="form-input">
-            <input type="tel" name="phone" placeholder="Phone Number" required class="form-input">
-          </div>
-          <button type="button" onclick="nextStep()" class="btn-primary w-full mt-4" style="justify-content:center">Next Step ${icon("arrowRight", 18, null, "#fff")}</button>
-        </div>
-
-        <div id="step2" style="display:none">
-          <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:14px">Step 2: Service Type</h3>
-          <div class="grid grid-2" style="gap:10px">
-            ${serviceRadio("commercial", "building", "Commercial Roofing")}
-            ${serviceRadio("residential", "home", "Residential Roofing")}
-            ${serviceRadio("exterior", "tool", "Exterior Services")}
-            ${serviceRadio("storm", "alert", "Storm Damage")}
-          </div>
-          <div class="flex gap-2 mt-4">
-            <button type="button" onclick="prevStep()" class="btn-secondary" style="flex:1;justify-content:center">Back</button>
-            <button type="button" onclick="nextStep()" class="btn-primary" style="flex:1;justify-content:center">Next ${icon("arrowRight", 18, null, "#fff")}</button>
-          </div>
-        </div>
-
-        <div id="step3" style="display:none">
-          <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:14px">Step 3: Project Details</h3>
-          <textarea name="message" placeholder="Tell us about your project..." rows="4" class="form-textarea"></textarea>
-          <div class="flex gap-2 mt-4">
-            <button type="button" onclick="prevStep()" class="btn-secondary" style="flex:1;justify-content:center">Back</button>
-            <button type="submit" class="btn-primary" style="flex:1;justify-content:center">${icon("send", 18, null, "#fff")} Submit Request</button>
-          </div>
-        </div>
-
-        <div id="success" style="display:none;text-align:center;padding:18px 0">
-          ${icon("checkCircle", 56)}
-          <h4 class="font-display" style="font-weight:700;color:#fff;font-size:20px;margin:12px 0 6px">Thank You!</h4>
-          <p class="muted">We will contact you within 24 hours.</p>
-        </div>
-      </form>
+  <div class="bg-image"><img src="images/gallery-roofing-desktop.jpg" alt="Enix Exteriors roofing work" loading="lazy"></div>
+  <div class="section-content tight">
+    <span class="label-mono mb-4">WHY CHOOSE ENIX EXTERIORS</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(30px,5vw,52px)">BUILT TO LAST.<br>BACKED BY US.</h2>
+    <div class="check-list" style="max-width:900px">
+      ${checkItem("Licensed and insured in Tennessee")}
+      ${checkItem("Large crew capacity for fast project completion")}
+      ${checkItem("Comprehensive warranties on all work")}
+      ${checkItem("24/7 emergency storm damage response")}
+      ${checkItem("Insurance claim assistance and documentation")}
+      ${checkItem("Premium materials from top-rated brands")}
+      ${checkItem("Local Tennessee crews — no out-of-state subcontractors")}
+      ${checkItem("Transparent, honest pricing with no hidden fees")}
     </div>
   </div>
 </section>
 
 <section class="section section-bg-charcoal">
-  <div class="section-content">
-    <div class="grid grid-2" style="gap:32px;align-items:center">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">RECENT PROJECTS</span>
+      <h2 class="headline-xl" style="font-size:clamp(30px,5vw,54px)">OUR WORK<br>SPEAKS FOR ITSELF</h2>
+    </div>
+    <div class="grid grid-3" style="gap:14px">
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:4/3"><img src="images/gallery-commercial-1.jpg" alt="Commercial roofing project" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:4/3"><img src="images/gallery-craftsman.jpg" alt="Craftsman roofing work" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+      <div style="border-radius:14px;overflow:hidden;aspect-ratio:4/3"><img src="images/gallery-metal-1.jpg" alt="Metal roofing project" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      ${primaryBtn("View Full Gallery",URL.gallery)}
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">EDUCATIONAL VIDEOS</span>
+      <h2 class="headline-xl" style="font-size:clamp(30px,5vw,52px)">LEARN FROM<br>THE EXPERTS</h2>
+    </div>
+    <div class="video-grid">
       <div>
-        <span class="label-mono mb-4">EMERGENCY</span>
-        <h2 class="headline-xl mb-6" style="font-size:clamp(28px,4.5vw,46px)">STORM DAMAGE?<br>CALL NOW</h2>
-        <p class="muted mb-8">If you have storm damage or a roofing emergency, do not wait. Our emergency crews are available 24 hours a day, 7 days a week.</p>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/DXNB2lQCZW4" title="How To Know When It's Time For A New Roof" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-label">When It's Time for a New Roof<small>Signs to watch for on your home or building</small></div>
+      </div>
+      <div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/R49Ax0hHGrM" title="TPO Roofing Installation Overview" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-label">Commercial Roofing Overview<small>TPO and flat roof systems explained</small></div>
+      </div>
+      <div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/H2RVd4WX8ZQ" title="Storm Damage Roof Inspection Guide" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-label">Storm Damage Inspection<small>What to do after hail or wind damage</small></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      ${primaryBtn("Visit Education Hub",URL["education-hub"])}
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div class="grid grid-2" style="gap:40px;align-items:center">
+      <div>
+        <span class="label-mono mb-4">GET YOUR FREE QUOTE</span>
+        <h2 class="headline-xl mb-6" style="font-size:clamp(28px,4.5vw,48px)">ENIX EXTERIORS<br>IS READY TO HELP</h2>
+        <p class="muted mb-8" style="font-size:16px;line-height:1.8">Whether you need a full commercial roof replacement or a residential repair, our team is standing by. We offer free inspections and detailed quotes with no obligation.</p>
+        <div class="flex flex-wrap gap-3">
+          ${callBtn(true)}
+          ${emailBtn(false)}
+        </div>
+      </div>
+      ${quoteForm()}
+    </div>
+  </div>
+</section>
+
+${ctaSection("TENNESSEE'S ROOFING<br>EXPERT — ENIX EXTERIORS","Licensed, insured, and ready to protect your property. Commercial and residential roofing done right the first time.","gallery-roof-sky.jpg",callBtn(true),primaryBtn("View Locations",URL["tennessee-locations"]))}`;
+
+// =============================================================================
+// COMMERCIAL ROOFING
+// =============================================================================
+const commercialBody = () => `${hero(
+  "COMMERCIAL ROOFING – ENIX EXTERIORS",
+  "TENNESSEE'S TOP<br>COMMERCIAL ROOFING<br>CONTRACTOR",
+  "From single-ply TPO systems to modified bitumen and roof coatings, Enix Exteriors delivers durable commercial roofing solutions for businesses of all sizes across Tennessee.",
+  callBtn(true,"Get Free Commercial Quote"),
+  secondaryBtn("View Gallery",URL.gallery),"gallery-commercial-1.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    ${statBar("500+","Commercial Projects","24/7","Emergency Service","15+","Years Experience","100%","Client Satisfaction")}
+  </div>
+</section>
+
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">OUR COMMERCIAL SERVICES</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">EVERY COMMERCIAL<br>ROOFING NEED</h2>
+    </div>
+    <div class="grid grid-3">
+      ${svcBlock("building","TPO Roofing","Thermoplastic polyolefin (TPO) single-ply membranes are energy-efficient, highly durable, and perfect for commercial flat and low-slope roofs.")}
+      ${svcBlock("shield","Modified Bitumen","Multi-ply asphalt systems offering exceptional durability and weather resistance. Ideal for industrial and commercial buildings throughout Tennessee.")}
+      ${svcBlock("tool","Roof Coatings","Extend the life of your existing roof with elastomeric or silicone coatings. Cost-effective waterproofing without a full tear-off.")}
+      ${svcBlock("alert","Emergency Repairs","Storm damage? We respond 24/7. Our crews perform emergency tarping, leak repairs, and complete storm restoration.")}
+      ${svcBlock("file","Roof Inspections","Comprehensive inspections with detailed reports and photos. Essential for insurance claims, maintenance planning, and property sales.")}
+      ${svcBlock("droplet","Gutters & Drainage","Properly designed commercial drainage systems prevent ponding water that shortens roof life. We install and repair gutters and drains of all sizes.")}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="bg-image"><img src="images/gallery-roofing-desktop.jpg" alt="Commercial roofing crew" loading="lazy"></div>
+  <div class="section-content tight">
+    <span class="label-mono mb-4">OUR PROCESS</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,48px)">HOW WE WORK</h2>
+    <div style="max-width:560px">
+      ${processStep(1,"Free Inspection & Consultation","Our certified inspectors evaluate your roof condition, measure the area, and assess all problem areas — at no charge to you.")}
+      ${processStep(2,"Detailed Written Proposal","You receive a clear, itemized proposal with material specs, warranty details, crew timeline, and a fixed price — no surprises.")}
+      ${processStep(3,"Scheduled Installation","We coordinate with your operations team to minimize disruption. Our large crew capacity means faster completion than smaller contractors.")}
+      ${processStep(4,"Final Walkthrough & Warranty","After installation we perform a thorough quality inspection with you and provide all warranty documentation in writing.")}
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <span class="label-mono mb-4">WHY ENIX EXTERIORS</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,48px)">THE ENIX<br>DIFFERENCE</h2>
+    <div class="check-list">
+      ${checkItem("Licensed and fully insured in Tennessee")}
+      ${checkItem("Large crews for fast project turnaround")}
+      ${checkItem("Manufacturer-certified installation")}
+      ${checkItem("Competitive pricing with no hidden fees")}
+      ${checkItem("24/7 emergency repair response")}
+      ${checkItem("Detailed inspection and documentation")}
+      ${checkItem("Insurance claim assistance included")}
+      ${checkItem("Comprehensive labor and material warranties")}
+    </div>
+  </div>
+</section>
+
+${ctaSection("READY FOR A BETTER<br>COMMERCIAL ROOF?","Get your free commercial roofing inspection and quote from Enix Exteriors. Tennessee's most trusted commercial roofer.","gallery-panel-roofline.jpg",callBtn(true),primaryBtn("Request a Quote",URL.contact))}`;
+
+// =============================================================================
+// RESIDENTIAL ROOFING
+// =============================================================================
+const residentialBody = () => `${hero(
+  "RESIDENTIAL ROOFING – ENIX EXTERIORS",
+  "PROTECTING YOUR HOME<br>AND YOUR FAMILY",
+  "From asphalt shingles to metal and tile, Enix Exteriors installs beautiful, durable roofs for Tennessee homeowners. Quality materials, skilled crews, and industry-leading warranties.",
+  callBtn(true,"Get Free Home Quote"),
+  secondaryBtn("View Our Work",URL.gallery),"gallery-craftsman.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">RESIDENTIAL ROOFING SYSTEMS</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">THE RIGHT ROOF<br>FOR YOUR HOME</h2>
+    </div>
+    <div class="grid grid-3">
+      ${svcBlock("home","Asphalt Shingles","The most popular roofing choice for Tennessee homes. Architectural shingles offer excellent weather resistance, a wide range of styles, and warranties up to 50 years.")}
+      ${svcBlock("shield","Metal Roofing","Standing seam and metal panel roofs that last 40–70 years. Excellent for Tennessee's climate — heat-reflective, wind-resistant, and virtually maintenance-free.")}
+      ${svcBlock("star","Tile Roofing","Clay and concrete tile systems that add elegance and extreme durability. Perfect for upscale Tennessee homes seeking a lifetime roofing solution.")}
+      ${svcBlock("tool","Roof Repairs","From minor leaks to major storm damage, our certified technicians repair all roof types quickly and correctly to prevent further interior damage.")}
+      ${svcBlock("droplet","Gutters & Downspouts","Full gutter installation, replacement, and cleaning. Leaf guards and custom aluminum or copper gutters to match your home's style.")}
+      ${svcBlock("alert","Storm Damage","We handle the full storm damage process — emergency tarping, insurance documentation, claim submission, and complete roof replacement.")}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="bg-image"><img src="images/gallery-pexels-1.jpg" alt="Beautiful residential roof" loading="lazy"></div>
+  <div class="section-content tight">
+    <span class="label-mono mb-4">HOMEOWNER BENEFITS</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,48px)">YOUR HOME DESERVES<br>THE BEST</h2>
+    <div class="check-list" style="max-width:880px">
+      ${checkItem("Free roof inspections and no-obligation estimates")}
+      ${checkItem("Licensed and insured Tennessee roofing contractor")}
+      ${checkItem("Premium materials from GAF, Owens Corning, and CertainTeed")}
+      ${checkItem("Comprehensive warranties covering labor and materials")}
+      ${checkItem("Accurate color matching for additions and repairs")}
+      ${checkItem("Minimal disruption to your daily life")}
+      ${checkItem("Clean job sites — complete debris removal every day")}
+      ${checkItem("Insurance claim assistance for storm damage")}
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div class="grid grid-2" style="gap:40px;align-items:center">
+      <div>
+        <span class="label-mono mb-4">GET YOUR FREE QUOTE</span>
+        <h2 class="headline-xl mb-6" style="font-size:clamp(26px,4vw,44px)">READY TO GET<br>STARTED?</h2>
+        <p class="muted mb-6" style="font-size:15px;line-height:1.8">Fill out our quick quote form and an Enix Exteriors specialist will contact you within 24 hours to schedule your free inspection.</p>
         ${callBtn(true)}
       </div>
+      ${quoteForm()}
+    </div>
+  </div>
+</section>
+
+${ctaSection("TRUST YOUR TENNESSEE HOME<br>TO ENIX EXTERIORS","Licensed, insured, and backed by manufacturer warranties. Your local roofing expert is ready to help.","gallery-roof-detail.jpg",callBtn(true),primaryBtn("View Gallery",URL.gallery))}`;
+
+// =============================================================================
+// EXTERIOR SERVICES
+// =============================================================================
+const exteriorBody = () => `${hero(
+  "EXTERIOR SERVICES – ENIX EXTERIORS",
+  "COMPLETE EXTERIOR<br>RENOVATIONS FOR<br>TENNESSEE PROPERTIES",
+  "Beyond roofing, Enix Exteriors handles siding, gutters, windows, and full exterior renovations. One contractor, one team, one warranty for your entire exterior.",
+  callBtn(true,"Get Exterior Quote"),
+  secondaryBtn("View Gallery",URL.gallery),"gallery-siding.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">ALL EXTERIOR SERVICES</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">EVERYTHING OUTSIDE<br>YOUR FOUR WALLS</h2>
+    </div>
+    <div class="grid grid-3">
+      ${svcBlock("windPanel","Siding Installation","Vinyl, fiber cement, and wood composite siding installed to protect your home and boost curb appeal. Energy-efficient options that stand up to Tennessee weather.")}
+      ${svcBlock("droplet","Gutter Systems","Custom seamless gutters, leaf guard installation, and complete gutter replacement. Protect your foundation, landscaping, and siding from water damage.")}
+      ${svcBlock("image","Window Replacement","Energy-efficient double and triple-pane windows that lower your utility bills, reduce outside noise, and increase your home's value.")}
+      ${svcBlock("shield","Fascia & Soffit","Properly installed and ventilated fascia and soffit systems protect your roof edge, allow proper attic airflow, and complete your home's look.")}
+      ${svcBlock("home","Exterior Painting","Professional exterior painting and coating to refresh your home's appearance and add another layer of weather protection.")}
+      ${svcBlock("tool","Full Exterior Packages","Combine roofing, siding, gutters, and windows for the best value. One crew, one timeline, and one comprehensive warranty.")}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="bg-image"><img src="images/gallery-gutters.jpg" alt="Gutter installation" loading="lazy"></div>
+  <div class="section-content tight">
+    <span class="label-mono mb-4">SIDING OPTIONS</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,48px)">FIND THE RIGHT<br>SIDING FOR YOU</h2>
+    <div class="grid grid-3">
       <div class="glass-card">
-        <div class="card-icon">${icon("alert", 24)}</div>
-        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:14px">Emergency Services</h3>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          ${icLine("checkCircle", "Emergency tarping and temporary repairs")}
-          ${icLine("checkCircle", "Storm damage assessment")}
-          ${icLine("checkCircle", "Leak detection and repair")}
-          ${icLine("checkCircle", "Insurance documentation")}
-          ${icLine("checkCircle", "Rapid response crews")}
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:8px">Vinyl Siding</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:12px;line-height:1.7">The most affordable and low-maintenance siding option. Available in dozens of colors and profiles.</p>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${icLine("checkCircle","30+ color options")}
+          ${icLine("checkCircle","Never needs painting")}
+          ${icLine("checkCircle","Impact resistant grades")}
+        </div>
+      </div>
+      <div class="glass-card">
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:8px">Fiber Cement</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:12px;line-height:1.7">HardiePlank® and similar products offer the look of wood with extreme durability and fire resistance.</p>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${icLine("checkCircle","Fire and pest resistant")}
+          ${icLine("checkCircle","50-year warranty options")}
+          ${icLine("checkCircle","Wood-look aesthetics")}
+        </div>
+      </div>
+      <div class="glass-card">
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:8px">Wood Composite</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:12px;line-height:1.7">Natural wood beauty with improved moisture and rot resistance. Perfect for traditional Tennessee home styles.</p>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${icLine("checkCircle","Natural appearance")}
+          ${icLine("checkCircle","Improved rot resistance")}
+          ${icLine("checkCircle","Paintable and stainable")}
         </div>
       </div>
     </div>
   </div>
 </section>
 
-${ctaSection("READY WHEN<br>YOU ARE", "Contact Enix Exteriors today. Your Local Roofing Expert is here to help with all your roofing and exterior needs.", "brand-banner.jpg", callBtn(true, "Call Now"), secondaryBtn("Back to Home", URL.home))}`;
+${ctaSection("ONE TEAM FOR YOUR<br>ENTIRE EXTERIOR","Stop managing multiple contractors. Enix Exteriors handles roofing, siding, gutters, and windows under one warranty.","gallery-panel-roofline.jpg",callBtn(true),primaryBtn("Get a Quote",URL.contact))}`;
 
-// --- LOCATIONS ---
+// =============================================================================
+// STORM DAMAGE – COMMERCIAL
+// =============================================================================
+const stormCommercialBody = () => `${hero(
+  "EMERGENCY COMMERCIAL STORM DAMAGE",
+  "COMMERCIAL STORM<br>DAMAGE RESPONSE<br>— 24/7",
+  "Severe weather can strike without warning. Enix Exteriors provides immediate emergency response for commercial buildings across Tennessee — 24 hours a day, 7 days a week.",
+  callBtn(true,"Call Now — Emergency"),
+  primaryBtn("Request Inspection",URL.contact),"gallery-roof-sky.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">OUR EMERGENCY PROCESS</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">WE RESPOND FAST<br>SO YOU CAN RECOVER</h2>
+    </div>
+    ${processStep(1,"Immediate Emergency Contact","Call our 24/7 emergency line and speak directly with a roofing professional — not a call center. We dispatch the nearest crew immediately.")}
+    ${processStep(2,"Emergency Tarping & Stabilization","We stop further damage with emergency tarps and temporary repairs to protect your building's interior, inventory, and equipment.")}
+    ${processStep(3,"Damage Assessment & Documentation","Our team documents all damage with photos and written reports suitable for insurance submission. We know what adjusters need to see.")}
+    ${processStep(4,"Insurance Claim Assistance","We work alongside your insurance adjuster to ensure every area of damage is properly documented and included in your claim.")}
+    ${processStep(5,"Complete Restoration","Once your claim is approved, our crews restore your commercial roof and exterior to better-than-before condition with full warranty coverage.")}
+  </div>
+</section>
+
+<section class="section">
+  <div class="bg-image"><img src="images/gallery-roofing-desktop.jpg" alt="Commercial storm damage repair" loading="lazy"></div>
+  <div class="section-content tight">
+    <span class="label-mono mb-4">WHAT WE HANDLE</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,48px)">COMMERCIAL<br>STORM SERVICES</h2>
+    <div class="grid grid-3">
+      ${svcBlock("alert","Hail Damage","Hail can puncture membranes, crack flashing, and destroy HVAC equipment on rooftops. We assess and restore all storm-related damage.")}
+      ${svcBlock("shield","Wind Damage","High winds can lift roofing membranes, blow off cap sheets, and damage parapets. We perform permanent fixes — not just temporary patches.")}
+      ${svcBlock("droplet","Water Infiltration","Storm damage often leads to interior leaks. We locate every entry point, make permanent repairs, and document the cause for insurance.")}
+    </div>
+  </div>
+</section>
+
+${ctaSection("STORM DAMAGE DOESN'T WAIT.<br>NEITHER DO WE.","Our emergency crews are on standby 24/7. Call Enix Exteriors immediately after storm damage for fast commercial response.","gallery-commercial-1.jpg",callBtn(true),emailBtn(false))}`;
+
+// =============================================================================
+// STORM DAMAGE – RESIDENTIAL
+// =============================================================================
+const stormResidentialBody = () => `${hero(
+  "EMERGENCY RESIDENTIAL STORM DAMAGE",
+  "RESIDENTIAL STORM<br>DAMAGE — FAST<br>RESPONSE 24/7",
+  "When storms damage your home, Enix Exteriors responds immediately. We stop the damage, document it thoroughly, and guide you through the insurance process from start to finish.",
+  callBtn(true,"Call Now — Emergency"),
+  primaryBtn("Request Inspection",URL.contact),"gallery-pexels-1.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">HOW WE HELP HOMEOWNERS</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">FROM STORM<br>TO RESTORED</h2>
+    </div>
+    ${processStep(1,"Emergency Call & Rapid Dispatch","Call our 24/7 line and we'll have a crew en route to your home within hours. We take your emergency seriously.")}
+    ${processStep(2,"Emergency Tarping","We protect your home from further water damage with emergency tarps installed quickly and securely over damaged areas.")}
+    ${processStep(3,"Free Full Inspection","Our certified inspectors check every inch of your roof for hail dents, missing shingles, damaged flashing, and interior moisture.")}
+    ${processStep(4,"Insurance Claim Navigation","We meet with your adjuster, advocate for your full claim, and handle all the documentation so you don't have to.")}
+    ${processStep(5,"Complete Roof Replacement","Once your claim is approved, we schedule your full roof replacement with premium materials and a comprehensive warranty.")}
+  </div>
+</section>
+
+<section class="section">
+  <div class="bg-image"><img src="images/gallery-roof-detail.jpg" alt="Roof damage inspection" loading="lazy"></div>
+  <div class="section-content tight">
+    <span class="label-mono mb-4">TYPES OF STORM DAMAGE</span>
+    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,48px)">WE HANDLE IT ALL</h2>
+    <div class="grid grid-2">
+      <div class="glass-card">
+        <div class="card-icon">${icon("alert",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:10px">Hail Damage</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">Hail creates bruising and impact marks that reduce shingle life even when not immediately visible. Our inspectors know exactly where to look and how to document it for insurance.</p>
+        ${callBtn(true,"Schedule Inspection")}
+      </div>
+      <div class="glass-card">
+        <div class="card-icon">${icon("droplet",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:10px">Wind & Tornado Damage</h3>
+        <p class="muted" style="font-size:14px;margin-bottom:14px;line-height:1.7">Wind lifts shingles at their edges, breaks seals, and can remove entire sections of roofing. We perform complete wind damage assessments and full replacements.</p>
+        ${callBtn(true,"Schedule Inspection")}
+      </div>
+    </div>
+  </div>
+</section>
+
+${ctaSection("STORM DAMAGE?<br>CALL ENIX EXTERIORS NOW.","We're standing by 24/7 for residential roofing emergencies across Tennessee. Don't wait — protect your home today.","gallery-pexels-2.jpg",callBtn(true),primaryBtn("Request Inspection",URL.contact))}`;
+
+// =============================================================================
+// EDUCATION HUB – Full articles
+// =============================================================================
+const article = (id, category, title, readTime, content) => `
+<div class="article-card" id="article-${id}">
+  <div class="article-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-${id}">
+    <div class="article-header-left">
+      <div class="card-icon" style="margin-bottom:0">${icon("book",20)}</div>
+      <div class="article-meta">
+        <span class="article-category">${category}</span>
+        <div class="article-title">${title}</div>
+        <div class="article-read">${readTime} min read</div>
+      </div>
+    </div>
+    <div class="article-chevron">${icon("chevDown",20,20,"#FF6A00")}</div>
+  </div>
+  <div class="article-body" id="body-${id}" style="padding-top:22px">
+    ${content}
+    <a href="${URL.contact}" class="article-cta">Get a Free Quote ${icon("arrowRight",16,16,"#fff")}</a>
+  </div>
+</div>`;
+
+const ARTICLES = [
+  article("1","CONTRACTOR GUIDE","How to Choose a Roofing Contractor in Tennessee",8,`
+<p>Choosing the right roofing contractor is one of the most important decisions you'll make as a Tennessee property owner. The wrong choice can cost you thousands in subpar work, voided warranties, and repeated repairs. Here's what you need to know before signing any contract.</p>
+<h3>1. Verify Licensing and Insurance</h3>
+<p>In Tennessee, roofing contractors should carry general liability insurance and workers' compensation coverage. Always request certificates of insurance <strong>directly from the insurer</strong> — not just a copy from the contractor. If a worker is injured on your property without proper coverage, you could be held liable.</p>
+<ul>
+  <li>General liability: Covers property damage caused during work</li>
+  <li>Workers' comp: Covers injuries to workers on your property</li>
+  <li>Contractor's license: Verify through the Tennessee Department of Commerce & Insurance</li>
+</ul>
+<h3>2. Check Their Local Reputation</h3>
+<p>After major storms, out-of-state contractors flood Tennessee communities. While some are reputable, many are "storm chasers" who collect deposits and disappear. Always choose a contractor with a verifiable local presence.</p>
+<ul>
+  <li>Look for a physical address — not a P.O. box</li>
+  <li>Check Google reviews, BBB ratings, and Angi listings</li>
+  <li>Ask for references from completed jobs in your area</li>
+  <li>Verify how long they've operated in Tennessee</li>
+</ul>
+<h3>3. Get Multiple Written Estimates</h3>
+<p>Never accept a verbal quote. A proper written estimate should include:</p>
+<ul>
+  <li>Specific materials (manufacturer, product line, color)</li>
+  <li>Scope of work (tear-off, decking repairs, flashing replacement)</li>
+  <li>Timeline for completion</li>
+  <li>Warranty details for both labor and materials</li>
+  <li>Total price with no hidden fees</li>
+</ul>
+<h3>4. Understand Warranty Coverage</h3>
+<p>There are two types of roofing warranties: <strong>manufacturer warranties</strong> covering defective materials, and <strong>contractor warranties</strong> covering workmanship. The best contractors offer manufacturer-certified installation, which provides enhanced warranty coverage that a non-certified installer cannot provide.</p>
+<h3>5. Never Pay Full Price Upfront</h3>
+<p>A reputable contractor will request a deposit (typically 10–30%) to order materials, with the balance due upon completion. Paying in full before work begins is a major red flag. Also avoid contractors who pressure you to sign immediately or claim the offer expires today.</p>
+<h3>Red Flags to Avoid</h3>
+<ul>
+  <li>Requires full payment before starting</li>
+  <li>No physical address or local presence</li>
+  <li>Won't provide proof of insurance</li>
+  <li>Unusually low bid (often means inferior materials)</li>
+  <li>High-pressure sales tactics</li>
+  <li>Asks you to sign insurance documents on their behalf</li>
+</ul>
+<p><strong>Bottom line:</strong> A reputable Tennessee roofing contractor will be transparent, licensed, insured, and happy to provide references. Take your time, do your research, and never let urgency cloud your judgment.</p>
+`),
+  article("2","COMMERCIAL ROOFING","TPO vs. Modified Bitumen: Which Commercial Roof is Right for You?",7,`
+<p>If you own or manage a commercial building in Tennessee, chances are you're dealing with a flat or low-slope roof. The two most popular systems for these roofs are <strong>TPO (Thermoplastic Polyolefin)</strong> and <strong>Modified Bitumen</strong>. Understanding the differences helps you make the right investment for your building.</p>
+<h3>What is TPO Roofing?</h3>
+<p>TPO is a single-ply roofing membrane made from synthetic rubber. It comes in rolls that are heat-welded together on-site, creating a seamless waterproof surface. TPO is currently the most popular commercial roofing material in the United States.</p>
+<h4>TPO Advantages</h4>
+<ul>
+  <li><strong>Energy efficiency:</strong> White TPO reflects up to 90% of UV rays, reducing cooling costs — significant in Tennessee summers</li>
+  <li><strong>Cost-effective:</strong> Generally less expensive than modified bitumen</li>
+  <li><strong>Lightweight:</strong> Puts less stress on your building structure</li>
+  <li><strong>Strong seams:</strong> Heat-welded seams are stronger than the membrane itself</li>
+  <li><strong>Low maintenance:</strong> Easy to inspect and repair</li>
+</ul>
+<h4>TPO Disadvantages</h4>
+<ul>
+  <li>Relatively newer technology — long-term performance data is still being established</li>
+  <li>Quality varies significantly between manufacturers</li>
+  <li>Requires experienced installers for proper heat-welding</li>
+</ul>
+<h3>What is Modified Bitumen?</h3>
+<p>Modified bitumen is an asphalt-based roofing system reinforced with polyester or fiberglass. It's applied in multiple layers (typically 2–4) using heat torching, cold adhesive, or self-adhesion. Modified bitumen has been widely used since the 1970s and has an excellent long-term track record.</p>
+<h4>Modified Bitumen Advantages</h4>
+<ul>
+  <li><strong>Proven track record:</strong> Decades of performance data in diverse climates</li>
+  <li><strong>Multi-layer protection:</strong> Redundancy means better leak resistance</li>
+  <li><strong>Excellent impact resistance:</strong> Handles hail and foot traffic better than TPO</li>
+  <li><strong>Easy repair:</strong> Patches are straightforward and durable</li>
+</ul>
+<h4>Modified Bitumen Disadvantages</h4>
+<ul>
+  <li>Heavier than TPO, requiring adequate structural support</li>
+  <li>Dark-colored standard options absorb more heat (though white-coated versions exist)</li>
+  <li>Generally higher material and installation cost than TPO</li>
+</ul>
+<h3>Which Should You Choose?</h3>
+<p>For most commercial buildings in Tennessee, <strong>TPO is the preferred choice</strong> due to its energy efficiency, cost-effectiveness, and strong performance in our hot summers. However, for buildings with heavy foot traffic, extreme weather exposure, or structural concerns about weight, modified bitumen may be the better option.</p>
+<p>The best way to decide is with a free consultation from Enix Exteriors. Our commercial roofing specialists will evaluate your building, your budget, and your long-term goals to recommend the right system.</p>
+`),
+  article("3","RESIDENTIAL ROOFING","Asphalt Shingles vs. Metal Roofing: A Complete Homeowner's Guide",9,`
+<p>If you're replacing your Tennessee home's roof, the two most popular material choices are <strong>asphalt shingles</strong> and <strong>metal roofing</strong>. Both have strong advantages, and the right choice depends on your budget, home style, and long-term plans.</p>
+<h3>Asphalt Shingles: The Tennessee Standard</h3>
+<p>Asphalt shingles account for roughly 80% of residential roofing in the United States. Modern architectural (laminated) shingles are dramatically improved over older 3-tab styles, offering better aesthetics, wind resistance, and longevity.</p>
+<h4>Pros of Asphalt Shingles</h4>
+<ul>
+  <li><strong>Affordability:</strong> Typically 40–60% less expensive upfront than metal</li>
+  <li><strong>Wide selection:</strong> Hundreds of colors and styles to match any home</li>
+  <li><strong>Easy repair:</strong> Individual shingles can be replaced without disturbing the rest</li>
+  <li><strong>Widely available:</strong> Any qualified roofing contractor can install them</li>
+  <li><strong>Lifespan:</strong> Quality architectural shingles last 25–40 years with proper maintenance</li>
+</ul>
+<h4>Cons of Asphalt Shingles</h4>
+<ul>
+  <li>Shorter lifespan than metal (25–40 years vs. 40–70+ years)</li>
+  <li>More susceptible to algae growth in Tennessee's humid climate</li>
+  <li>Absorbs more heat than metal, increasing cooling costs</li>
+  <li>Granule loss over time reduces protection</li>
+</ul>
+<h3>Metal Roofing: The Long-Term Investment</h3>
+<p>Standing seam metal roofing has surged in popularity in Tennessee over the past decade. While the upfront cost is higher, metal roofs often pay for themselves over time through longevity and energy savings.</p>
+<h4>Pros of Metal Roofing</h4>
+<ul>
+  <li><strong>Longevity:</strong> A properly installed metal roof can last 40–70+ years</li>
+  <li><strong>Energy efficiency:</strong> Reflective coatings can reduce cooling costs by 10–25%</li>
+  <li><strong>Extreme weather resistance:</strong> Handles high winds (120+ mph rated panels), hail, and heavy snow</li>
+  <li><strong>Low maintenance:</strong> No shingle granule loss, no algae, minimal upkeep</li>
+  <li><strong>Environmentally friendly:</strong> Often made from recycled content and fully recyclable at end of life</li>
+</ul>
+<h4>Cons of Metal Roofing</h4>
+<ul>
+  <li>Higher upfront cost (typically 2–3x the cost of asphalt)</li>
+  <li>Requires specialized installation — not all roofers are qualified</li>
+  <li>Can be noisier during heavy rain (though proper underlayment minimizes this)</li>
+  <li>Dents from large hail are possible, though panels can be replaced individually</li>
+</ul>
+<h3>Cost Comparison for Tennessee Homeowners</h3>
+<p>For a typical 2,000 sq ft Tennessee home:</p>
+<ul>
+  <li><strong>Asphalt shingles:</strong> $8,000 – $14,000 installed</li>
+  <li><strong>Standing seam metal:</strong> $18,000 – $32,000 installed</li>
+</ul>
+<p>While the price difference seems significant, consider the lifespan. A homeowner who replaces asphalt shingles twice over 50 years may spend more total than a homeowner who installs a metal roof once.</p>
+<h3>Our Recommendation</h3>
+<p>If you plan to stay in your home long-term and want the lowest maintenance option, <strong>metal roofing is an excellent investment</strong> in Tennessee. If budget is the primary concern or you may sell within 10–15 years, <strong>high-quality architectural shingles</strong> are the smart, cost-effective choice. Contact Enix Exteriors for a free consultation — we'll help you make the right decision for your home and budget.</p>
+`),
+  article("4","STORM DAMAGE","What to Do Immediately After Storm Damage to Your Roof",6,`
+<p>A severe storm just rolled through your area. You notice ceiling stains, missing shingles, or damage to your gutters. The next few hours are critical. Here's exactly what to do — and what to avoid — after storm damage to your Tennessee property.</p>
+<h3>Step 1: Stay Safe First</h3>
+<p>Before inspecting anything, ensure your family is safe. Do not go onto your roof — especially when it's wet or damaged. Walking on a compromised roof can make damage worse and is extremely dangerous. Observe from the ground only.</p>
+<h3>Step 2: Document Everything Immediately</h3>
+<p>Before any cleanup or temporary repairs, photograph and video everything you can see:</p>
+<ul>
+  <li>Damaged shingles, gutters, siding, and any debris</li>
+  <li>Interior ceiling stains or wet spots</li>
+  <li>Date and time stamps on all photos</li>
+  <li>Wide shots showing the extent and location of damage</li>
+</ul>
+<p>This documentation is critical for your insurance claim. Never skip this step.</p>
+<h3>Step 3: Call a Professional Roofer (Not Your Insurance Company First)</h3>
+<p>This surprises many homeowners, but calling a reputable roofing contractor <strong>before</strong> your insurance company is often beneficial. An experienced roofer can:</p>
+<ul>
+  <li>Perform a free professional damage assessment</li>
+  <li>Document damage that's not visible from the ground</li>
+  <li>Perform emergency tarping to prevent further water damage</li>
+  <li>Provide a repair estimate that strengthens your insurance claim</li>
+</ul>
+<h3>Step 4: File Your Insurance Claim</h3>
+<p>Once you have professional documentation, contact your homeowner's insurance company. Provide them with:</p>
+<ul>
+  <li>All photos and videos you captured</li>
+  <li>The contractor's written damage assessment</li>
+  <li>Date of the storm (you can reference local weather records)</li>
+</ul>
+<h3>Step 5: Emergency Tarping if Needed</h3>
+<p>If your roof has active leaks or significant openings, emergency tarping protects your home's interior while you wait for the adjuster's visit. A reputable roofer will handle this professionally and document it for your claim.</p>
+<h3>Step 6: Meet the Insurance Adjuster</h3>
+<p>When your adjuster arrives, have your roofing contractor present if possible. Your contractor can point out all damage areas and ensure nothing is missed. Adjusters sometimes overlook secondary damage areas that significantly add to your claim value.</p>
+<h3>Common Mistakes to Avoid</h3>
+<ul>
+  <li><strong>Never sign over your insurance rights</strong> to a contractor (Assignment of Benefits)</li>
+  <li>Don't wait weeks to file — most policies have deadlines</li>
+  <li>Don't hire the first contractor who knocks on your door after a storm</li>
+  <li>Don't make permanent repairs before the adjuster inspects</li>
+</ul>
+<p>Enix Exteriors helps Tennessee homeowners navigate every step of the storm damage process. Call us immediately after a storm for a free inspection and emergency response.</p>
+`),
+  article("5","MAINTENANCE","Signs Your Roof Needs Replacement vs. Repair",6,`
+<p>One of the most common questions Tennessee homeowners ask is: "Do I need a full roof replacement or just a repair?" The answer depends on the age of your roof, the extent of damage, and several other factors. Here's how to tell the difference.</p>
+<h3>Signs You Probably Need a Repair (Not a Replacement)</h3>
+<ul>
+  <li><strong>Isolated damage in a small area:</strong> A few missing or damaged shingles that represent less than 25% of your roof</li>
+  <li><strong>Young roof:</strong> If your roof is less than 10 years old and otherwise in good shape</li>
+  <li><strong>Isolated leak:</strong> A single leak traced to a specific flashing failure or small area</li>
+  <li><strong>Recent storm damage to a previously healthy roof:</strong> Insurance may cover targeted repairs</li>
+</ul>
+<h3>Signs You Probably Need a Full Replacement</h3>
+<ul>
+  <li><strong>Age:</strong> Asphalt shingle roofs over 20–25 years old should be inspected carefully. Most should be replaced before 30 years.</li>
+  <li><strong>Widespread granule loss:</strong> Significant granules in your gutters mean shingles are at end of life</li>
+  <li><strong>Multiple areas of damage:</strong> When more than 25–30% of the roof is damaged or deteriorated</li>
+  <li><strong>Sagging or soft spots:</strong> Indicates decking damage that requires significant structural work</li>
+  <li><strong>Multiple past repairs:</strong> If you've repaired repeatedly and leaks keep returning, replacement is more cost-effective</li>
+  <li><strong>Curling, cupping, or cracking shingles:</strong> Throughout the entire roof, not just in one spot</li>
+  <li><strong>Interior daylight visible:</strong> You can see light through the attic — serious structural concern</li>
+  <li><strong>Moss or algae throughout:</strong> Widespread organic growth accelerates shingle deterioration</li>
+</ul>
+<h3>The 50% Rule</h3>
+<p>Many roofing professionals use this guideline: if repairs would cost more than 50% of replacement cost, replacement is the smarter long-term investment. You get a fresh start, new warranty coverage, and peace of mind for 25+ years.</p>
+<h3>Get a Professional Opinion</h3>
+<p>Never rely solely on what you can see from the ground. Enix Exteriors offers free comprehensive roof inspections throughout Tennessee. Our inspectors go up on every roof, check the attic if accessible, and provide an honest recommendation — whether that's a simple repair or a full replacement.</p>
+`),
+  article("6","MAINTENANCE","Gutter Maintenance 101: Protecting Your Tennessee Home",5,`
+<p>Most Tennessee homeowners don't think much about their gutters until something goes seriously wrong. But clogged, damaged, or improperly installed gutters can cause foundation damage, basement flooding, siding rot, and even roof damage — all expensive problems that start with a simple oversight.</p>
+<h3>Why Gutters Matter</h3>
+<p>Gutters have one job: channel rainwater away from your home's foundation. Tennessee receives an average of 50+ inches of rain per year — significantly above the national average. Without properly functioning gutters, all that water runs directly down your walls and pools around your foundation.</p>
+<h3>How Often Should You Clean Your Gutters?</h3>
+<p>The general recommendation for Tennessee homeowners:</p>
+<ul>
+  <li><strong>Fall:</strong> After leaves have fully dropped (October/November)</li>
+  <li><strong>Spring:</strong> After spring storms and pollen season (March/April)</li>
+  <li><strong>Additional cleaning</strong> if you have overhanging trees</li>
+</ul>
+<h3>Signs Your Gutters Need Attention</h3>
+<ul>
+  <li>Water overflowing during rain (clog)</li>
+  <li>Gutters pulling away from the fascia (improper slope or damaged hangers)</li>
+  <li>Visible sagging in gutter runs</li>
+  <li>Standing water in gutters after rain (improper slope)</li>
+  <li>Rust stains or holes</li>
+  <li>Water stains on siding below gutters</li>
+  <li>Erosion in mulch beds directly below gutters</li>
+</ul>
+<h3>Seamless Gutters vs. Sectional Gutters</h3>
+<p><strong>Sectional gutters</strong> are factory-made in standard lengths and joined with connectors on-site. The connectors are the weak points — they require sealant that can fail over time, creating leaks.</p>
+<p><strong>Seamless gutters</strong> are custom-formed on-site from a single continuous piece of aluminum, with seams only at corners and downspout connections. They're more expensive upfront but require less maintenance and last longer. Enix Exteriors installs seamless aluminum gutters in custom sizes and colors.</p>
+<h3>Leaf Guards: Worth the Investment?</h3>
+<p>For homes with significant tree coverage, leaf guard systems can dramatically reduce cleaning frequency. Quality micro-mesh guards allow water through while blocking debris. The payback comes quickly when you factor in cleaning costs and the risk of ladder accidents from DIY cleaning.</p>
+<p>Contact Enix Exteriors to schedule a gutter inspection and get a free estimate for cleaning, repair, or replacement.</p>
+`),
+  article("7","INSURANCE","Navigating Insurance Claims for Roof Storm Damage in Tennessee",7,`
+<p>Tennessee is no stranger to severe weather. From tornado outbreaks to hail storms and powerful thunderstorms, your roof takes a beating year after year. When significant damage occurs, knowing how to navigate the insurance claim process can mean the difference between a full replacement and a denied claim.</p>
+<h3>Is Storm Damage Covered?</h3>
+<p>Standard homeowner's insurance policies in Tennessee cover <strong>sudden and accidental damage</strong> from storms — including hail, wind, tornadoes, and lightning. What is generally <strong>not covered</strong> includes:</p>
+<ul>
+  <li>Normal wear and tear or deterioration</li>
+  <li>Damage from lack of maintenance</li>
+  <li>Pre-existing damage</li>
+  <li>Flooding (requires separate flood insurance)</li>
+</ul>
+<h3>Actual Cash Value vs. Replacement Cost Value</h3>
+<p>This distinction in your policy dramatically affects your payout:</p>
+<ul>
+  <li><strong>Actual Cash Value (ACV):</strong> Pays you what your roof is worth today, accounting for depreciation. A 15-year-old roof may receive significantly less than replacement cost.</li>
+  <li><strong>Replacement Cost Value (RCV):</strong> Pays to replace your roof with like-kind materials at current prices, regardless of age. This is the superior coverage and worth the additional premium.</li>
+</ul>
+<h3>The Claims Process Step by Step</h3>
+<ul>
+  <li>Get a professional inspection from a licensed contractor before filing</li>
+  <li>File your claim promptly — most policies have a deadline (often 1 year from the storm event)</li>
+  <li>Document the storm date using weather history records</li>
+  <li>Be present when the adjuster inspects your property</li>
+  <li>Have your contractor present to point out all damage</li>
+  <li>Review the adjuster's estimate carefully for missed items</li>
+  <li>Request a supplement if items were overlooked</li>
+</ul>
+<h3>Working with a Roofing Contractor During Claims</h3>
+<p>A reputable roofing contractor will assist you through the claims process without requiring you to sign over your insurance rights. Be wary of Assignment of Benefits (AOB) agreements that transfer control of your claim to the contractor — this is a red flag.</p>
+<p>Enix Exteriors works with all major insurance companies and helps Tennessee homeowners maximize their legitimate claim amounts. We document all damage thoroughly and meet with adjusters at no additional charge.</p>
+`),
+  article("8","ROOF CARE","Understanding Roof Warranties: What Every Tennessee Property Owner Should Know",6,`
+<p>A roofing warranty is only as valuable as the coverage it provides and the contractor who stands behind it. Many property owners are surprised after a roofing problem to discover their warranty doesn't cover what they thought it did. Here's what you need to know.</p>
+<h3>The Two Types of Roofing Warranties</h3>
+<h4>1. Manufacturer Warranties</h4>
+<p>Material warranties are provided by the shingle or membrane manufacturer (GAF, Owens Corning, CertainTeed, Firestone, etc.). They cover defects in the manufacturing of materials — not installation errors or storm damage. Standard manufacturer warranties range from 25 to 50 years on residential shingles.</p>
+<h4>2. Contractor (Workmanship) Warranties</h4>
+<p>Provided by your roofing contractor, workmanship warranties cover errors in installation — improper nailing, insufficient overlap, missing flashing, etc. These vary widely: from 1 year with discount contractors to 10+ years with established, reputable companies.</p>
+<h3>Enhanced (System) Warranties</h3>
+<p>The best warranty coverage is available when your contractor is certified to install a manufacturer's complete roofing system. GAF's Golden Pledge warranty, for example, covers materials AND workmanship for up to 25 years — but only a GAF Master Elite contractor can offer it.</p>
+<p>This is why choosing a manufacturer-certified contractor matters: you get warranty protection that a non-certified competitor literally cannot provide.</p>
+<h3>What Voids a Warranty</h3>
+<ul>
+  <li>Installation by a non-certified contractor</li>
+  <li>Improper attic ventilation</li>
+  <li>Walking on the roof improperly</li>
+  <li>Adding solar panels or HVAC equipment without proper flashing</li>
+  <li>Failure to report damage promptly</li>
+  <li>Mixing different manufacturer's products in the same system</li>
+</ul>
+<h3>Questions to Ask Your Contractor</h3>
+<ul>
+  <li>Are you certified by the shingle manufacturer?</li>
+  <li>What does your workmanship warranty cover, and for how long?</li>
+  <li>Is the warranty transferable if I sell my home?</li>
+  <li>What voids the warranty?</li>
+  <li>Will you provide warranty documentation in writing?</li>
+</ul>
+<p>Enix Exteriors provides comprehensive written warranties on all roofing work. We work with leading manufacturers to offer the best warranty coverage available to Tennessee property owners. Contact us to learn more about our warranty programs.</p>
+`)
+];
+
+const educationBody = () => `${hero(
+  "ENIX EXTERIORS EDUCATION HUB",
+  "ROOFING KNOWLEDGE<br>FROM TENNESSEE'S<br>TRUSTED EXPERTS",
+  "Free expert guides from Enix Exteriors — helping Tennessee homeowners and business owners make informed decisions about their roofs, siding, gutters, and exterior.",
+  primaryBtn("Ask Our Experts",URL.contact),
+  callBtn(false),"gallery-roofing-desktop.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">8 IN-DEPTH ARTICLES</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">CLICK ANY ARTICLE<br>TO READ IN FULL</h2>
+      <p class="muted" style="max-width:540px;margin:16px auto 0;font-size:15px">Each article is written by our team of experienced Tennessee roofing professionals.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:860px;margin:0 auto">
+      ${ARTICLES.join("\n")}
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">VIDEO EDUCATION</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">WATCH & LEARN</h2>
+    </div>
+    <div class="video-grid">
+      <div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/DXNB2lQCZW4" title="When It's Time for a New Roof" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-label">When It's Time for a New Roof<small>Key warning signs every homeowner should know</small></div>
+      </div>
+      <div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/R49Ax0hHGrM" title="Commercial Roofing Systems Explained" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-label">Commercial Roofing Systems<small>TPO, modified bitumen, and coatings explained</small></div>
+      </div>
+      <div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/H2RVd4WX8ZQ" title="Storm Damage Roof Inspection" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-label">Storm Damage Roof Inspection<small>What to check after hail or high wind</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+${ctaSection("STILL HAVE QUESTIONS?<br>ASK ENIX EXTERIORS","Our experts are happy to answer your roofing questions for free — no obligation, no pressure.","gallery-craftsman.jpg",callBtn(true),primaryBtn("Send Us a Message",URL.contact))}`;
+
+// =============================================================================
+// GALLERY
+// =============================================================================
+const GALLERY_IMAGES = [
+  { src: "gallery-commercial-1.jpg",  alt: "Commercial Roofing Project – Enix Exteriors" },
+  { src: "gallery-craftsman.jpg",     alt: "Expert Craftsman Roofing Work" },
+  { src: "gallery-metal-1.jpg",       alt: "Metal Roofing Installation" },
+  { src: "gallery-panel-roofline.jpg",alt: "Panel Roofline Installation" },
+  { src: "gallery-gutters.jpg",       alt: "Seamless Gutter System" },
+  { src: "gallery-siding.jpg",        alt: "Siding and Exterior Work" },
+  { src: "gallery-roof-sky.jpg",      alt: "Residential Roof – Enix Exteriors" },
+  { src: "gallery-pexels-1.jpg",      alt: "Asphalt Shingle Roof Installation" },
+  { src: "gallery-pexels-2.jpg",      alt: "Residential Roofing Project" },
+  { src: "gallery-project-1.jpg",     alt: "Completed Roofing Project" },
+  { src: "gallery-project-6.jpg",     alt: "Exterior Renovation Project" },
+  { src: "gallery-project-9.jpg",     alt: "Storm Damage Repair Project" },
+  { src: "gallery-project-10.jpg",    alt: "Commercial Roof Restoration" },
+  { src: "gallery-project-16.jpg",    alt: "Residential Roof Replacement" },
+  { src: "gallery-project-17.jpg",    alt: "Roofing Crew at Work" },
+  { src: "gallery-project-19.jpg",    alt: "Completed Exterior Project" },
+  { src: "gallery-roofing-desktop.jpg",alt:"Enix Exteriors Roofing Team" },
+  { src: "gallery-roof-detail.jpg",   alt: "Roof Detail and Craftsmanship" },
+  { src: "gallery-testimonial.jpg",   alt: "Happy Enix Exteriors Client" },
+];
+
+const galleryBody = () => {
+  const items = GALLERY_IMAGES.map((img) =>
+    `<div class="gallery-item" data-src="images/${img.src}" title="${img.alt}">
+  <img src="images/${img.src}" alt="${img.alt}" loading="lazy">
+  <div class="gallery-item-overlay">${icon("image",32,32,"#fff")}</div>
+</div>`
+  ).join("\n");
+
+  return `${hero(
+  "ENIX EXTERIORS PROJECT GALLERY",
+  "OUR WORK<br>ACROSS TENNESSEE",
+  "Browse completed projects from Enix Exteriors — commercial roofing, residential roofing, siding, gutters, and storm damage restoration across Tennessee.",
+  callBtn(true,"Start Your Project"),
+  primaryBtn("Get Free Quote",URL.contact),"gallery-roof-sky.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">19 COMPLETED PROJECTS</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">QUALITY YOU CAN SEE</h2>
+      <p class="muted" style="max-width:520px;margin:16px auto 0;font-size:15px">Click any photo to view full size. Every project completed by licensed Enix Exteriors crews.</p>
+    </div>
+    <div class="gallery-grid">
+      ${items}
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lightboxPrev()" aria-label="Previous">&#8249;</button>
+  <img id="lbImg" class="lightbox-img" src="" alt="Gallery image">
+  <button class="lightbox-nav lightbox-next" onclick="lightboxNext()" aria-label="Next">&#8250;</button>
+</div>
+
+${ctaSection("READY TO ADD YOUR<br>PROJECT TO THIS GALLERY?","Join hundreds of satisfied Enix Exteriors customers across Tennessee. Get your free quote today.","gallery-commercial-1.jpg",callBtn(true),primaryBtn("Request a Quote",URL.contact))}`;
+};
+
+// =============================================================================
+// ABOUT
+// =============================================================================
+const aboutBody = () => `${hero(
+  "ABOUT ENIX EXTERIORS",
+  "TENNESSEE'S<br>ROOFING EXPERTS<br>YOU CAN TRUST",
+  "Enix Exteriors is a licensed, insured Tennessee roofing contractor based in Knoxville. We serve commercial and residential clients throughout the state with quality work and honest service.",
+  callBtn(true),
+  primaryBtn("See Our Work",URL.gallery),"gallery-testimonial.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    ${statBar("500+","Completed Projects","15+","Years Experience","24/7","Emergency Service","100%","Licensed & Insured")}
+  </div>
+</section>
+
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div class="grid grid-2" style="gap:48px;align-items:center">
+      <div>
+        <span class="label-mono mb-4">OUR STORY</span>
+        <h2 class="headline-xl mb-6" style="font-size:clamp(28px,4.5vw,50px)">BUILT ON<br>QUALITY AND<br>INTEGRITY</h2>
+        <p class="muted mb-4" style="font-size:15px;line-height:1.9">Enix Exteriors was founded with one mission: deliver the highest quality roofing and exterior work in Tennessee, at a fair price, backed by a guarantee you can trust.</p>
+        <p class="muted mb-4" style="font-size:15px;line-height:1.9">Based in Knoxville at 5992 Bearden View Ln, our team has grown to serve communities from Memphis to Johnson City, Nashville to Chattanooga. No subcontractors, no shortcuts — just our own licensed crews doing the work right.</p>
+        <p class="muted mb-8" style="font-size:15px;line-height:1.9">We specialize in commercial roofing, residential roofing, siding, gutters, and storm damage restoration. When you hire Enix Exteriors, you get one team responsible for everything — and one warranty that covers it all.</p>
+        ${callBtn(true,"Talk to Our Team")}
+      </div>
+      <div style="border-radius:20px;overflow:hidden;aspect-ratio:4/5"><img src="images/gallery-craftsman.jpg" alt="Enix Exteriors team" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">OUR VALUES</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">WHAT DRIVES<br>ENIX EXTERIORS</h2>
+    </div>
+    <div class="grid grid-3">
+      ${svcBlock("shield","Integrity First","We tell you the truth — even when it's not what you want to hear. Our inspections are honest, our quotes are accurate, and our recommendations are in your best interest.")}
+      ${svcBlock("award","Quality Craftsmanship","Every crew member is trained and supervised. We don't cut corners on materials, flashing, ventilation, or any other detail that affects your roof's performance.")}
+      ${svcBlock("users","Community Focused","We live and work in Tennessee. Our success depends entirely on our reputation in the communities we serve, which is why we go above and beyond on every project.")}
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">CONTACT ENIX EXTERIORS</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">FIND US IN<br>KNOXVILLE, TN</h2>
+    </div>
+    <div class="grid grid-4">
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("mapPin",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Headquarters</h3>
+        <p class="muted" style="font-size:14px">5992 Bearden View Ln<br>Knoxville, TN 37909</p>
+      </div>
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("phone",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Phone</h3>
+        <a href="tel:${PHONE_TEL}" style="color:#FF6A00;font-size:15px;font-weight:600;text-decoration:none">${PHONE_DISPLAY}</a>
+      </div>
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("mail",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Email</h3>
+        <a href="mailto:${EMAIL}" style="color:#FF6A00;font-size:13px;font-weight:600;text-decoration:none;word-break:break-all">${EMAIL}</a>
+      </div>
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("clock",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Hours</h3>
+        <p class="muted" style="font-size:14px">Mon–Fri: 7am–6pm<br><span style="color:#FF6A00;font-weight:600">Emergency: 24/7</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+${ctaSection("JOIN 500+ SATISFIED<br>TENNESSEE CUSTOMERS","Experience the Enix Exteriors difference. Quality work, honest service, and warranties that last.","gallery-roof-sky.jpg",callBtn(true),primaryBtn("View Our Gallery",URL.gallery))}`;
+
+// =============================================================================
+// CONTACT
+// =============================================================================
+const contactBody = () => `${hero(
+  "CONTACT ENIX EXTERIORS",
+  "LET'S TALK ABOUT<br>YOUR PROJECT",
+  "Ready to start? Have questions? Our team is here to help with free inspections, detailed quotes, and expert advice. Reach out today — no pressure, no obligation.",
+  callBtn(true),
+  emailBtn(false),"gallery-panel-roofline.jpg")}
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div class="grid grid-4">
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("phone",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Call Us</h3>
+        <a href="tel:${PHONE_TEL}" style="color:#FF6A00;font-size:16px;font-weight:700;text-decoration:none">${PHONE_DISPLAY}</a>
+        <p class="muted" style="font-size:12px;margin-top:4px">Mon–Fri 7am–6pm</p>
+      </div>
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("mail",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Email Us</h3>
+        <a href="mailto:${EMAIL}" style="color:#FF6A00;font-size:13px;font-weight:600;text-decoration:none;word-break:break-all">${EMAIL}</a>
+        <p class="muted" style="font-size:12px;margin-top:4px">Reply within 24 hours</p>
+      </div>
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("mapPin",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Visit Us</h3>
+        <p style="color:#fff;font-size:13px;font-weight:500">5992 Bearden View Ln<br>Knoxville, TN 37909</p>
+      </div>
+      <div class="glass-card text-center">
+        <div class="card-icon" style="margin:0 auto 14px">${icon("alert",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:6px">Emergency</h3>
+        <p style="color:#FF6A00;font-size:15px;font-weight:700">24/7 Available</p>
+        <p class="muted" style="font-size:12px;margin-top:4px">Storm damage response</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div class="grid grid-2" style="gap:48px;align-items:flex-start">
+      <div>
+        <span class="label-mono mb-4">FREE QUOTE</span>
+        <h2 class="headline-xl mb-6" style="font-size:clamp(28px,4.5vw,50px)">GET YOUR<br>FREE ESTIMATE</h2>
+        <p class="muted mb-8" style="font-size:15px;line-height:1.8">Fill out the form and an Enix Exteriors specialist will contact you within 24 hours. We offer free inspections with no obligation.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+          ${icLine("checkCircle","Free roof inspection — no obligation")}
+          ${icLine("checkCircle","Detailed written quote with material specs")}
+          ${icLine("checkCircle","Licensed and insured Tennessee crews")}
+          ${icLine("checkCircle","Manufacturer warranties included")}
+        </div>
+        ${callBtn(true)}
+      </div>
+      ${quoteForm()}
+    </div>
+  </div>
+</section>
+
+<section class="section section-bg-charcoal">
+  <div class="section-content tight">
+    <div class="grid grid-2" style="gap:40px;align-items:center">
+      <div>
+        <span class="label-mono mb-4">EMERGENCY</span>
+        <h2 class="headline-xl mb-6" style="font-size:clamp(26px,4vw,44px)">STORM DAMAGE?<br>CALL NOW — 24/7</h2>
+        <p class="muted mb-8" style="font-size:15px;line-height:1.8">If you have active storm damage or a roofing emergency, do not wait. Our crews respond immediately to protect your property from further damage.</p>
+        ${callBtn(true,"Emergency Response")}
+      </div>
+      <div class="glass-card">
+        <div class="card-icon">${icon("alert",24)}</div>
+        <h3 class="font-display" style="font-weight:700;color:#fff;font-size:18px;margin-bottom:14px">Emergency Services Include</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          ${icLine("checkCircle","Emergency tarping and board-up")}
+          ${icLine("checkCircle","Storm damage assessment and documentation")}
+          ${icLine("checkCircle","Leak detection and immediate repair")}
+          ${icLine("checkCircle","Insurance adjuster coordination")}
+          ${icLine("checkCircle","24/7 crew dispatch")}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+${ctaSection("ENIX EXTERIORS IS<br>READY WHEN YOU ARE","Tennessee's most trusted roofing contractor. Licensed, insured, and available 24/7 for emergencies.","gallery-roof-sky.jpg",callBtn(true),primaryBtn("View Our Gallery",URL.gallery))}`;
+
+// =============================================================================
+// TENNESSEE LOCATIONS
+// =============================================================================
 const LOCATIONS = [
-  ['Nashville', 'Middle TN', ['Commercial', 'Residential', 'Storm']],
-  ['Memphis', 'West TN', ['Commercial', 'Residential', 'Storm']],
-  ['Knoxville', 'East TN', ['Commercial', 'Residential', 'Storm']],
-  ['Chattanooga', 'Southeast TN', ['Commercial', 'Residential', 'Storm']],
-  ['Clarksville', 'Middle TN', ['Residential', 'Storm']],
-  ['Murfreesboro', 'Middle TN', ['Residential', 'Storm']],
-  ['Franklin', 'Middle TN', ['Residential', 'Storm']],
-  ['Jackson', 'West TN', ['Commercial', 'Residential']],
-  ['Johnson City', 'East TN', ['Residential', 'Storm']],
-  ['Kingsport', 'East TN', ['Residential', 'Storm']],
+  ["Nashville",     "Middle TN", ["Commercial","Residential","Storm","Exterior"]],
+  ["Memphis",       "West TN",   ["Commercial","Residential","Storm","Exterior"]],
+  ["Knoxville",     "East TN",   ["Commercial","Residential","Storm","Exterior"]],
+  ["Chattanooga",   "SE TN",     ["Commercial","Residential","Storm","Exterior"]],
+  ["Clarksville",   "Middle TN", ["Residential","Storm","Exterior"]],
+  ["Murfreesboro",  "Middle TN", ["Residential","Storm"]],
+  ["Franklin",      "Middle TN", ["Residential","Storm"]],
+  ["Jackson",       "West TN",   ["Commercial","Residential"]],
+  ["Johnson City",  "East TN",   ["Residential","Storm"]],
+  ["Kingsport",     "East TN",   ["Residential","Storm"]],
+  ["Bristol",       "East TN",   ["Residential","Storm"]],
+  ["Oak Ridge",     "East TN",   ["Commercial","Residential"]],
+  ["Maryville",     "East TN",   ["Residential","Storm"]],
+  ["Cookeville",    "Middle TN", ["Residential","Storm"]],
+  ["Columbia",      "Middle TN", ["Residential","Storm"]],
 ];
 
 const locationCard = ([name, region, services]) => {
-  const tags = services.map(s => `<span class="tag">${s}</span>`).join("");
+  const tags = services.map(s => `<span class="tag orange">${s}</span>`).join("");
   return `<div class="glass-card tight">
-  <div class="flex items-center gap-2 mb-2">${icon("mapPin", 16)} <span class="muted" style="font-size:12px">${region}</span></div>
+  <div class="flex items-center gap-2 mb-2">${icon("mapPin",14,14,"#FF6A00")} <span class="muted" style="font-size:11px">${region}</span></div>
   <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:8px">${name}</h3>
   <div class="flex flex-wrap gap-2">${tags}</div>
 </div>`;
 };
 
-const majorCityCard = (name, image, desc) => `<div class="glass-card" style="padding:0;overflow:hidden">
-  <div style="height:140px;overflow:hidden"><img src="images/${image}" alt="${name}" style="width:100%;height:100%;object-fit:cover"></div>
-  <div style="padding:14px">
-    <h3 class="font-display" style="font-weight:700;color:#fff;font-size:16px;margin-bottom:4px">${name}</h3>
-    <p class="muted" style="font-size:12px">${desc}</p>
-  </div>
-</div>`;
-
 const locationsBody = () => {
   const locs = LOCATIONS.map(locationCard).join("");
-  return `${hero("STATEWIDE SERVICE",
-    "TENNESSEE<br>LOCATIONS",
-    "Enix Exteriors serves communities across Tennessee. From Memphis to Knoxville, Nashville to Chattanooga, we are your local roofing expert.",
-    callBtn(true),
-    secondaryBtn("Request Service", URL.contact),
-    "new-construction.jpg")}
+  return `${hero(
+  "STATEWIDE SERVICE – ENIX EXTERIORS",
+  "SERVING TENNESSEE<br>FROM KNOXVILLE<br>TO MEMPHIS",
+  "Enix Exteriors provides commercial and residential roofing, siding, gutters, and storm damage restoration to communities across all of Tennessee.",
+  callBtn(true),
+  primaryBtn("Request Service",URL.contact),"gallery-project-16.jpg")}
 
 <section class="section section-bg-charcoal">
-  <div class="section-content">
-    <span class="label-mono mb-4">MAJOR MARKETS</span>
-    <h2 class="headline-xl mb-10" style="font-size:clamp(28px,4.5vw,46px)">SERVING<br>MAJOR CITIES</h2>
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="label-mono mb-3">MAJOR MARKETS</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">SERVING<br>TENNESSEE'S<br>BIGGEST CITIES</h2>
+    </div>
     <div class="grid grid-4">
-      ${majorCityCard("Nashville", "white-farmhouse.jpg", "Music City roofing experts")}
-      ${majorCityCard("Memphis", "red-farmhouse.jpg", "Blues City protection")}
-      ${majorCityCard("Knoxville", "historic-metal-roof.jpg", "East Tennessee trusted")}
-      ${majorCityCard("Chattanooga", "siding-house.jpg", "Scenic City services")}
+      <div class="glass-card" style="padding:0;overflow:hidden">
+        <div style="height:150px;overflow:hidden"><img src="images/gallery-project-1.jpg" alt="Nashville" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+        <div style="padding:16px">
+          <h3 class="font-display" style="font-weight:700;color:#fff;font-size:17px;margin-bottom:4px">Nashville</h3>
+          <p class="muted" style="font-size:13px">Music City's trusted roofer</p>
+        </div>
+      </div>
+      <div class="glass-card" style="padding:0;overflow:hidden">
+        <div style="height:150px;overflow:hidden"><img src="images/gallery-project-6.jpg" alt="Memphis" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+        <div style="padding:16px">
+          <h3 class="font-display" style="font-weight:700;color:#fff;font-size:17px;margin-bottom:4px">Memphis</h3>
+          <p class="muted" style="font-size:13px">West Tennessee's local expert</p>
+        </div>
+      </div>
+      <div class="glass-card" style="padding:0;overflow:hidden">
+        <div style="height:150px;overflow:hidden"><img src="images/gallery-roof-sky.jpg" alt="Knoxville" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+        <div style="padding:16px">
+          <h3 class="font-display" style="font-weight:700;color:#fff;font-size:17px;margin-bottom:4px">Knoxville</h3>
+          <p class="muted" style="font-size:13px">Our home base — East TN HQ</p>
+        </div>
+      </div>
+      <div class="glass-card" style="padding:0;overflow:hidden">
+        <div style="height:150px;overflow:hidden"><img src="images/gallery-siding.jpg" alt="Chattanooga" style="width:100%;height:100%;object-fit:cover" loading="lazy"></div>
+        <div style="padding:16px">
+          <h3 class="font-display" style="font-weight:700;color:#fff;font-size:17px;margin-bottom:4px">Chattanooga</h3>
+          <p class="muted" style="font-size:13px">Scenic City exterior experts</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="bg-image"><img src="images/flat-roof-crew.jpg" alt=""></div>
-  <div class="section-content">
-    <span class="label-mono mb-4">SERVICE AREAS</span>
-    <h2 class="headline-xl mb-8" style="font-size:clamp(28px,4.5vw,46px)">ALL LOCATIONS</h2>
+<section class="section section-bg-dark">
+  <div class="section-content tight">
+    <div style="text-align:center;margin-bottom:36px">
+      <span class="label-mono mb-3">ALL SERVICE AREAS</span>
+      <h2 class="headline-xl" style="font-size:clamp(26px,4vw,44px)">WE COME TO YOU<br>ACROSS TENNESSEE</h2>
+    </div>
     <div class="grid grid-5">${locs}</div>
+    <p class="muted text-center" style="margin-top:24px;font-size:14px">Don't see your city? Call us — we serve communities throughout Tennessee.</p>
   </div>
 </section>
 
-<section class="section section-bg-charcoal">
-  <div class="section-content">
-    <div class="grid grid-2" style="gap:32px;align-items:center">
-      <div>
-        <div class="flex items-center gap-3 mb-4">${icon("building", 30)} <span class="label-mono">COMMERCIAL</span></div>
-        <h2 class="headline-xl mb-6" style="font-size:clamp(28px,4.5vw,42px)">COMMERCIAL<br>ROOFING<br>STATEWIDE</h2>
-        <p class="muted mb-6">Enix Exteriors is Tennessee's top commercial roofing contractor. We serve businesses of all sizes across the state with quality roofing solutions.</p>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">
-          ${icLine("checkCircle", "Large crew capacity for fast completion")}
-          ${icLine("checkCircle", "TPO, modified bitumen, and coating systems")}
-          ${icLine("checkCircle", "Minimal business disruption")}
-          ${icLine("checkCircle", "24/7 emergency repair services")}
-        </div>
-        ${primaryBtn("Commercial Services", URL["commercial-roofing"])}
-      </div>
-      <div class="glass-card" style="padding:14px"><img src="images/commercial-roofing.jpg" alt="Commercial roofing" style="width:100%;height:280px;object-fit:cover;border-radius:12px"></div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="bg-image"><img src="images/before-after.jpg" alt=""></div>
-  <div class="section-content">
-    <div class="grid grid-2" style="gap:32px;align-items:center">
-      <div class="glass-card" style="padding:14px"><img src="images/white-farmhouse.jpg" alt="Residential roofing" style="width:100%;height:280px;object-fit:cover;border-radius:12px"></div>
-      <div>
-        <div class="flex items-center gap-3 mb-4">${icon("home", 30)} <span class="label-mono">RESIDENTIAL</span></div>
-        <h2 class="headline-xl mb-6" style="font-size:clamp(28px,4.5vw,42px)">HOME ROOFING<br>EXPERTS</h2>
-        <p class="muted mb-6">Protect your family and your biggest investment with quality residential roofing from Enix Exteriors. Shingle, metal, and tile systems for every home.</p>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">
-          ${icLine("checkCircle", "Shingle, metal, and tile roofing")}
-          ${icLine("checkCircle", "Free inspections and estimates")}
-          ${icLine("checkCircle", "Quality materials and workmanship")}
-          ${icLine("checkCircle", "Comprehensive warranties")}
-        </div>
-        ${primaryBtn("Residential Services", URL["residential-roofing"])}
-      </div>
-    </div>
-  </div>
-</section>
-
-${ctaSection("FIND YOUR<br>LOCAL EXPERT", "Wherever you are in Tennessee, Enix Exteriors is ready to help. Contact us for roofing and exterior services near you.", "enix-truck.jpg", callBtn(true), secondaryBtn("Request Quote", URL.contact))}`;
+${ctaSection("YOUR LOCAL ROOFING EXPERT<br>— WHEREVER YOU ARE IN TN","One call connects you with Tennessee's most trusted roofing and exterior contractor. Free inspections statewide.","gallery-roofing-desktop.jpg",callBtn(true),primaryBtn("Get a Quote",URL.contact))}`;
 };
 
-// --- Page registry ------------------------------------------------------------
+// =============================================================================
+// BUILD
+// =============================================================================
 const PAGE_DEFS = {
-  "home": ["Enix Exteriors | Top Commercial Roofing Contractor in Tennessee | Your Local Roofing Expert",
-    "Enix Exteriors is the top commercial roofing contractor in Tennessee. Your Local Roofing Expert. Commercial and residential roofing, siding, gutters, and windows. Knoxville roofing company serving all of Tennessee.",
-    homeBody, path.join(ROOT, "index.html")],
-  "commercial-roofing": ["Commercial Roofing | Enix Exteriors | Tennessee",
-    "Tennessee's top commercial roofing contractor. TPO, modified bitumen, coatings, and complete roof systems for businesses statewide.",
-    commercialBody, path.join(PUB, "commercial-roofing.html")],
-  "residential-roofing": ["Residential Roofing | Enix Exteriors | Tennessee",
-    "Quality residential roofing for Tennessee homes. Asphalt shingles, metal, and tile systems installed by licensed local crews.",
-    residentialBody, path.join(PUB, "residential-roofing.html")],
-  "exterior-services": ["Exterior Services | Enix Exteriors | Tennessee",
-    "Siding, gutters, windows, and complete exterior renovations from Tennessee's trusted contractor. One team, one warranty.",
-    exteriorBody, path.join(PUB, "exterior-services.html")],
-  "storm-damage-commercial": ["Commercial Storm Damage | Enix Exteriors | Tennessee",
-    "Emergency commercial storm damage restoration in Tennessee. 24/7 emergency roofing, insurance assistance, and fast repairs for businesses.",
-    stormCommercialBody, path.join(PUB, "storm-damage-commercial.html")],
-  "storm-damage-residential": ["Residential Storm Damage | Enix Exteriors | Tennessee",
-    "Emergency residential storm damage repair in Tennessee. 24/7 emergency roofing, tarping, insurance claims, and complete home restoration.",
-    stormResidentialBody, path.join(PUB, "storm-damage-residential.html")],
-  "education-hub": ["Education Hub | Enix Exteriors | Tennessee Roofing Resources",
-    "Learn about roofing, siding, gutters, and exterior services. 25+ articles from Tennessee's top roofing contractor.",
-    educationBody, path.join(PUB, "education-hub.html")],
-  "about": ["About Us | Enix Exteriors | Tennessee Roofing Contractor",
-    "Learn about Enix Exteriors, Tennessee's top commercial roofing contractor. Our story, values, and commitment to quality.",
-    aboutBody, path.join(PUB, "about.html")],
-  "contact": ["Contact Us | Enix Exteriors | Tennessee Roofing Contractor",
-    "Contact Enix Exteriors for free roofing quotes in Tennessee. Commercial and residential roofing services. Emergency repairs available 24/7.",
-    contactBody, path.join(PUB, "contact.html")],
-  "tennessee-locations": ["Tennessee Locations | Enix Exteriors | Roofing Services Near You",
-    "Enix Exteriors serves communities across Tennessee. Commercial and residential roofing in Nashville, Memphis, Knoxville, Chattanooga, and more.",
-    locationsBody, path.join(PUB, "tennessee-locations.html")],
+  "home":                   ["Enix Exteriors | Top Commercial Roofing Contractor in Tennessee", "Enix Exteriors — Tennessee's top commercial and residential roofing contractor based in Knoxville. Licensed, insured, and serving all of Tennessee.", homeBody,         path.join(ROOT, "index.html")],
+  "commercial-roofing":     ["Commercial Roofing | Enix Exteriors | Tennessee",                 "Tennessee's #1 commercial roofing contractor. TPO, modified bitumen, coatings, and complete roof systems for businesses statewide.",                commercialBody,    path.join(PUB, "commercial-roofing.html")],
+  "residential-roofing":    ["Residential Roofing | Enix Exteriors | Tennessee",                "Quality residential roofing for Tennessee homes. Asphalt shingles, metal, and tile systems installed by licensed local Enix Exteriors crews.",      residentialBody,   path.join(PUB, "residential-roofing.html")],
+  "exterior-services":      ["Exterior Services | Enix Exteriors | Tennessee",                  "Siding, gutters, windows, and complete exterior renovations from Enix Exteriors — Tennessee's trusted contractor.",                                   exteriorBody,      path.join(PUB, "exterior-services.html")],
+  "storm-damage-commercial":["Commercial Storm Damage | Enix Exteriors | Tennessee",            "Emergency commercial storm damage restoration in Tennessee. 24/7 emergency roofing, insurance assistance, and fast restoration for businesses.",      stormCommercialBody,path.join(PUB, "storm-damage-commercial.html")],
+  "storm-damage-residential":["Residential Storm Damage | Enix Exteriors | Tennessee",         "Emergency residential storm damage repair in Tennessee. 24/7 emergency roofing, tarping, insurance claims, and complete home restoration.",           stormResidentialBody,path.join(PUB, "storm-damage-residential.html")],
+  "education-hub":          ["Education Hub | Enix Exteriors | Tennessee Roofing Resources",    "Free expert roofing guides from Enix Exteriors — Tennessee's trusted roofing contractor. Articles on shingles, TPO, storm damage, gutters, and more.", educationBody,     path.join(PUB, "education-hub.html")],
+  "gallery":                ["Project Gallery | Enix Exteriors | Tennessee Roofing Projects",   "Browse completed roofing, siding, and exterior projects from Enix Exteriors — Tennessee's trusted commercial and residential roofing contractor.",   galleryBody,       path.join(PUB, "gallery.html")],
+  "about":                  ["About Us | Enix Exteriors | Tennessee Roofing Contractor",        "Learn about Enix Exteriors — Tennessee's top commercial roofing contractor based in Knoxville. Our story, values, and commitment to quality.",          aboutBody,         path.join(PUB, "about.html")],
+  "contact":                ["Contact Us | Enix Exteriors | Tennessee Roofing Contractor",      "Contact Enix Exteriors for free roofing quotes in Tennessee. Commercial and residential roofing services. Emergency repairs available 24/7.",          contactBody,       path.join(PUB, "contact.html")],
+  "tennessee-locations":    ["Tennessee Locations | Enix Exteriors | Roofing Services Near You","Enix Exteriors serves communities across Tennessee. Commercial and residential roofing in Nashville, Memphis, Knoxville, Chattanooga, and more.",      locationsBody,     path.join(PUB, "tennessee-locations.html")],
 };
 
-// --- BUILD --------------------------------------------------------------------
 const written = [];
 for (const [slug, [title, desc, bodyFn, out]] of Object.entries(PAGE_DEFS)) {
   const html = pageHtml(slug, title, desc, bodyFn());
-  fs.writeFileSync(out, html, "utf-8");
+  fs.writeFileSync(out, html, "utf8");
   written.push([slug, path.relative(ROOT, out), html.length]);
 }
-console.log(`Built ${written.length} pages:`);
+console.log(`\nBuilt ${written.length} pages:`);
 for (const [s, p, sz] of written) {
-  console.log(`  ${s.padEnd(30)}  ${p.padEnd(42)}  ${String(sz).padStart(6)} bytes`);
+  console.log(`  ${s.padEnd(32)}  ${p.padEnd(44)}  ${String(sz).padStart(7)} bytes`);
 }
+console.log("\nDone!");

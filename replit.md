@@ -30,10 +30,31 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 
 GHL (GoHighLevel) Custom HTML Block compatible multi-page site for Enix Exteriors, a Knoxville TN roofing contractor.
 
-Each page is a self-contained HTML file (inline CSS, inline SVG icons, inline JS) that can be pasted into a separate GHL Custom HTML block. Cross-page navigation uses relative `.html` links so the same files work both in the Vite preview and once hosted in GHL.
+Each page is a fully self-contained HTML file (inline CSS, inline SVG icons, inline JS). Cross-page navigation uses relative `.html` links compatible with both Vite preview and GHL hosting.
 
-- `build_pages.mjs` — single Node generator. All shared CSS / nav / footer / icons / scripts plus per-page bodies live here. Run `node build_pages.mjs` to regenerate every page.
-- `index.html` (artifact root) — Home page.
-- `public/<slug>.html` — 9 sub-pages: `commercial-roofing`, `residential-roofing`, `exterior-services`, `storm-damage-commercial`, `storm-damage-residential`, `education-hub`, `about`, `contact`, `tennessee-locations`.
-- `public/images/` — 16 brand image assets referenced as `images/xxx.jpg` (relative paths so they resolve in both Vite and GHL).
-- Brand: phone `(865) 685-ENIX` / `tel:8656853649`, email `INFO@ENIXEXTERIORS.COM`, HQ `5992 Bearden View Ln, Knoxville TN 37909`.
+### Generator
+- `build_pages.mjs` — single Node generator. Run `node build_pages.mjs` to rebuild all 11 pages.
+- `zip_pages.mjs` — packages all pages into `public/downloads/enix-exteriors-ghl-pages.zip`.
+
+### Pages (11 total)
+- `index.html` (root) — Home
+- `public/commercial-roofing.html` — Commercial Roofing
+- `public/residential-roofing.html` — Residential Roofing
+- `public/exterior-services.html` — Exterior Services
+- `public/storm-damage-commercial.html` — Storm Damage (Commercial)
+- `public/storm-damage-residential.html` — Storm Damage (Residential)
+- `public/education-hub.html` — Education Hub (8 full accordion articles)
+- `public/gallery.html` — Project Gallery (19 images + lightbox)
+- `public/about.html` — About
+- `public/contact.html` — Contact
+- `public/tennessee-locations.html` — Tennessee Locations
+
+### Features
+- Company logo (`images/enix-logo-main.jpg`) in nav and footer
+- 36 images in `public/images/` (logo + 19 client gallery + originals)
+- Forms submit to `info@enixexteriors.com` via FormSubmit.co
+- YouTube video embeds on Home and Education Hub
+- Project Gallery page with lightbox viewer
+- 8 fully written expandable articles in Education Hub
+- Mobile menu with full accessibility (open/close, keyboard nav)
+- Brand: `(865) 685-ENIX` / `tel:8656853649` / `info@enixexteriors.com` / `5992 Bearden View Ln, Knoxville TN 37909`
