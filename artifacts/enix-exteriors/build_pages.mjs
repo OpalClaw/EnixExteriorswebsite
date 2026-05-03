@@ -1434,21 +1434,6 @@ const educationBody = () => `${hero(
   </div>
 </section>
 
-<section class="section section-bg-dark">
-  <div class="section-content tight">
-    <div style="text-align:center;margin-bottom:48px">
-      <span class="label-mono mb-3">EXPLORE BY TOPIC</span>
-      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">GET EXPERT ANSWERS</h2>
-      <p class="muted" style="max-width:520px;margin:16px auto 0;font-size:15px">Click any topic card to connect with an Enix Exteriors expert — free consultations, no pressure.</p>
-    </div>
-    <div class="video-grid">
-      ${videoCard("gallery-pexels-1.jpg","Residential Roofing","When It's Time for a New Roof")}
-      ${videoCard("gallery-commercial-1.jpg","Commercial Roofing","Flat Roof Systems: TPO vs. Modified Bitumen")}
-      ${videoCard("gallery-project-9.jpg","Storm Damage","Roof Inspection Guide After Hail or Wind")}
-    </div>
-  </div>
-</section>
-
 ${ctaSection("STILL HAVE QUESTIONS?<br>ASK ENIX EXTERIORS","Our experts are happy to answer your roofing questions for free — no obligation, no pressure.","gallery-craftsman.jpg",callBtn(true),primaryBtn("Send Us a Message",URL.contact))}`;
 
 // =============================================================================
