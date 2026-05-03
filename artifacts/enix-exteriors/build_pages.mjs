@@ -595,7 +595,7 @@ const SCRIPT = `<script>
       var playBtn=el.querySelector('.edu-play-btn');
       vids[id]={el:el,slides:slides,fill:fill,counter:counter,playBtn:playBtn,
         total:slides.length,current:0,playing:false,elapsed:0,
-        slideDur:11000,mainTimer:null,progTimer:null};
+        slideDur:8500,mainTimer:null,progTimer:null};
     }
     function showSlide(id,idx){
       var v=vids[id];if(!v)return;
