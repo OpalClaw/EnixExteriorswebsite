@@ -178,6 +178,17 @@ a{color:inherit}
 .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .video-wrapper{border-radius:16px;overflow:hidden;background:#0d1014;border:1px solid rgba(255,255,255,.08);aspect-ratio:16/9}
 .video-wrapper iframe{width:100%;height:100%;border:none;display:block}
+.video-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/9;cursor:pointer;display:block;text-decoration:none}
+.video-card-bg{position:absolute;inset:0;z-index:0}
+.video-card-bg img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.video-card:hover .video-card-bg img{transform:scale(1.06)}
+.video-card-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,12,14,.88) 0%,rgba(11,12,14,.45) 50%,rgba(11,12,14,.2) 100%);z-index:1}
+.video-card-play{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center}
+.video-card-play-btn{width:68px;height:68px;border-radius:50%;background:#FF6A00;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 0 0 0 rgba(255,106,0,.4)}
+.video-card:hover .video-card-play-btn{transform:scale(1.1);box-shadow:0 0 0 14px rgba(255,106,0,.18)}
+.video-card-info{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:20px 22px}
+.video-card-tag{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#FF6A00;display:block;margin-bottom:6px}
+.video-card-title{font-family:'Sora';font-weight:700;color:#fff;font-size:16px;line-height:1.35}
 .video-label{font-family:'Sora';font-weight:600;color:#fff;font-size:15px;margin-top:12px;text-align:center}
 .video-label small{display:block;color:#A9B1BC;font-size:12px;font-weight:400;margin-top:3px;font-family:'Inter'}
 
@@ -744,28 +755,29 @@ a{color:inherit}
 <section class="section section-bg-dark">
   <div class="section-content tight">
     <div style="text-align:center;margin-bottom:48px">
-      <span class="label-mono mb-3">VIDEO EDUCATION</span>
-      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">WATCH & LEARN</h2>
+      <span class="label-mono mb-3">EXPLORE BY TOPIC</span>
+      <h2 class="headline-xl" style="font-size:clamp(28px,5vw,52px)">GET EXPERT ANSWERS</h2>
+      <p class="muted" style="max-width:520px;margin:16px auto 0;font-size:15px">Click any topic card to connect with an Enix Exteriors expert — free consultations, no pressure.</p>
     </div>
     <div class="video-grid">
-      <div>
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/DXNB2lQCZW4" title="When It's Time for a New Roof" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="video-label">When It's Time for a New Roof<small>Key warning signs every homeowner should know</small></div>
-      </div>
-      <div>
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/R49Ax0hHGrM" title="Commercial Roofing Systems Explained" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="video-label">Commercial Roofing Systems<small>TPO, modified bitumen, and coatings explained</small></div>
-      </div>
-      <div>
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/H2RVd4WX8ZQ" title="Storm Damage Roof Inspection" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="video-label">Storm Damage Roof Inspection<small>What to check after hail or high wind</small></div>
-      </div>
+      <a href="contact.html" class="video-card">
+    <div class="video-card-bg"><img src="images/gallery-pexels-1.jpg" alt="When It's Time for a New Roof" loading="lazy"></div>
+    <div class="video-card-overlay"></div>
+    <div class="video-card-play"><div class="video-card-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+    <div class="video-card-info"><span class="video-card-tag">Residential Roofing</span><div class="video-card-title">When It's Time for a New Roof</div></div>
+  </a>
+      <a href="contact.html" class="video-card">
+    <div class="video-card-bg"><img src="images/gallery-commercial-1.jpg" alt="Flat Roof Systems: TPO vs. Modified Bitumen" loading="lazy"></div>
+    <div class="video-card-overlay"></div>
+    <div class="video-card-play"><div class="video-card-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+    <div class="video-card-info"><span class="video-card-tag">Commercial Roofing</span><div class="video-card-title">Flat Roof Systems: TPO vs. Modified Bitumen</div></div>
+  </a>
+      <a href="contact.html" class="video-card">
+    <div class="video-card-bg"><img src="images/gallery-project-9.jpg" alt="Roof Inspection Guide After Hail or Wind" loading="lazy"></div>
+    <div class="video-card-overlay"></div>
+    <div class="video-card-play"><div class="video-card-play-btn"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+    <div class="video-card-info"><span class="video-card-tag">Storm Damage</span><div class="video-card-title">Roof Inspection Guide After Hail or Wind</div></div>
+  </a>
     </div>
   </div>
 </section>
