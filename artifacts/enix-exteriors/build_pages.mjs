@@ -719,6 +719,16 @@ const videoCard = (img, tag, title, href=URL.contact) =>
     <div class="video-card-info"><span class="video-card-tag">${tag}</span><div class="video-card-title">${title}</div></div>
   </a>`;
 
+const videoExpandCard = (player, label) => `<button type="button" class="video-expand-card" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+  <div class="video-expand-card-top">
+    <div class="video-expand-card-label">${label}</div>
+    <div class="video-expand-card-toggle">Click to expand</div>
+  </div>
+</button>
+<div class="video-expand-panel">
+  ${player}
+</div>`;
+
 // Animated educational video slide-show player
 const makeEduVideo = (id, slides) => {
   const slideHtml = slides.map((s, i) => `
