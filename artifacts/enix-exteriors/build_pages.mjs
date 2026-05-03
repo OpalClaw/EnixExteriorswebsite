@@ -632,9 +632,9 @@ const SCRIPT = `<script>
       if(v.playBtn)v.playBtn.textContent='▶';
       clearInterval(v.mainTimer);clearInterval(v.progTimer);
     }
-    window.vidPlayPause=function(id){var v=vids[id];if(!v)return;if(v.playing)pause(id);else play(id);};
-    window.vidNext=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current+1)%v.total);if(wp)play(id);};
-    window.vidPrev=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current-1+v.total)%v.total);if(wp)play(id);};
+  window.vidPlayPause=function(id){var v=vids[id];if(!v)return;if(v.playing)pause(id);else play(id);};
+  window.vidNext=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current+1)%v.total);if(wp)play(id);};
+  window.vidPrev=function(id){var v=vids[id];if(!v)return;var wp=v.playing;if(wp)pause(id);showSlide(id,(v.current-1+v.total)%v.total);if(wp)play(id);};
   window.openVideoModal=function(html){
     var modal=document.getElementById('videoModal');
     var host=document.getElementById('videoModalPlayer');
@@ -642,8 +642,6 @@ const SCRIPT = `<script>
     host.innerHTML=html;
     modal.classList.add('open');
     document.body.style.overflow='hidden';
-    var p=host.querySelector('.edu-player');
-    if(p&&p.id&&vids[p.id]&&!vids[p.id].playing)play(p.id);
   };
   window.closeVideoModal=function(){
     var modal=document.getElementById('videoModal');
@@ -1674,6 +1672,7 @@ const educationBody = () => `${hero(
   <span>Quick Call</span>
   <strong>(865) 685-ENIX</strong>
 </a>
+${videoModalShell}
 
 <section class="section section-bg-dark">
   <div class="section-content tight">
