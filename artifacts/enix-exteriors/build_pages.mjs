@@ -770,14 +770,14 @@ const makeEduVideo = (id, slides) => {
   </div>`).join('');
   return `<div class="edu-player" id="${id}">
   <div class="edu-player-screen">${slideHtml}</div>
-</div>
-<div class="edu-player-controls">
-  <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
-  <button class="edu-nav-btn" onclick="vidPrev('${id}')">‹</button>
-  <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
-  <button class="edu-nav-btn" onclick="vidNext('${id}')">›</button>
-  <span class="edu-counter">1/${slides.length}</span>
-  <button class="edu-fs-btn" title="Full screen" onclick="vidFullscreen('${id}')">⛶</button>
+  <div class="edu-player-controls">
+    <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
+    <button class="edu-nav-btn" onclick="vidPrev('${id}')">‹</button>
+    <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
+    <button class="edu-nav-btn" onclick="vidNext('${id}')">›</button>
+    <span class="edu-counter">1/${slides.length}</span>
+    <button class="edu-fs-btn" title="Full screen" onclick="vidFullscreen('${id}')">⛶</button>
+  </div>
 </div>`;
 };
 
