@@ -768,15 +768,18 @@ const makeEduVideo = (id, slides) => {
       ${s.cta?`<a href="${URL.contact}" class="edu-slide-cta-btn">${s.cta} →</a>`:''}
     </div>
   </div>`).join('');
-  return `<div class="edu-player" id="${id}">
-  <div class="edu-player-screen">${slideHtml}</div>
-  <div class="edu-player-controls">
-    <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
-    <button class="edu-nav-btn" onclick="vidPrev('${id}')">‹</button>
-    <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
-    <button class="edu-nav-btn" onclick="vidNext('${id}')">›</button>
-    <span class="edu-counter">1/${slides.length}</span>
-    <button class="edu-fs-btn" title="Full screen" onclick="vidFullscreen('${id}')">⛶</button>
+  return `<div class="edu-player-wrap">
+  <div class="edu-player-wrap-title">${id==='vid-residential'?"When It's Time for a New Roof":id==='vid-commercial'?'Commercial Roofing Systems Explained':'After Storm Damage: Your Action Plan'}<span onclick="vidFullscreen('${id}')">expand</span></div>
+  <div class="edu-player" id="${id}">
+    <div class="edu-player-screen">${slideHtml}</div>
+    <div class="edu-player-controls">
+      <button class="edu-play-btn" onclick="vidPlayPause('${id}')">▶</button>
+      <button class="edu-nav-btn" onclick="vidPrev('${id}')">‹</button>
+      <div class="edu-progress-track"><div class="edu-progress-fill"></div></div>
+      <button class="edu-nav-btn" onclick="vidNext('${id}')">›</button>
+      <span class="edu-counter">1/${slides.length}</span>
+      <button class="edu-fs-btn" title="Full screen" onclick="vidFullscreen('${id}')">⛶</button>
+    </div>
   </div>
 </div>`;
 };
