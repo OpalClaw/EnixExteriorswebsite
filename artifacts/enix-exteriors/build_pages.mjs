@@ -743,7 +743,8 @@ const videoCard = (img, tag, title, href=URL.contact) =>
     <div class="video-card-info"><span class="video-card-tag">${tag}</span><div class="video-card-title">${title}</div></div>
   </a>`;
 
-const videoExpandCard = (player, label) => `<button type="button" class="video-expand-card" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+const videoExpandCard = (player, label) => `<div class="video-expand-shell">
+<button type="button" class="video-expand-card" onclick="var p=this.nextElementSibling;this.classList.toggle('open');if(p)p.classList.toggle('open');return false;">
   <div class="video-expand-card-top">
     <div class="video-expand-card-label">${label}</div>
     <div class="video-expand-card-toggle">Click to expand</div>
@@ -1015,18 +1016,9 @@ const homeBody = () => `${hero(
       <p class="muted" style="max-width:520px;margin:16px auto 0;font-size:15px">Tap any topic to speak with a roofing expert, or visit our Education Hub for in-depth written guides.</p>
     </div>
     <div class="video-grid">
-      <div>
-        ${VIDEO_RESIDENTIAL}
-        <div class="video-label">When It's Time for a New Roof<small>Residential roofing guide · auto-plays on scroll</small></div>
-      </div>
-      <div>
-        ${VIDEO_COMMERCIAL}
-        <div class="video-label">Commercial Roofing Systems<small>Commercial guide · auto-plays on scroll</small></div>
-      </div>
-      <div>
-        ${VIDEO_STORM}
-        <div class="video-label">After Storm Damage: Action Plan<small>Storm &amp; insurance guide · auto-plays on scroll</small></div>
-      </div>
+      ${videoExpandCard(VIDEO_RESIDENTIAL,"When It's Time for a New Roof")}
+      ${videoExpandCard(VIDEO_COMMERCIAL,"Commercial Roofing Systems")}
+      ${videoExpandCard(VIDEO_STORM,"After Storm Damage: Action Plan")}
     </div>
     <div style="text-align:center;margin-top:36px">
       ${primaryBtn("Read Our 50 Expert Guides",URL["education-hub"])}
@@ -1659,18 +1651,9 @@ const educationBody = () => `${hero(
       <p class="muted" style="max-width:540px;margin:16px auto 0;font-size:15px">Auto-playing slide presentations — click ▶ to start or use arrows to navigate slides.</p>
     </div>
     <div class="video-grid">
-      <div>
-        ${VIDEO_RESIDENTIAL}
-        <div class="video-label">When It's Time for a New Roof<small>7-slide residential guide · auto-plays on scroll</small></div>
-      </div>
-      <div>
-        ${VIDEO_COMMERCIAL}
-        <div class="video-label">Commercial Roofing Systems Explained<small>7-slide commercial guide · auto-plays on scroll</small></div>
-      </div>
-      <div>
-        ${VIDEO_STORM}
-        <div class="video-label">After Storm Damage: Your Action Plan<small>7-slide storm &amp; insurance guide · auto-plays on scroll</small></div>
-      </div>
+      ${videoExpandCard(VIDEO_RESIDENTIAL,"When It's Time for a New Roof")}
+      ${videoExpandCard(VIDEO_COMMERCIAL,"Commercial Roofing Systems Explained")}
+      ${videoExpandCard(VIDEO_STORM,"After Storm Damage: Your Action Plan")}
     </div>
   </div>
 </section>
